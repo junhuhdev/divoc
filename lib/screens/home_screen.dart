@@ -1,5 +1,6 @@
 import 'package:divoc/components/main_app_bar.dart';
 import 'package:divoc/components/menu_drawer.dart';
+import 'package:divoc/screens/feed_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> _widgetOptions = <Widget>[
-    LoginScreen(),
+    FeedScreen(),
     LoginScreen(),
     LoginScreen(),
     LoginScreen(),
