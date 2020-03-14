@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:divoc/components/feed/caregiver_scroller.dart';
 import 'package:divoc/components/feed/caretaker_details.dart';
+import 'package:divoc/components/feed/feed_details_content.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +29,11 @@ class _FeedDetailsState extends State<FeedDetails> {
       ),
       body: Container(
         child: SingleChildScrollView(
-          child: Column(
+          child: ListBody(
             children: <Widget>[
               CaretakerDetails(feed: widget.feed),
               CaregiverScroller(caregiverlist: caregivers),
+              FeedDetailsContent(),
             ],
           ),
         ),
