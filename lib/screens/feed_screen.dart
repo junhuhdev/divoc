@@ -79,7 +79,7 @@ class _FeedScreenState extends State<FeedScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FeedDetails(),
+              builder: (context) => FeedDetails(feed: feed),
             ),
           );
         },
