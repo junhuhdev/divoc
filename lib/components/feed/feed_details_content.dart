@@ -5,30 +5,37 @@ class FeedDetailsContent extends StatefulWidget {
   _FeedDetailsContentState createState() => _FeedDetailsContentState();
 }
 
-class _FeedDetailsContentState extends State<FeedDetailsContent> {
-  List<String> tabs = ['Info', 'Comments', 'Location'];
+class _FeedDetailsContentState extends State<FeedDetailsContent> with SingleTickerProviderStateMixin {
+  List<Tab> tabs = [
+    Tab(text: 'Info'),
+    Tab(text: 'Comments'),
+    Tab(text: 'Location'),
+  ];
+
+  TabController _tabController;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _tabController = TabController(length: tabs.length, vsync: this);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: tabs.length,
-      child: Scaffold(
-
-        resizeToAvoidBottomPadding: true,
-        appBar: TabBar(
-          labelColor: Colors.indigo,
-          tabs: <Widget>[
-            for (final tab in tabs) Tab(text: tab),
-          ],
+    return Column(
+      children: <Widget>[
+        TabBar(
+          controller: _tabController,
+          labelColor: Colors.black,
+          tabs: tabs,
         ),
-        body: TabBarView(
-          children: <Widget>[
-            FeedInfo(),
-            FeedComments(),
-            FeedLocation(),
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

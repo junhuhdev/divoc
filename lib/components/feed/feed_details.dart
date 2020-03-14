@@ -27,16 +27,12 @@ class _FeedDetailsState extends State<FeedDetails> {
         title: Text(widget.feed.name),
         centerTitle: true,
       ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              CaretakerDetails(feed: widget.feed),
-              CaregiverScroller(caregiverlist: caregivers),
-              FeedDetailsContent(),
-            ],
-          ),
-        ),
+      body: ListView(
+        children: <Widget>[
+          CaretakerDetails(feed: widget.feed),
+          CaregiverScroller(caregiverlist: caregivers),
+          FeedDetailsContent(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.local_hospital),
