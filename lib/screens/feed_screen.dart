@@ -33,6 +33,8 @@ class _FeedScreenState extends State<FeedScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Icon(Icons.place, size: 18.0,),
+                SizedBox(width: 8.0,),
                 Text(feed.city + ", "),
                 Text(feed.state),
               ],

@@ -20,7 +20,7 @@ class _MainAppBarState extends State<MainAppBar> {
       actions: <Widget>[
         if (widget.title == 'Feed')
         IconButton(
-          icon: Icon(Icons.filter_list),
+          icon: Icon(Icons.search),
           onPressed: () {
 
           },
