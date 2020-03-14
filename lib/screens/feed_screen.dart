@@ -19,13 +19,11 @@ class _FeedScreenState extends State<FeedScreen> {
     return Card(
       elevation: 3.0,
       child: ListTile(
-//        isThreeLine: true,
         leading: CircleAvatar(
           backgroundImage: CachedNetworkImageProvider(feed.image),
           radius: 30.0,
         ),
         contentPadding: EdgeInsets.all(8.0),
-//        dense: true,
         title: Text(feed.name),
         subtitle: Column(
           children: <Widget>[
