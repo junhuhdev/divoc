@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -39,12 +40,16 @@ class _FeedScreenState extends State<FeedScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Chip(
-                  avatar: CircleAvatar(
-                    backgroundColor: Colors.grey.shade800,
-                    child: Text(feed.severity.toString()),
+                Transform(
+                  transform: new Matrix4.identity()..scale(0.8),
+                  child: Chip(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    avatar: CircleAvatar(
+                      backgroundColor: Colors.grey.shade800,
+                      child: Text(feed.severity.toString()),
+                    ),
+                    label: Text(feed.type),
                   ),
-                  label: Text(feed.type),
                 ),
               ],
             )
