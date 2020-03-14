@@ -1,5 +1,6 @@
 import 'package:divoc/components/feed/caregiver_scroller.dart';
 import 'package:divoc/components/feed/caretaker_details.dart';
+import 'package:divoc/components/feed/caretaker_info.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +62,9 @@ class FeedInfo extends StatelessWidget {
     return ListView(
       children: <Widget>[
         CaretakerDetails(feed: feed),
-        CaregiverScroller(title: 'Contact group', caregiverlist: contactGroups),
         CaregiverScroller(title: 'Caretaker', caregiverlist: careTaker),
+        CaretakerInfo(),
+        CaregiverScroller(title: 'Contacts', caregiverlist: contactGroups),
         CaregiverScroller(title: 'Caregivers', caregiverlist: caregivers),
       ],
     );

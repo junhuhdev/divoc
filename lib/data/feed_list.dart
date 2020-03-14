@@ -41,6 +41,10 @@ List<Feed> feeds = [
 
 List<Caregiver> contactGroups = [
   Caregiver(
+    name: 'Eva Britt',
+    image: 'https://www.biography.com/.image/t_share/MTY2NTIzMDQzOTIzODk1NTM4/oprah-photo-by-vera-anderson_wireimage.jpg',
+  ),
+  Caregiver(
     name: 'James Franco',
     image: 'https://m.media-amazon.com/images/M/MV5BMjA4MzMzNDM5MF5BMl5BanBnXkFtZTgwMjQ0MDk0NDM@._V1_.jpg',
   ),
