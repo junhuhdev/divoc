@@ -37,7 +37,7 @@ class CaregiverScroller extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
             child: Text(
               'Caregivers',
               style: textTheme.subhead.copyWith(fontSize: 18.0),
