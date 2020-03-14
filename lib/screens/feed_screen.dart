@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:divoc/components/feed/create_feed.dart';
+import 'package:divoc/components/feed/feed_details.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,7 +75,14 @@ class _FeedScreenState extends State<FeedScreen> {
           ],
         ),
         trailing: Icon(Icons.arrow_forward_ios, size: 14.0),
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FeedDetails(),
+            ),
+          );
+        },
       ),
     );
   }
@@ -88,7 +97,14 @@ class _FeedScreenState extends State<FeedScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateFeed(),
+            ),
+          );
+        },
       ),
     );
   }
