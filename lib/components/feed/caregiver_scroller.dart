@@ -38,10 +38,10 @@ class CaregiverScroller extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
             child: Text(
               title,
-              style: textTheme.subhead.copyWith(fontSize: 18.0),
+              style: textTheme.subhead.copyWith(fontSize: 16.0),
             ),
           ),
           SizedBox.fromSize(
@@ -49,7 +49,7 @@ class CaregiverScroller extends StatelessWidget {
             child: ListView.builder(
               itemCount: caregiverlist.length,
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(top: 0.0, left: 20.0),
+              padding: const EdgeInsets.only(top: 10.0, left: 20.0),
               itemBuilder: _buildCaregiverAvatar,
             ),
           ),
