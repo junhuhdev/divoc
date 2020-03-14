@@ -19,12 +19,15 @@ class _HomeScreenState extends State<HomeScreen> {
       _appBarTitle = 'Feed';
     }
     if (index == 1) {
-      _appBarTitle = 'Summary';
+      _appBarTitle = 'Caregiver';
     }
     if (index == 2) {
       _appBarTitle = 'Profile';
     }
     if (index == 3) {
+      _appBarTitle = 'Settings';
+    }
+    if (index == 4) {
       _appBarTitle = 'Settings';
     }
 
@@ -35,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _widgetOptions = <Widget>[
     FeedScreen(),
+    LoginScreen(),
     LoginScreen(),
     LoginScreen(),
     LoginScreen(),
@@ -60,6 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.language),
             title: Text('Feed'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_hospital),
+            title: Text('Caregiver'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
