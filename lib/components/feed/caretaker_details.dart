@@ -57,6 +57,16 @@ class _CaretakerDetailsState extends State<CaretakerDetails> {
                   Text(formatter.format(widget.feed.created))
                 ],
               ),
+              Row(
+                children: <Widget>[
+                  Icon(Icons.local_hospital, size: 18.0),
+                  SizedBox(width: 8.0),
+                  Chip(
+                    label: Text(widget.feed.type),
+                    backgroundColor: Colors.black12,
+                  ),
+                ],
+              ),
             ],
           )
         ],

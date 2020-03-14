@@ -26,7 +26,12 @@ class _FeedDetailsState extends State<FeedDetails> {
       ),
       body: Container(
         child: SingleChildScrollView(
-          child: CaretakerDetails(feed: widget.feed),
+          child: Column(
+            children: <Widget>[
+              CaretakerDetails(feed: widget.feed),
+              
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

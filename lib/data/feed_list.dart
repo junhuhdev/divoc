@@ -1,3 +1,4 @@
+import 'package:divoc/models/caregiver.dart';
 import 'package:divoc/models/feed.dart';
 
 List<Feed> feeds = [
@@ -35,5 +36,24 @@ List<Feed> feeds = [
     severity: 5,
     type: 'food',
     created: DateTime.now(),
+  ),
+];
+
+List<Caregiver> caregivers = [
+  Caregiver(
+    name: 'Kevin Hart',
+    image: '',
+  ),
+  Caregiver(
+    name: 'Ellie Kemper',
+    image: '',
+  ),
+  Caregiver(
+    name: 'Jenny Slate',
+    image: '',
+  ),
+  Caregiver(
+    name: 'Jenny Slate',
+    image: '',
   ),
 ];
