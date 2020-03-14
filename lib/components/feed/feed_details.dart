@@ -22,7 +22,6 @@ class _FeedDetailsState extends State<FeedDetails> {
     Tab(text: 'Comments'),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -34,7 +33,6 @@ class _FeedDetailsState extends State<FeedDetails> {
           centerTitle: true,
           bottom: TabBar(
             isScrollable: true,
-
             tabs: tabs,
           ),
         ),
@@ -63,7 +61,9 @@ class FeedInfo extends StatelessWidget {
     return ListView(
       children: <Widget>[
         CaretakerDetails(feed: feed),
-        CaregiverScroller(caregiverlist: caregivers),
+        CaregiverScroller(title: 'Contact group', caregiverlist: contactGroups),
+        CaregiverScroller(title: 'Caretaker', caregiverlist: careTaker),
+        CaregiverScroller(title: 'Caregivers', caregiverlist: caregivers),
       ],
     );
   }

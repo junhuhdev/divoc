@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class CaregiverScroller extends StatelessWidget {
   final List<Caregiver> caregiverlist;
+  final String title;
 
-  const CaregiverScroller({this.caregiverlist});
+  const CaregiverScroller({this.caregiverlist, this.title});
 
   Widget _buildCaregiverAvatar(BuildContext ctx, int index) {
     var caregiver = caregiverlist[index];
@@ -39,7 +40,7 @@ class CaregiverScroller extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
             child: Text(
-              'Caregivers',
+              title,
               style: textTheme.subhead.copyWith(fontSize: 18.0),
             ),
           ),

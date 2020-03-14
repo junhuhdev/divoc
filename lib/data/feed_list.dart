@@ -39,6 +39,24 @@ List<Feed> feeds = [
   ),
 ];
 
+List<Caregiver> contactGroups = [
+  Caregiver(
+    name: 'James Franco',
+    image: 'https://m.media-amazon.com/images/M/MV5BMjA4MzMzNDM5MF5BMl5BanBnXkFtZTgwMjQ0MDk0NDM@._V1_.jpg',
+  ),
+  Caregiver(
+    name: 'Dave Franco',
+    image: 'https://coolmenshair.com/wp-content/uploads/dave-franco-hairstyle.jpg',
+  ),
+];
+
+List<Caregiver> careTaker = [
+  Caregiver(
+    name: 'Astrid Lindgren',
+    image: 'https://images.prismic.io/astridlindgren/a0ca92e8555f3ba30d3fcf8da2f452992cf8f99d_astrid-lindgren-bertil-alvtegen.png?auto=compress,format',
+  ),
+];
+
 List<Caregiver> caregivers = [
   Caregiver(
     name: 'Kevin Hart',
@@ -54,7 +72,8 @@ List<Caregiver> caregivers = [
   ),
   Caregiver(
     name: 'Jennifer Aniston',
-    image: 'https://m.media-amazon.com/images/M/MV5BNjk1MjIxNjUxNF5BMl5BanBnXkFtZTcwODk2NzM4Mg@@._V1_UY1200_CR103,0,630,1200_AL_.jpg',
+    image:
+        'https://m.media-amazon.com/images/M/MV5BNjk1MjIxNjUxNF5BMl5BanBnXkFtZTcwODk2NzM4Mg@@._V1_UY1200_CR103,0,630,1200_AL_.jpg',
   ),
   Caregiver(
     name: 'Billie Eilish',
