@@ -21,11 +21,21 @@ class _FeedScreenState extends State<FeedScreen> {
         contentPadding: EdgeInsets.all(8.0),
 //        dense: true,
         title: Text(feed.name),
-        subtitle: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        subtitle: Column(
           children: <Widget>[
-            Text(feed.city + ", "),
-            Text(feed.state),
+            Row(
+              children: <Widget>[
+                Text(feed.gender + ", "),
+                Text(feed.age.toString()),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(feed.city + ", "),
+                Text(feed.state),
+              ],
+            ),
           ],
         ),
         trailing: Icon(Icons.arrow_forward_ios, size: 14.0),
@@ -36,9 +46,15 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: <Widget>[for (var feed in feeds) buildListTile(feed)],
+    return Scaffold(
+      body: Container(
+        child: ListView(
+          children: <Widget>[for (var feed in feeds) buildListTile(feed)],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {},
       ),
     );
   }
