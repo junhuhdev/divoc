@@ -23,4 +23,14 @@ List<Feed> feeds = [
     severity: 3,
     type: 'food',
   ),
+  Feed(
+    name: 'Peter Malmberg',
+    age: 65,
+    gender: 'Male',
+    image: 'https://content.thriveglobal.com/wp-content/uploads/2019/05/47900764-6F79-4FD2-A0C7-00FD8D7B604C.jpeg',
+    city: 'Stockholm',
+    state: 'Älvsjö',
+    severity: 5,
+    type: 'food',
+  ),
 ];

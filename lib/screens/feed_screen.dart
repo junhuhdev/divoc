@@ -36,6 +36,18 @@ class _FeedScreenState extends State<FeedScreen> {
                 Text(feed.state),
               ],
             ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Chip(
+                  avatar: CircleAvatar(
+                    backgroundColor: Colors.grey.shade800,
+                    child: Text(feed.severity.toString()),
+                  ),
+                  label: Text(feed.type),
+                ),
+              ],
+            )
           ],
         ),
         trailing: Icon(Icons.arrow_forward_ios, size: 14.0),
