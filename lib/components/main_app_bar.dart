@@ -18,6 +18,13 @@ class _MainAppBarState extends State<MainAppBar> {
       title: Text(widget.title,
           style: TextStyle(fontFamily: 'OpenSans', fontSize: 17.0, fontWeight: FontWeight.w600, letterSpacing: 1.5)),
       actions: <Widget>[
+        if (widget.title == 'Feed')
+        IconButton(
+          icon: Icon(Icons.filter_list),
+          onPressed: () {
+
+          },
+        ),
         Padding(
           padding: const EdgeInsets.only(right: 5.0),
           child: new IconButton(
