@@ -2,6 +2,7 @@ import 'package:divoc/components/main_app_bar.dart';
 import 'package:divoc/components/menu_drawer.dart';
 import 'package:divoc/screens/feed_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
+import 'package:divoc/screens/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,10 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
       _appBarTitle = 'Caregiver';
     }
     if (index == 2) {
-      _appBarTitle = 'Profile';
+      _appBarTitle = 'Summary';
     }
     if (index == 3) {
-      _appBarTitle = 'Settings';
+      _appBarTitle = 'Profile';
     }
     if (index == 4) {
       _appBarTitle = 'Settings';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     FeedScreen(),
     LoginScreen(),
     LoginScreen(),
-    LoginScreen(),
+    ProfileScreen(),
     LoginScreen(),
   ];
 
