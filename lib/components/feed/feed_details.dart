@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:divoc/components/feed/caregiver_scroller.dart';
 import 'package:divoc/components/feed/caretaker_details.dart';
+import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +31,7 @@ class _FeedDetailsState extends State<FeedDetails> {
           child: Column(
             children: <Widget>[
               CaretakerDetails(feed: widget.feed),
-              
+              CaregiverScroller(caregiverlist: caregivers),
             ],
           ),
         ),

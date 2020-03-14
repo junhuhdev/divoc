@@ -42,18 +42,22 @@ List<Feed> feeds = [
 List<Caregiver> caregivers = [
   Caregiver(
     name: 'Kevin Hart',
-    image: '',
+    image: 'https://m.media-amazon.com/images/M/MV5BMTY4OTAxMjkxN15BMl5BanBnXkFtZTgwODg5MzYyMTE@._V1_.jpg',
   ),
   Caregiver(
     name: 'Ellie Kemper',
-    image: '',
+    image: 'https://m.media-amazon.com/images/M/MV5BMjIzMDU3NzE4NV5BMl5BanBnXkFtZTcwODQyNTQzNA@@._V1_.jpg',
   ),
   Caregiver(
     name: 'Jenny Slate',
-    image: '',
+    image: 'https://new.static.tv.nu/19446248?forceFit=0&height=540&quality=50&width=400',
   ),
   Caregiver(
-    name: 'Jenny Slate',
-    image: '',
+    name: 'Jennifer Aniston',
+    image: 'https://m.media-amazon.com/images/M/MV5BNjk1MjIxNjUxNF5BMl5BanBnXkFtZTcwODk2NzM4Mg@@._V1_UY1200_CR103,0,630,1200_AL_.jpg',
+  ),
+  Caregiver(
+    name: 'Billie Eilish',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTsoLj966KjgjTt1Et6qcm3lZaDQ77mzMstoSmeLvwkKRq6CT2k',
   ),
 ];
