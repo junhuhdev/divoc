@@ -11,6 +11,7 @@ List<Feed> feeds = [
     state: 'Handen',
     severity: 5,
     type: 'medical',
+    created: DateTime.now(),
   ),
   Feed(
     name: 'Gunnar Lindkvist',
@@ -22,6 +23,7 @@ List<Feed> feeds = [
     state: 'Solna',
     severity: 3,
     type: 'food',
+    created: DateTime.now(),
   ),
   Feed(
     name: 'Peter Malmberg',
@@ -32,5 +34,6 @@ List<Feed> feeds = [
     state: 'Älvsjö',
     severity: 5,
     type: 'food',
+    created: DateTime.now(),
   ),
 ];

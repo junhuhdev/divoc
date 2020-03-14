@@ -3,6 +3,7 @@ import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   Widget buildListTile(Feed feed) {
+    var formatter = new DateFormat('EEE d MMM h:mm a');
+
     return Card(
       elevation: 3.0,
       child: ListTile(
@@ -26,6 +29,8 @@ class _FeedScreenState extends State<FeedScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
+                Icon(Icons.person, size: 18.0),
+                SizedBox(width: 8.0),
                 Text(feed.gender + ", "),
                 Text(feed.age.toString()),
               ],
@@ -33,15 +38,25 @@ class _FeedScreenState extends State<FeedScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Icon(Icons.place, size: 18.0,),
-                SizedBox(width: 8.0,),
+                Icon(Icons.place, size: 18.0),
+                SizedBox(width: 8.0),
                 Text(feed.city + ", "),
                 Text(feed.state),
               ],
             ),
             Row(
+              children: <Widget>[
+                Icon(Icons.calendar_today, size: 18.0),
+                SizedBox(width: 8.0),
+                Text(formatter.format(feed.created))
+              ],
+            ),
+            SizedBox(height: 8.0),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Icon(Icons.local_hospital, size: 18.0),
+                SizedBox(width: 8.0),
                 Transform(
                   transform: new Matrix4.identity()..scale(0.8),
                   child: Chip(
