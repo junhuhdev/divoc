@@ -13,9 +13,37 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  Widget buildListTile(Feed feed) {
-    var formatter = new DateFormat('EEE d MMM h:mm a');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: ListView(
+          children: <Widget>[for (var feed in feeds) FeedListTile(feed: feed)],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateFeed(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
 
+class FeedListTile extends StatelessWidget {
+  final Feed feed;
+
+  const FeedListTile({this.feed});
+
+  @override
+  Widget build(BuildContext context) {
+    final formatter = new DateFormat('EEE d MMM h:mm a');
     return Card(
       elevation: 3.0,
       child: ListTile(
@@ -78,28 +106,6 @@ class _FeedScreenState extends State<FeedScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => FeedDetails(feed: feed),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: ListView(
-          children: <Widget>[for (var feed in feeds) buildListTile(feed)],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateFeed(),
             ),
           );
         },
