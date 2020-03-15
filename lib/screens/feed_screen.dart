@@ -17,8 +17,11 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: ListView(
-          children: <Widget>[for (var feed in feeds) FeedListTile(feed: feed)],
+        child: RefreshIndicator(
+          onRefresh: () => Future.delayed(Duration(seconds: 2)),
+          child: ListView(
+            children: <Widget>[for (var feed in feeds) FeedListTile(feed: feed)],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
