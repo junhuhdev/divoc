@@ -22,7 +22,11 @@ class _MainAppBarState extends State<MainAppBar> {
         IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
-
+            showModalBottomSheet(context: context, builder: (context) {
+              return Container(
+                child: Text('hello'),
+              );
+            });
           },
         ),
         Padding(

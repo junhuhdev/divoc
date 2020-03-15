@@ -50,37 +50,19 @@ class _FeedDetailsState extends State<FeedDetails> {
               context: context,
               builder: (BuildContext context) {
                 return Container(
-                  padding: EdgeInsets.all(35.0),
-                  child: ListView(
+                  child: Column(
+                  mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      TextFormField(
-                        initialValue: '',
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.person),
-                          labelText: 'Comments',
-                          hintText: 'Name...',
-
-                        ),
-                        onChanged: (val) {
-
-                        },
+                      ListTile(
+                        leading: Icon(Icons.thumb_up),
+                        title: Text('Assist'),
                       ),
-                      SizedBox(height: 10.0),
-                      RaisedButton(
-                        color: Theme.of(context).primaryColor,
-//                        padding: EdgeInsets.all(15.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Text(
-                          'Send Request',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {},
-                      ),
+                      ListTile(
+                        leading: Icon(Icons.share),
+                        title: Text('Share'),
+                      )
                     ],
-                  ),
+                  )
                 );
               },
             );

@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       title: 'Divoc',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.deepPurple,
         fontFamily: 'OpenSans'
       ),
       home: HomeScreen(),
