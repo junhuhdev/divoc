@@ -13,6 +13,7 @@ class CaretakerInfo extends StatelessWidget {
             SizedBox(height: 10.0),
             Text(
               'Hej allesammans! Min mormor och morfar bor i ett hus i skogen i haninge. De skulle behöva få hjälp med att handla på apoteket. Jag själv bor på andra sidan stan och har ingen bil tyvärr. Finns det någon i haninge (Vega) som skulle vilja handla åt dem idag? Skicka ett PM till mig isåfall',
+              softWrap: true,
             )
           ],
         ),
