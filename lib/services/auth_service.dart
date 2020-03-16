@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
+import 'globals.dart';
+
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FacebookLogin _facebookAuth = FacebookLogin();
@@ -72,6 +74,12 @@ class AuthService {
           'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
           'chattingWith': null
         },
+      );
+    } else {
+      Global.userDoc.upsert(
+        ({
+          'lastLogin': DateTime.now().toIso8601String(),
+        }),
       );
     }
   }

@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               ),
-              color: Colors.deepPurple,
+              color: Colors.red,
               child: Text(
                 'Delete Account',
                 style: TextStyle(color: Colors.white),
