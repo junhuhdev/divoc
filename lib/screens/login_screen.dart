@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _verificationId;
   String _smsCode;
   bool _codeSent = false;
+  String _errorMsg = '';
   FormType _formType = FormType.phone_verification;
 
   @override
@@ -115,47 +116,60 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () async {
-          if (_codeSent) {
-            AuthCredential authCreds =
-                PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: _smsCode);
-            FirebaseAuth.instance.signInWithCredential(authCreds);
-          } else {
-            final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-              FirebaseAuth.instance.signInWithCredential(authResult);
-            };
+      child: Builder(builder: (BuildContext context) {
+        return RaisedButton(
+          elevation: 5.0,
+          onPressed: () async {
+            if (_codeSent) {
+              AuthCredential authCreds =
+                  PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: _smsCode);
+              try {
+                this._isLoading = true;
+                var authResult = await FirebaseAuth.instance.signInWithCredential(authCreds);
+                if (authResult != null && authResult.user != null) {
+                  this._isLoading = false;
+                  Navigator.pushReplacementNamed(context, HomeScreen.id);
+                }
+              } catch (e) {
+                this._isLoading = false;
+                final snackBar = SnackBar(content: Text('Invalid Code'));
+                Scaffold.of(context).showSnackBar(snackBar);
+              }
+            } else {
+              final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+                FirebaseAuth.instance.signInWithCredential(authResult);
+              };
 
-            final PhoneVerificationFailed verificationfailed = (AuthException authException) {
-              print('${authException.message}');
-            };
+              final PhoneVerificationFailed verificationfailed = (AuthException authException) {
+                print('${authException.message}');
+              };
 
-            final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
-              this._verificationId = verId;
-              setState(() {
-                this._codeSent = true;
-              });
-            };
+              final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+                this._verificationId = verId;
+                setState(() {
+                  this._codeSent = true;
+                });
+              };
 
-            final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-              this._verificationId = verId;
-            };
+              final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+                this._verificationId = verId;
+              };
 
-            await FirebaseAuth.instance.verifyPhoneNumber(
-                phoneNumber: _phoneNumber,
-                timeout: const Duration(seconds: 5),
-                verificationCompleted: verified,
-                verificationFailed: verificationfailed,
-                codeSent: smsSent,
-                codeAutoRetrievalTimeout: autoTimeout);
-          }
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        color: Colors.white,
-        child: Text(_codeSent ? 'Verify' : 'Send Code', style: kLoginActionButtonStyle),
-      ),
+              await FirebaseAuth.instance.verifyPhoneNumber(
+                  phoneNumber: _phoneNumber,
+                  timeout: const Duration(seconds: 60),
+                  verificationCompleted: verified,
+                  verificationFailed: verificationfailed,
+                  codeSent: smsSent,
+                  codeAutoRetrievalTimeout: autoTimeout);
+            }
+          },
+          padding: EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          color: Colors.white,
+          child: Text(_codeSent ? 'Verify' : 'Send Code', style: kLoginActionButtonStyle),
+        );
+      }),
     );
   }
 
