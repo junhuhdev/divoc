@@ -31,33 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  bool validateAndSave() {
-    final form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
-  }
-
-  Future<FirebaseUser> validateAndSubmit() async {
-    FirebaseUser user;
-    if (validateAndSave()) {
-      try {
-        if (_formType == FormType.login) {
-          user = await authService.signIn(_email, _password);
-          print('Signed in: ${user.email}');
-        } else {
-          user = await authService.signUp(_email, _password);
-          print('Registered: ${user.email}');
-        }
-      } catch (e) {
-        print('Error: $e');
-      }
-    }
-    return user;
-  }
-
   Future<FirebaseUser> login() async {
     FirebaseUser user;
     try {
@@ -301,17 +274,16 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _socialButton(
-            () => print('Login with Facebook'),
+            () async {
+              var user = await authService.facebookSignIn();
+              if (user != null) {
+                Navigator.pushReplacementNamed(context, HomeScreen.id);
+              }
+            },
             AssetImage(
               'assets/img/facebook.jpg',
             ),
           ),
-//          _socialButton(
-//            () => print('Login with Google'),
-//            AssetImage(
-//              'assets/img/google.jpg',
-//            ),
-//          ),
         ],
       ),
     );
