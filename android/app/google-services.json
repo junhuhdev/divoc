@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1066662127701",
+    "firebase_url": "https://divoc-bcc81.firebaseio.com",
+    "project_id": "divoc-bcc81",
+    "storage_bucket": "divoc-bcc81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066662127701:android:7b9d3abd5488b61fb5ccdc",
+        "android_client_info": {
+          "package_name": "com.huhenterprises.divoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066662127701-7trqesedfp4qelpoph23g8l38od8be0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066662127701-7trqesedfp4qelpoph23g8l38od8be0v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
