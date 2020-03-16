@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email;
   String _password;
   String _phoneNumber;
+  bool _codeSent = false;
   FormType _formType = FormType.phone_verification;
 
   @override
@@ -101,20 +102,27 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         color: Colors.white,
-        child: Text(
-          'LOGIN',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
+        child: Text('LOGIN', style: kLoginActionButtonStyle),
+      ),
+    );
+  }
+
+  Widget _otpButton() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 25.0),
+      width: double.infinity,
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: () async {
+          if (_codeSent) {
+          } else {}
+        },
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        color: Colors.white,
+        child: Text(_codeSent ? 'Verify' : 'Send Code', style: kLoginActionButtonStyle),
       ),
     );
   }
@@ -132,20 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         color: Colors.white,
-        child: Text(
-          'REGISTER',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
+        child: Text('REGISTER', style: kLoginActionButtonStyle),
       ),
     );
   }
@@ -238,6 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text('Phone Verification', style: kLoginStyle),
                         SizedBox(height: 30.0),
                         PhoneNumberField(callback: (String val) => setState(() => _phoneNumber = val)),
+                        _otpButton(),
                       ],
                       if (_formType == FormType.login) ...[
                         Text('Sign In', style: kLoginStyle),
