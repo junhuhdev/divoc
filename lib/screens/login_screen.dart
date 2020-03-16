@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 final snackBar = SnackBar(content: Text('Invalid Code'));
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
-                await authService.updateNewUser(_result.user, _phoneNumber);
+                await authService.updateNewUser(_result, _phoneNumber);
                 Navigator.pushReplacementNamed(context, HomeScreen.id);
               }
             } else {
