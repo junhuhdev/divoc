@@ -96,10 +96,6 @@ class FeedListTile extends StatelessWidget {
                   transform: new Matrix4.identity()..scale(0.8),
                   child: Chip(
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    avatar: CircleAvatar(
-                      backgroundColor: Colors.grey.shade800,
-                      child: Text(feed.severity.toString()),
-                    ),
                     label: Text(feed.type),
                   ),
                 ),

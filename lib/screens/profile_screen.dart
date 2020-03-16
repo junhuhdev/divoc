@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
@@ -59,6 +60,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: EdgeInsets.all(35.0),
             child: ListView(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                  child: CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(user.photo),
+                    radius: 120.0,
+                  ),
+                ),
                 TextFormField(
                   initialValue: user.name,
                   decoration: InputDecoration(
