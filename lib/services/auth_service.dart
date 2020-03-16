@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:divoc/common/loader.dart';
+import 'package:divoc/screens/home_screen.dart';
+import 'package:divoc/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'globals.dart';
@@ -33,7 +37,7 @@ class AuthService {
     return user;
   }
 
-  Future<FirebaseUser> facebookSignIn() async {
+  Future<LoginResult> facebookSignIn() async {
     try {
       final FacebookLoginResult loginResult = await _facebookAuth.logIn(['email', 'public_profile']);
       AuthResult authResult;
@@ -52,19 +56,30 @@ class AuthService {
           break;
       }
       FirebaseUser user = authResult.user;
-      await refresh(user);
-      return user;
+      var authType = await refresh(user);
+      return LoginResult(user, authType);
     } catch (error) {
       print("Facebook login error $error");
       return null;
     }
   }
 
-  Future<void> refresh(FirebaseUser user) async {
+  Future<AuthType> refresh(FirebaseUser user) async {
     final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: user.uid).getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     if (documents.length == 0) {
-      // (1) Create new user
+      // (1) Verify phone
+      return AuthType.PHONE_VERIFICATION;
+//      _auth.verifyPhoneNumber(
+//        phoneNumber: null,
+//        timeout: Duration(seconds: 60),
+//        verificationCompleted: null,
+//        verificationFailed: null,
+//        codeSent: null,
+//        codeAutoRetrievalTimeout: null,
+//      );
+
+      // (2) Create new user
       _db.collection('users').document(user.uid).setData(
         {
           'name': user.email,
@@ -82,6 +97,7 @@ class AuthService {
         }),
       );
     }
+    return AuthType.SUCCESS;
   }
 
   Future<void> signOut() async {
@@ -97,4 +113,17 @@ class AuthService {
     FirebaseUser user = await _auth.currentUser();
     return user.isEmailVerified;
   }
+}
+
+enum AuthType {
+  SUCCESS,
+  FAILED,
+  PHONE_VERIFICATION,
+}
+
+class LoginResult {
+  final FirebaseUser user;
+  final AuthType authType;
+
+  LoginResult(this.user, this.authType);
 }

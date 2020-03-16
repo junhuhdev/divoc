@@ -1,5 +1,8 @@
+import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/constants.dart';
+import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/loader.dart';
+import 'package:divoc/common/text_field.dart';
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,17 +14,17 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-enum FormType { login, register }
+enum FormType { login, register, phone_verification }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool _rememberMe = false;
   AuthService authService = AuthService();
-  final _formKey = new GlobalKey<FormState>();
 
   String _email;
   String _password;
-  FormType _formType = FormType.login;
+  String _phoneNumber;
+  FormType _formType = FormType.phone_verification;
 
   @override
   void initState() {
@@ -56,112 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Error: $e');
     }
     return user;
-  }
-
-  void moveToRegister() {
-    setState(() {
-      _formType = FormType.register;
-    });
-  }
-
-  void moveToLogin() {
-    setState(() {
-      _formType = FormType.login;
-    });
-  }
-
-  Widget _emailField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Email',
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.email,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Email',
-              hintStyle: kHintTextStyle,
-            ),
-            onChanged: (val) {
-              setState(() {
-                _email = val.trim();
-              });
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _passwordField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Password',
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            obscureText: true,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Password',
-              hintStyle: kHintTextStyle,
-            ),
-            onChanged: (val) {
-              setState(() {
-                _password = val;
-              });
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _forgottenPasswordButton() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
-          style: kLabelStyle,
-        ),
-      ),
-    );
   }
 
   Widget _rememberMeCheckbox() {
@@ -253,25 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _socialLoginText() {
-    return Column(
-      children: <Widget>[
-        Text(
-          '- OR -',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Text(
-          'Sign in with',
-          style: kLabelStyle,
-        ),
-      ],
-    );
-  }
-
   Widget _socialButtonRow() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.0),
@@ -283,8 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
               setState(() {
                 _isLoading = true;
               });
-              var user = await authService.facebookSignIn();
-              if (user != null) {
+              LoginResult result = await authService.facebookSignIn();
+              if (result != null && result.authType == AuthType.PHONE_VERIFICATION) {
+                _isLoading = false;
+                _formType = FormType.phone_verification;
+              } else if (result != null) {
                 setState(() {
                   _isLoading = false;
                 });
@@ -324,62 +205,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _redirectRegisterButton() {
-    return GestureDetector(
-      onTap: () => this.moveToRegister(),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _redirectLoginButton() {
-    return GestureDetector(
-      onTap: () => this.moveToLogin(),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Have an account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign In',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -396,19 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF8542e3),
-                      Color(0xFF722ed1),
-                      Color(0xFF6211d4),
-                      Color(0xFF6415d4),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
+                decoration: kLinearGradient,
               ),
               Container(
                 height: double.infinity,
@@ -421,45 +234,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      if (_formType == FormType.phone_verification) ...[
+                        Text('Phone Verification', style: kLoginStyle),
+                        SizedBox(height: 30.0),
+                        PhoneNumberField(callback: (String val) => setState(() => _phoneNumber = val)),
+                      ],
                       if (_formType == FormType.login) ...[
-                        Text(
-                          'Sign In',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'OpenSans',
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text('Sign In', style: kLoginStyle),
                         SizedBox(height: 30.0),
-                        _emailField(),
+                        EmailField(callback: (String val) => setState(() => _email = val)),
                         SizedBox(height: 30.0),
-                        _passwordField(),
-                        _forgottenPasswordButton(),
+                        PasswordField(callback: (String val) => setState(() => _password = val)),
+                        ForgottenPasswordButton(),
                         _rememberMeCheckbox(),
                         _loginButton(),
-                        _socialLoginText(),
+                        SocialLoginText(),
                         _socialButtonRow(),
-                        _redirectRegisterButton(),
+                        RedirectRegisterButton(onTap: () => setState(() => _formType = FormType.register)),
                       ],
                       if (_formType == FormType.register) ...[
-                        Text(
-                          'Register',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'OpenSans',
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text('Register', style: kLoginStyle),
                         SizedBox(height: 30.0),
-                        _emailField(),
+                        EmailField(callback: (String val) => setState(() => _email = val)),
                         SizedBox(height: 30.0),
-                        _passwordField(),
+                        PasswordField(callback: (String val) => setState(() => _password = val)),
                         _registerButton(),
-                        _socialLoginText(),
+                        SocialLoginText(),
                         _socialButtonRow(),
-                        _redirectLoginButton(),
+                        RedirectLoginButton(onTap: () => setState(() => _formType = FormType.login)),
                       ]
                     ],
                   ),

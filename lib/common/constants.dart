@@ -25,14 +25,57 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 
-final kLinearGradient = LinearGradient(
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-  colors: [
-    Color(0xFF73AEF5),
-    Color(0xFF61A4F1),
-    Color(0xFF478DE0),
-    Color(0xFF398AE5),
-  ],
-  stops: [0.1, 0.4, 0.7, 0.9],
+final kLinearGradient = BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFF8542e3),
+      Color(0xFF722ed1),
+      Color(0xFF6211d4),
+      Color(0xFF6415d4),
+    ],
+    stops: [0.1, 0.4, 0.7, 0.9],
+  ),
+);
+
+final kLoginStyle = TextStyle(
+  color: Colors.white,
+  fontFamily: 'OpenSans',
+  fontSize: 30.0,
+  fontWeight: FontWeight.bold,
+);
+
+final kEmailInputDecoration = InputDecoration(
+  border: InputBorder.none,
+  contentPadding: EdgeInsets.only(top: 14.0),
+  prefixIcon: Icon(
+    Icons.email,
+    color: Colors.white,
+  ),
+  hintText: 'Enter your Email',
+  hintStyle: kHintTextStyle,
+);
+
+final kPhoneInputDecoration = InputDecoration(
+  border: InputBorder.none,
+  contentPadding: EdgeInsets.only(top: 14.0),
+  prefixIcon: Icon(
+    Icons.phone,
+    color: Colors.white,
+  ),
+  hintText: 'Enter your Phone number',
+  hintStyle: kHintTextStyle,
+);
+
+
+final kPasswordInputDecoration = InputDecoration(
+  border: InputBorder.none,
+  contentPadding: EdgeInsets.only(top: 14.0),
+  prefixIcon: Icon(
+    Icons.lock,
+    color: Colors.white,
+  ),
+  hintText: 'Enter your Password',
+  hintStyle: kHintTextStyle,
 );
