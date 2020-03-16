@@ -121,19 +121,12 @@ class _LoginScreenState extends State<LoginScreen> {
           elevation: 5.0,
           onPressed: () async {
             if (_codeSent) {
-              AuthCredential authCreds =
-                  PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: _smsCode);
-              try {
-                this._isLoading = true;
-                var authResult = await FirebaseAuth.instance.signInWithCredential(authCreds);
-                if (authResult != null && authResult.user != null) {
-                  this._isLoading = false;
-                  Navigator.pushReplacementNamed(context, HomeScreen.id);
-                }
-              } catch (e) {
-                this._isLoading = false;
+              var user = await authService.verifySmsCode(_verificationId, _smsCode);
+              if (user == null) {
                 final snackBar = SnackBar(content: Text('Invalid Code'));
                 Scaffold.of(context).showSnackBar(snackBar);
+              } else {
+                Navigator.pushReplacementNamed(context, HomeScreen.id);
               }
             } else {
               final PhoneVerificationCompleted verified = (AuthCredential authResult) {

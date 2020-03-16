@@ -37,6 +37,18 @@ class AuthService {
     return user;
   }
 
+  Future<FirebaseUser> verifySmsCode(String verificationId, String smsCode) async {
+    try {
+      AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+      var authResult = await _auth.signInWithCredential(authCreds);
+      print("Successfully verified sms ${authResult.user}");
+      return authResult.user;
+    } catch (error) {
+      print("Failed to verify sms $error");
+      return null;
+    }
+  }
+
   sendCode(AuthCredential authCredential) {
     return _auth.signInWithCredential(authCredential);
   }
