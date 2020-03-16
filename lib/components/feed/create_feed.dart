@@ -10,7 +10,9 @@ class _CreateFeedState extends State<CreateFeed> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Create new feed'),
+        centerTitle: true,
       ),
       body: Container(
 

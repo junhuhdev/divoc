@@ -6,8 +6,9 @@ class User {
   final String city;
   final String state;
   final String birthdate;
+  final String mobile;
 
-  User({this.id, this.photo, this.name, this.email, this.city, this.state, this.birthdate});
+  User({this.id, this.photo, this.name, this.email, this.city, this.state, this.birthdate, this.mobile});
 
   factory User.fromMap(Map data) {
     return User(
@@ -17,6 +18,7 @@ class User {
         email: data['email'] ?? '',
         city: data['city'] ?? '',
         state: data['state'] ?? '',
-        birthdate: data['birthdate'] ?? '');
+        birthdate: data['birthdate'] ?? '',
+        mobile: data['mobile'] ?? '');
   }
 }
