@@ -24,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email;
   String _password;
   String _phoneNumber;
+  String _verificationId;
+  String _smsCode;
   bool _codeSent = false;
   FormType _formType = FormType.phone_verification;
 
@@ -117,7 +119,37 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5.0,
         onPressed: () async {
           if (_codeSent) {
-          } else {}
+            AuthCredential authCreds =
+                PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: _smsCode);
+            FirebaseAuth.instance.signInWithCredential(authCreds);
+          } else {
+            final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+              FirebaseAuth.instance.signInWithCredential(authResult);
+            };
+
+            final PhoneVerificationFailed verificationfailed = (AuthException authException) {
+              print('${authException.message}');
+            };
+
+            final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+              this._verificationId = verId;
+              setState(() {
+                this._codeSent = true;
+              });
+            };
+
+            final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+              this._verificationId = verId;
+            };
+
+            await FirebaseAuth.instance.verifyPhoneNumber(
+                phoneNumber: _phoneNumber,
+                timeout: const Duration(seconds: 5),
+                verificationCompleted: verified,
+                verificationFailed: verificationfailed,
+                codeSent: smsSent,
+                codeAutoRetrievalTimeout: autoTimeout);
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -235,6 +267,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text('Phone Verification', style: kLoginStyle),
                         SizedBox(height: 30.0),
                         PhoneNumberField(callback: (String val) => setState(() => _phoneNumber = val)),
+                        SizedBox(height: 30.0),
+                        _codeSent
+                            ? SmsCodeField(callback: (String val) => setState(() => _smsCode = val))
+                            : Container(),
                         _otpButton(),
                       ],
                       if (_formType == FormType.login) ...[

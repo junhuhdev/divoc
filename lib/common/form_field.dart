@@ -74,6 +74,42 @@ class PhoneNumberField extends StatelessWidget {
   }
 }
 
+class SmsCodeField extends StatelessWidget {
+  final Function(String) callback;
+
+  const SmsCodeField({this.callback});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Code',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextField(
+            keyboardType: TextInputType.phone,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: kSmsCodeInputDecoration,
+            onChanged: (val) {
+              callback(val);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class PasswordField extends StatelessWidget {
   final Function(String) callback;
 

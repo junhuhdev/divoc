@@ -76,6 +76,17 @@ final kPhoneInputDecoration = InputDecoration(
   hintStyle: kHintTextStyle,
 );
 
+final kSmsCodeInputDecoration = InputDecoration(
+  border: InputBorder.none,
+  contentPadding: EdgeInsets.only(top: 14.0),
+  prefixIcon: Icon(
+    Icons.sms,
+    color: Colors.white,
+  ),
+  hintText: 'Enter your Code',
+  hintStyle: kHintTextStyle,
+);
+
 
 final kPasswordInputDecoration = InputDecoration(
   border: InputBorder.none,

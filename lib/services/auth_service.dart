@@ -37,6 +37,10 @@ class AuthService {
     return user;
   }
 
+  sendCode(AuthCredential authCredential) {
+    return _auth.signInWithCredential(authCredential);
+  }
+
   Future<LoginResult> facebookSignIn() async {
     try {
       final FacebookLoginResult loginResult = await _facebookAuth.logIn(['email', 'public_profile']);
