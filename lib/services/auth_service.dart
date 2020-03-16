@@ -65,8 +65,8 @@ class AuthService {
       // (1) Create new user
       _db.collection('users').document(user.uid).setData(
         {
-          'nickname': user.email,
-          'photoUrl': user.photoUrl,
+          'name': user.email,
+          'photo': user.photoUrl,
           'id': user.uid,
           'email': user.email,
           'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),

@@ -1,8 +1,10 @@
 import 'package:divoc/components/main_app_bar.dart';
 import 'package:divoc/components/menu_drawer.dart';
+import 'package:divoc/screens/activity_screen.dart';
 import 'package:divoc/screens/feed_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
 import 'package:divoc/screens/profile_screen.dart';
+import 'package:divoc/screens/settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,19 +21,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onItemTapped(int index) {
     if (index == 0) {
-      _appBarTitle = 'Feed';
+      _appBarTitle = FeedScreen.title;
     }
     if (index == 1) {
-      _appBarTitle = 'Caregiver';
+      _appBarTitle = ActivityScreen.title;
     }
     if (index == 2) {
       _appBarTitle = 'Summary';
     }
     if (index == 3) {
-      _appBarTitle = 'Profile';
+      _appBarTitle = ProfileScreen.title;
     }
     if (index == 4) {
-      _appBarTitle = 'Settings';
+      _appBarTitle = SettingsScreen.title;
     }
 
     setState(() {
@@ -41,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _widgetOptions = <Widget>[
     FeedScreen(),
-    LoginScreen(),
-    LoginScreen(),
+    ActivityScreen(),
+    ActivityScreen(),
     ProfileScreen(),
-    LoginScreen(),
+    SettingsScreen(),
   ];
 
   @override

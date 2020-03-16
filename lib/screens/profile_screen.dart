@@ -2,6 +2,8 @@ import 'package:divoc/common/loader.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
+  static const title = "Profile";
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }

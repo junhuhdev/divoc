@@ -1,4 +1,5 @@
 import 'package:divoc/common/constants.dart';
+import 'package:divoc/common/loader.dart';
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 enum FormType { login, register }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isLoading = false;
   bool _rememberMe = false;
   AuthService authService = AuthService();
   final _formKey = new GlobalKey<FormState>();
@@ -24,11 +26,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    _isLoading = true;
     authService.getCurrentUser.then((user) {
       if (user != null) {
+        _isLoading = false;
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
     });
+    _isLoading = false;
   }
 
   Future<FirebaseUser> login() async {
@@ -275,8 +280,14 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           _socialButton(
             () async {
+              setState(() {
+                _isLoading = true;
+              });
               var user = await authService.facebookSignIn();
               if (user != null) {
+                setState(() {
+                  _isLoading = false;
+                });
                 Navigator.pushReplacementNamed(context, HomeScreen.id);
               }
             },
@@ -371,6 +382,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return LoadingScreen();
+    }
+
     return new Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,

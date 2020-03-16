@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class FeedScreen extends StatefulWidget {
+  static const title = "Feed";
+
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }
