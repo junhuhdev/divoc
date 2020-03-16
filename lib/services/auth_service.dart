@@ -86,15 +86,20 @@ class AuthService {
     if (documents.length == 0) {
       // (1) Verify phone
       return AuthType.PHONE_VERIFICATION;
-//      _auth.verifyPhoneNumber(
-//        phoneNumber: null,
-//        timeout: Duration(seconds: 60),
-//        verificationCompleted: null,
-//        verificationFailed: null,
-//        codeSent: null,
-//        codeAutoRetrievalTimeout: null,
-//      );
+    } else {
+      Global.userDoc.upsert(
+        ({
+          'lastLogin': DateTime.now().toIso8601String(),
+        }),
+      );
+    }
+    return AuthType.SUCCESS;
+  }
 
+  Future<void> updateNewUser(FirebaseUser user, String phoneNumber) async {
+    final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: user.uid).getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    if (documents.length == 0) {
       // (2) Create new user
       _db.collection('users').document(user.uid).setData(
         {
@@ -102,6 +107,7 @@ class AuthService {
           'photo': user.photoUrl,
           'id': user.uid,
           'email': user.email,
+          'mobile': phoneNumber,
           'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
           'chattingWith': null
         },

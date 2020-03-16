@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String _verificationId;
   String _smsCode;
   bool _codeSent = false;
-  String _errorMsg = '';
-  FormType _formType = FormType.phone_verification;
+  LoginResult _result;
+  FormType _formType = FormType.login;
 
   @override
   void initState() {
@@ -126,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 final snackBar = SnackBar(content: Text('Invalid Code'));
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
+                await authService.updateNewUser(_result.user, _phoneNumber);
                 Navigator.pushReplacementNamed(context, HomeScreen.id);
               }
             } else {
@@ -197,11 +198,13 @@ class _LoginScreenState extends State<LoginScreen> {
               setState(() {
                 _isLoading = true;
               });
-              LoginResult result = await authService.facebookSignIn();
-              if (result != null && result.authType == AuthType.PHONE_VERIFICATION) {
-                _isLoading = false;
-                _formType = FormType.phone_verification;
-              } else if (result != null) {
+              _result = await authService.facebookSignIn();
+              if (_result != null && _result.authType == AuthType.PHONE_VERIFICATION) {
+                setState(() {
+                  _isLoading = false;
+                  _formType = FormType.phone_verification;
+                });
+              } else if (_result != null) {
                 setState(() {
                   _isLoading = false;
                 });
