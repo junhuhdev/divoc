@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _appBarTitle = ActivityScreen.title;
     }
     if (index == 2) {
-      _appBarTitle = 'Summary';
+      _appBarTitle = 'Delivery';
     }
     if (index == 3) {
       _appBarTitle = ProfileScreen.title;
@@ -75,8 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text('Activity'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            title: Text('Summary'),
+            icon: Icon(Icons.local_shipping),
+            title: Text('Delivery'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
