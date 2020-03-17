@@ -11,7 +11,7 @@ List<Feed> feeds = [
     city: 'Stockholm',
     state: 'Handen',
     severity: 5,
-    type: 'medical',
+    category: 'medical',
     created: DateTime.now(),
   ),
   Feed(
@@ -23,7 +23,7 @@ List<Feed> feeds = [
     city: 'Stockholm',
     state: 'Solna',
     severity: 3,
-    type: 'food',
+    category: 'food',
     created: DateTime.now(),
   ),
   Feed(
@@ -34,7 +34,7 @@ List<Feed> feeds = [
     city: 'Stockholm',
     state: 'Älvsjö',
     severity: 5,
-    type: 'food',
+    category: 'food',
     created: DateTime.now(),
   ),
 ];

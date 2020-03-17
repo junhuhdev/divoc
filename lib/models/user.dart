@@ -8,7 +8,16 @@ class User {
   final String birthdate;
   final String mobile;
 
-  User({this.id, this.photo, this.name, this.email, this.city, this.state, this.birthdate, this.mobile});
+  User({
+    this.id,
+    this.photo,
+    this.name,
+    this.email,
+    this.city,
+    this.state,
+    this.birthdate,
+    this.mobile,
+  });
 
   factory User.fromMap(Map data) {
     return User(

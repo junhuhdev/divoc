@@ -62,7 +62,7 @@ class _CaretakerDetailsState extends State<CaretakerDetails> {
                   Icon(Icons.local_hospital, size: 18.0),
                   SizedBox(width: 8.0),
                   Chip(
-                    label: Text(widget.feed.type),
+                    label: Text(widget.feed.category),
                     backgroundColor: Colors.black12,
                   ),
                 ],
