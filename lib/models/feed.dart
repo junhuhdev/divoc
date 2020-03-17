@@ -38,15 +38,15 @@ class Feed {
       name: data['name'] ?? '',
       description: data['description'] ?? '',
       mobile: data['mobile'] ?? '',
-      age: data['age'] ?? '',
+      age: data['age'] ?? 0,
       gender: data['gender'] ?? '',
       image: data['image'] ?? '',
       city: data['city'] ?? '',
       state: data['state'] ?? '',
       category: data['category'] ?? '',
-      severity: data['severity'] ?? '',
+      severity: data['severity'] ?? 0,
       status: data['status'] ?? '',
-      created: data['created'] ?? '',
+      created: data['created'].toDate() ?? DateTime.now(),
     );
   }
 }

@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _widgetOptions = <Widget>[
     FeedScreen(),
     ActivityScreen(),
-    ActivityScreen(),
+    SettingsScreen(),
     ProfileScreen(),
     SettingsScreen(),
   ];
