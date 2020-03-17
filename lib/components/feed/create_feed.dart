@@ -1,4 +1,6 @@
+import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/user.dart';
+import 'package:divoc/services/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,12 +12,17 @@ class CreateFeed extends StatefulWidget {
 class _CreateFeedState extends State<CreateFeed> {
   String _gender = 'Male';
   String _age = "18";
+  String _name;
   String _description;
   String _mobile;
   String _category = "Food";
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return LoadingScreen();
+    }
     return Consumer<User>(
       builder: (context, user, child) {
         return Scaffold(
@@ -28,6 +35,17 @@ class _CreateFeedState extends State<CreateFeed> {
             padding: EdgeInsets.all(35.0),
             child: ListView(
               children: <Widget>[
+                TextFormField(
+                  initialValue: user.name,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.person),
+                    labelText: 'Name',
+                    hintText: 'Name...',
+                  ),
+                  onChanged: (val) {
+                    _name = val;
+                  },
+                ),
                 TextFormField(
                   initialValue: user.mobile,
                   decoration: InputDecoration(
@@ -63,8 +81,10 @@ class _CreateFeedState extends State<CreateFeed> {
                 TextFormField(
                   initialValue: _description,
                   keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 5,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.person),
+                    icon: Icon(Icons.comment),
                     labelText: 'Description',
                     hintText: 'Enter a detailed description',
                   ),
@@ -72,6 +92,7 @@ class _CreateFeedState extends State<CreateFeed> {
                     _description = val;
                   },
                 ),
+                SizedBox(height: 40.0),
                 RaisedButton(
                   color: Theme.of(context).primaryColor,
                   padding: EdgeInsets.all(15.0),
@@ -79,10 +100,22 @@ class _CreateFeedState extends State<CreateFeed> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Text(
-                    'Save Changes',
+                    'Create',
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await Global.feedCollection.insert(
+                      ({
+                        'ownerId': user.id,
+                        'name': _name ?? user.name,
+                        'mobile': _mobile ?? user.mobile,
+                        'category': _category,
+                        'description': _description,
+                        'created': DateTime.now(),
+                      }),
+                    );
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
