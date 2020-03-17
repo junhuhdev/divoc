@@ -11,6 +11,7 @@ class Feed {
   final String state;
   final String category;
   final int severity;
+  final String status;
   final DateTime created;
 
   Feed({
@@ -26,6 +27,7 @@ class Feed {
     this.state,
     this.category,
     this.severity,
+    this.status,
     this.created,
   });
 
@@ -43,7 +45,15 @@ class Feed {
       state: data['state'] ?? '',
       category: data['category'] ?? '',
       severity: data['severity'] ?? '',
+      status: data['status'] ?? '',
       created: data['created'] ?? '',
     );
   }
+}
+
+class FeedStatus {
+  static const created = "created";
+  static const pending = "pending";
+  static const delivered = "delivered";
+  static const completed = "completed";
 }
