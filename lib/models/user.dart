@@ -19,7 +19,7 @@ class User {
     this.mobile,
   });
 
-  factory User.fromMap(Map data, String id) {
+  factory User.fromMap(Map data, id) {
     return User(
         id: data['id'] ?? '',
         photo: data['photo'] ?? '',

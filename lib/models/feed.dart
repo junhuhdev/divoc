@@ -31,9 +31,9 @@ class Feed {
     this.created,
   });
 
-  factory Feed.fromMap(Map data, String id) {
+  factory Feed.fromMap(Map data, id) {
     return Feed(
-      id: id ?? '',
+      id:  id ?? '',
       ownerId: data['ownerId'] ?? '',
       name: data['name'] ?? '',
       description: data['description'] ?? '',
@@ -46,7 +46,7 @@ class Feed {
       category: data['category'] ?? '',
       severity: data['severity'] ?? 0,
       status: data['status'] ?? '',
-      created: data['created'].toDate() ?? DateTime.now(),
+      created:  DateTime.now(),
     );
   }
 }

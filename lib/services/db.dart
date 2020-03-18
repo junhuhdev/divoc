@@ -14,11 +14,11 @@ class Document<T> {
   }
 
   Future<T> getData() {
-    return ref.get().then((v) => Global.models[T](v.data) as T);
+    return ref.get().then((doc) => Global.models[T](doc.data, doc.documentID) as T);
   }
 
   Stream<T> streamData() {
-    return ref.snapshots().map((v) => Global.models[T](v.data) as T);
+    return ref.snapshots().map((doc) => Global.models[T](doc.data, doc.documentID) as T);
   }
 
   Future<void> upsert(Map data) {
@@ -37,11 +37,13 @@ class Collection<T> {
 
   Future<List<T>> getData() async {
     var snapshots = await ref.getDocuments();
-    return snapshots.documents.map((doc) => Global.models[T](doc.data) as T).toList();
+    return snapshots.documents.map((doc) => Global.models[T](doc.data, doc.documentID) as T).toList();
   }
 
   Stream<List<T>> streamData() {
-    return ref.snapshots().map((list) => list.documents.map((doc) => Global.models[T](doc.data, doc.documentID) as T).toList());
+    return ref
+        .snapshots()
+        .map((list) => list.documents.map((doc) => Global.models[T](doc.data, doc.documentID) as T).toList());
   }
 
   Future<DocumentReference> insert(Map data) async {
@@ -54,11 +56,9 @@ class UserData<T> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final String collection;
 
-  UserData({ this.collection });
-
+  UserData({this.collection});
 
   Stream<T> get documentStream {
-
     return Observable(_auth.onAuthStateChanged).switchMap((user) {
       if (user != null) {
         Document<T> doc = Document<T>(path: '$collection/${user.uid}');
@@ -78,13 +78,11 @@ class UserData<T> {
     } else {
       return null;
     }
-
   }
 
   Future<void> upsert(Map data) async {
     FirebaseUser user = await _auth.currentUser();
-    Document<T> ref = Document(path:  '$collection/${user.uid}');
+    Document<T> ref = Document(path: '$collection/${user.uid}');
     return ref.upsert(data);
   }
-
 }

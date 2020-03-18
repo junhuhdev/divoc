@@ -4,8 +4,13 @@ import 'package:divoc/components/feed/caretaker_details.dart';
 import 'package:divoc/components/feed/caretaker_info.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
+import 'package:divoc/models/feed_request.dart';
+import 'package:divoc/models/user.dart';
+import 'package:divoc/services/db.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class FeedDetails extends StatefulWidget {
   final Feed feed;
@@ -52,12 +57,34 @@ class _FeedDetailsState extends State<FeedDetails> {
               builder: (BuildContext context) {
                 return Container(
                   child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.thumb_up),
-                        title: Text('Assist'),
-                        onTap: () {
+                      Consumer<User>(
+                        builder: (context, currentUser, child) {
+                          return ListTile(
+                            leading: Icon(Icons.thumb_up),
+                            title: Text('Assist'),
+                            onTap: () async {
+                              await Firestore.instance
+                                  .collection('feeds')
+                                  .document(widget.feed.id)
+                                  .updateData({'requestedUsers.${currentUser.id}': true});
+
+                              var result = await Firestore.instance
+                                  .collection('feeds')
+                                  .document(widget.feed.id)
+                                  .collection('requests')
+                                  .add(
+                                    ({
+                                      'userId': currentUser.id,
+                                      'name': currentUser.name,
+                                      'created': DateTime.now(),
+                                    }),
+                                  );
+
+                              Navigator.pop(context);
+                            },
+                          );
                         },
                       ),
                       ListTile(
@@ -65,7 +92,7 @@ class _FeedDetailsState extends State<FeedDetails> {
                         title: Text('Share'),
                       )
                     ],
-                  )
+                  ),
                 );
               },
             );
@@ -106,4 +133,3 @@ class _FeedCommentsState extends State<FeedComments> {
     return Container();
   }
 }
-
