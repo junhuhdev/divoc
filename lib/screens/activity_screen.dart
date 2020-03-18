@@ -59,61 +59,24 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      radius: 35.0,
       child: Card(
         elevation: 3.0,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: ListTile(
+          contentPadding: EdgeInsets.all(15.0),
+          subtitle: FeedListTileColumn(name: feed.name, created: feed.created, category: feed.category),
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.person, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(feed.name),
-                    ],
-                  ),
-                  SizedBox(height: 5.0),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.place, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text("Kista, "),
-                      Text("Stockholm"),
-                    ],
-                  ),
-                  SizedBox(height: 5.0),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.calendar_today, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(formatter.format(feed.created))
-                    ],
-                  ),
-                  SizedBox(height: 5.0),
-                  Row(
-                    children: <Widget>[Icon(Icons.category, size: 18.0), SizedBox(width: 8.0), Text(feed.category)],
-                  ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  if (feed.status == 'created') ...[
-                    FeedStatusChip(status: feed.status, backgroundColor: Colors.red),
-                  ],
-                  if (feed.status == 'pending') ...[
-                    FeedStatusChip(status: feed.status, backgroundColor: Colors.amber),
-                  ],
-                  if (feed.status == 'completed') ...[
-                    FeedStatusChip(status: feed.status, backgroundColor: Colors.green),
-                  ],
-                ],
-              ),
+              if (feed.status == 'created') ...[
+                FeedStatusChip(status: feed.status, backgroundColor: Colors.red),
+              ],
+              if (feed.status == 'pending') ...[
+                FeedStatusChip(status: feed.status, backgroundColor: Colors.amber),
+              ],
+              if (feed.status == 'completed') ...[
+                FeedStatusChip(status: feed.status, backgroundColor: Colors.green),
+              ],
             ],
           ),
         ),
@@ -197,15 +160,11 @@ class ActivityDetailsCard extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.cancel, color: Colors.red),
-              onPressed: () {
-
-              },
+              onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.check_circle, color: Colors.green),
-              onPressed: () {
-
-              },
+              onPressed: () {},
             ),
           ],
         ),

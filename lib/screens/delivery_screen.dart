@@ -2,6 +2,7 @@ import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/feed.dart';
+import 'package:divoc/models/feed_request.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     FirebaseUser currentUser = Provider.of<FirebaseUser>(context);
     if (currentUser != null) {
       return StreamBuilder(
-        stream: feedService.streamOwnerFeeds(currentUser.uid),
+        stream: feedService.streamFeedRequests(currentUser.uid),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             if (snapshot.hasError) {
@@ -36,8 +37,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 child: ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return ActivityCard(
-                      feed: snapshot.data[index],
+                    return DeliveryCard(
+                      feedRequest: snapshot.data[index],
                     );
                   },
                 ),
@@ -52,10 +53,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   }
 }
 
-class ActivityCard extends StatelessWidget {
-  final Feed feed;
+class DeliveryCard extends StatelessWidget {
+  final FeedRequest feedRequest;
 
-  ActivityCard({this.feed});
+  DeliveryCard({this.feedRequest});
 
   final formatter = new DateFormat('EEE d MMM h:mm a');
 
@@ -66,19 +67,22 @@ class ActivityCard extends StatelessWidget {
         elevation: 3.0,
         child: ListTile(
           contentPadding: EdgeInsets.all(15.0),
-          subtitle: FeedListTileColumn(name: feed.name, created: feed.created, category: feed.category),
+          subtitle: FeedListTileColumn(name: feedRequest.name, created: feedRequest.created),
           trailing: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (feed.status == 'created') ...[
-                FeedStatusChip(status: feed.status, backgroundColor: Colors.red),
+              if (feedRequest.status == 'requested') ...[
+                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.red),
               ],
-              if (feed.status == 'pending') ...[
-                FeedStatusChip(status: feed.status, backgroundColor: Colors.amber),
+              if (feedRequest.status == 'created') ...[
+                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.red),
               ],
-              if (feed.status == 'completed') ...[
-                FeedStatusChip(status: feed.status, backgroundColor: Colors.green),
+              if (feedRequest.status == 'pending') ...[
+                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.amber),
+              ],
+              if (feedRequest.status == 'completed') ...[
+                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.green),
               ],
             ],
           ),
