@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
 import 'package:divoc/components/feed/feed_details.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
+import 'package:divoc/services/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,28 +19,51 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  Stream<List<Feed>> _feeds;
+
+  @override
+  void initState() {
+    super.initState();
+    _feeds = Global.feedCollection.streamData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: RefreshIndicator(
-          onRefresh: () => Future.delayed(Duration(seconds: 2)),
-          child: ListView(
-            children: <Widget>[for (var feed in feeds) FeedListTile(feed: feed)],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateFeed(),
+    return StreamBuilder(
+      stream: _feeds,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          if (snapshot.hasError) {
+            print("Error: ${snapshot.error}");
+          }
+          return LoadingScreen();
+        } else {
+          return Scaffold(
+            body: Container(
+              child: RefreshIndicator(
+                onRefresh: () => Future.delayed(Duration(seconds: 2)),
+                child: ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return FeedListTile(feed: snapshot.data[index]);
+                  },
+                ),
+              ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateFeed(),
+                  ),
+                );
+              },
             ),
           );
-        },
-      ),
+        }
+      },
     );
   }
 }
@@ -55,19 +80,19 @@ class FeedListTile extends StatelessWidget {
       elevation: 3.0,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(feed.image),
+          backgroundImage: feed.image == null ? Icon(Icons.person) : CachedNetworkImageProvider(feed.image),
           radius: 30.0,
         ),
         contentPadding: EdgeInsets.all(8.0),
-        title: Text(feed.name),
         subtitle: Column(
           children: <Widget>[
             Row(
               children: <Widget>[
                 Icon(Icons.person, size: 18.0),
                 SizedBox(width: 8.0),
-                Text(feed.gender + ", "),
-                Text(feed.age.toString()),
+                Text(feed.name + ", "),
+                Text("Male, "),
+                Text("70 y"),
               ],
             ),
             Row(
@@ -75,8 +100,8 @@ class FeedListTile extends StatelessWidget {
               children: <Widget>[
                 Icon(Icons.place, size: 18.0),
                 SizedBox(width: 8.0),
-                Text(feed.city + ", "),
-                Text(feed.state),
+                Text("Kista, "),
+                Text("Stockholm"),
               ],
             ),
             Row(
