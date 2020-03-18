@@ -51,7 +51,7 @@ class _FeedDetailsState extends State<FeedDetails> {
             FeedComments(),
           ],
         ),
-        floatingActionButton: AssistButton(feedService: feedService, widget: widget),
+        floatingActionButton: AssistButton(feedService: feedService, feed: widget.feed),
       ),
     );
   }
@@ -61,45 +61,47 @@ class AssistButton extends StatelessWidget {
   const AssistButton({
     Key key,
     @required this.feedService,
-    @required this.widget,
+    @required this.feed,
   }) : super(key: key);
 
   final FeedService feedService;
-  final FeedDetails widget;
+  final Feed feed;
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      child: Icon(Icons.local_hospital),
-      onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Consumer<User>(
-                    builder: (context, currentUser, child) {
-                      return ListTile(
-                        leading: Icon(Icons.thumb_up),
-                        title: Text('Assist'),
-                        onTap: () async {
-                          feedService.updateRequestedUser(widget.feed.id, currentUser);
-                          Navigator.pop(context);
-                        },
+    return Consumer<User>(
+      builder: (context, currentUser, child) {
+        return feed.requestedUsers.containsKey(currentUser.id)
+            ? Container()
+            : FloatingActionButton(
+                child: Icon(Icons.local_hospital),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.thumb_up),
+                              title: Text('Assist'),
+                              onTap: () async {
+                                feedService.updateRequestedUser(feed.id, currentUser);
+                                Navigator.pop(context);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.share),
+                              title: Text('Share'),
+                            )
+                          ],
+                        ),
                       );
                     },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.share),
-                    title: Text('Share'),
-                  )
-                ],
-              ),
-            );
-          },
-        );
+                  );
+                },
+              );
       },
     );
   }
