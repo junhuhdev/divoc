@@ -33,7 +33,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             return Scaffold(
               body: Container(
                 child: ListView.builder(
-                  padding: EdgeInsets.all(10.0),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return ActivityCard(

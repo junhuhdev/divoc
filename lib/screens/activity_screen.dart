@@ -1,3 +1,4 @@
+import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/services/feed_service.dart';
@@ -26,7 +27,6 @@ class ActivityScreen extends StatelessWidget {
             return Scaffold(
               body: Container(
                 child: ListView.builder(
-                  padding: EdgeInsets.all(10.0),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return ActivityCard(
@@ -48,13 +48,14 @@ class ActivityScreen extends StatelessWidget {
 class ActivityCard extends StatelessWidget {
   final Feed feed;
 
-   ActivityCard({this.feed});
+  ActivityCard({this.feed});
 
   final formatter = new DateFormat('EEE d MMM h:mm a');
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      radius: 35.0,
       child: Card(
         elevation: 3.0,
         child: Padding(
@@ -92,39 +93,20 @@ class ActivityCard extends StatelessWidget {
                   ),
                   SizedBox(height: 5.0),
                   Row(
-                    children: <Widget>[
-                      Icon(Icons.category, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(feed.category)
-                    ],
+                    children: <Widget>[Icon(Icons.category, size: 18.0), SizedBox(width: 8.0), Text(feed.category)],
                   ),
                 ],
               ),
               Column(
                 children: <Widget>[
                   if (feed.status == 'created') ...[
-                    Chip(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.red,
-                      labelStyle: TextStyle(color: Colors.white),
-                      label: Text(feed.status),
-                    ),
+                    FeedStatusChip(status: feed.status, backgroundColor: Colors.red),
                   ],
                   if (feed.status == 'pending') ...[
-                    Chip(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.amber,
-                      labelStyle: TextStyle(color: Colors.white),
-                      label: Text(feed.status),
-                    ),
+                    FeedStatusChip(status: feed.status, backgroundColor: Colors.amber),
                   ],
                   if (feed.status == 'completed') ...[
-                    Chip(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.green,
-                      labelStyle: TextStyle(color: Colors.white),
-                      label: Text(feed.status),
-                    ),
+                    FeedStatusChip(status: feed.status, backgroundColor: Colors.green),
                   ],
                 ],
               ),
@@ -132,9 +114,7 @@ class ActivityCard extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {
-        
-      },
+      onTap: () {},
     );
   }
 }
