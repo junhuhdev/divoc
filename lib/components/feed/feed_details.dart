@@ -7,6 +7,7 @@ import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/db.dart';
+import 'package:divoc/services/feed_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +23,7 @@ class FeedDetails extends StatefulWidget {
 }
 
 class _FeedDetailsState extends State<FeedDetails> {
+  final FeedService feedService = FeedService();
   var formatter = new DateFormat('EEE d MMM h:mm a');
 
   List<Tab> tabs = [
@@ -49,56 +51,56 @@ class _FeedDetailsState extends State<FeedDetails> {
             FeedComments(),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.local_hospital),
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Consumer<User>(
-                        builder: (context, currentUser, child) {
-                          return ListTile(
-                            leading: Icon(Icons.thumb_up),
-                            title: Text('Assist'),
-                            onTap: () async {
-                              await Firestore.instance
-                                  .collection('feeds')
-                                  .document(widget.feed.id)
-                                  .updateData({'requestedUsers.${currentUser.id}': true});
+        floatingActionButton: AssistButton(feedService: feedService, widget: widget),
+      ),
+    );
+  }
+}
 
-                              var result = await Firestore.instance
-                                  .collection('feeds')
-                                  .document(widget.feed.id)
-                                  .collection('requests')
-                                  .add(
-                                    ({
-                                      'userId': currentUser.id,
-                                      'name': currentUser.name,
-                                      'created': DateTime.now(),
-                                    }),
-                                  );
+class AssistButton extends StatelessWidget {
+  const AssistButton({
+    Key key,
+    @required this.feedService,
+    @required this.widget,
+  }) : super(key: key);
 
-                              Navigator.pop(context);
-                            },
-                          );
+  final FeedService feedService;
+  final FeedDetails widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.local_hospital),
+      onPressed: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Consumer<User>(
+                    builder: (context, currentUser, child) {
+                      return ListTile(
+                        leading: Icon(Icons.thumb_up),
+                        title: Text('Assist'),
+                        onTap: () async {
+                          feedService.updateRequestedUser(widget.feed.id, currentUser);
+                          Navigator.pop(context);
                         },
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.share),
-                        title: Text('Share'),
-                      )
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
+                  ListTile(
+                    leading: Icon(Icons.share),
+                    title: Text('Share'),
+                  )
+                ],
+              ),
             );
           },
-        ),
-      ),
+        );
+      },
     );
   }
 }

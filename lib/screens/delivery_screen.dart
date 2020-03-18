@@ -1,3 +1,4 @@
+import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/services/feed_service.dart';
@@ -105,28 +106,13 @@ class ActivityCard extends StatelessWidget {
               Column(
                 children: <Widget>[
                   if (feed.status == 'created') ...[
-                    Chip(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.red,
-                      labelStyle: TextStyle(color: Colors.white),
-                      label: Text(feed.status),
-                    ),
+                    FeedStatusChip(status: feed.status, backgroundColor: Colors.red),
                   ],
                   if (feed.status == 'pending') ...[
-                    Chip(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.amber,
-                      labelStyle: TextStyle(color: Colors.white),
-                      label: Text(feed.status),
-                    ),
+                    FeedStatusChip(status: feed.status, backgroundColor: Colors.amber),
                   ],
                   if (feed.status == 'completed') ...[
-                    Chip(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.green,
-                      labelStyle: TextStyle(color: Colors.white),
-                      label: Text(feed.status),
-                    ),
+                    FeedStatusChip(status: feed.status, backgroundColor: Colors.green),
                   ],
                 ],
               ),

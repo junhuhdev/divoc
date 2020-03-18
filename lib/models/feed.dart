@@ -12,6 +12,7 @@ class Feed {
   final String category;
   final int severity;
   final String status;
+  final Map requestedUsers;
   final DateTime created;
 
   Feed({
@@ -28,6 +29,7 @@ class Feed {
     this.category,
     this.severity,
     this.status,
+    this.requestedUsers,
     this.created,
   });
 
@@ -46,6 +48,7 @@ class Feed {
       category: data['category'] ?? '',
       severity: data['severity'] ?? 0,
       status: data['status'] ?? '',
+      requestedUsers: data['requestedUsers'] ?? new Map(),
       created:  DateTime.now(),
     );
   }
