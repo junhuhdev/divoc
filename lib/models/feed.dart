@@ -11,6 +11,8 @@ class Feed {
   final String state;
   final String category;
   final int severity;
+
+  /// created, pending, complete
   final String status;
   final Map requestedUsers;
   final DateTime created;
@@ -35,7 +37,7 @@ class Feed {
 
   factory Feed.fromMap(Map data, id) {
     return Feed(
-      id:  id ?? '',
+      id: id ?? '',
       ownerId: data['ownerId'] ?? '',
       name: data['name'] ?? '',
       description: data['description'] ?? '',
@@ -49,7 +51,7 @@ class Feed {
       severity: data['severity'] ?? 0,
       status: data['status'] ?? '',
       requestedUsers: data['requestedUsers'] ?? new Map(),
-      created:  DateTime.now(),
+      created: DateTime.now(),
     );
   }
 }

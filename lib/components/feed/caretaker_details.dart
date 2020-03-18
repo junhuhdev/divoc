@@ -37,10 +37,12 @@ class _CaretakerDetailsState extends State<CaretakerDetails> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  if (widget.feed.requestedUsers.containsKey(currentUser.id)) ...[
+                  if (widget.feed.status == 'created' && widget.feed.requestedUsers.containsKey(currentUser.id)) ...[
                     FeedStatusChip(status: 'requested', backgroundColor: Colors.red),
                   ],
-
+                  if (widget.feed.status != 'created') ...[
+                    FeedStatusChip(status: widget.feed.status),
+                  ],
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[

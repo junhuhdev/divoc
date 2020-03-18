@@ -88,7 +88,33 @@ class DeliveryCard extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DeliveryDetails(),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DeliveryDetails extends StatefulWidget {
+  @override
+  _DeliveryDetailsState createState() => _DeliveryDetailsState();
+}
+
+class _DeliveryDetailsState extends State<DeliveryDetails> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Delivery Details'),
+        centerTitle: true,
+      ),
+      body: Container(),
     );
   }
 }

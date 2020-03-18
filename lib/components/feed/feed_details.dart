@@ -67,7 +67,7 @@ class AssistButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<User>(
       builder: (context, currentUser, child) {
-        if (feed.requestedUsers.containsKey(currentUser.id)) {
+        if (feed.requestedUsers.containsKey(currentUser.id) || feed.status != 'created') {
           return Container();
         }
         return FloatingActionButton(
