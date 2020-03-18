@@ -1,6 +1,7 @@
 import 'package:divoc/components/main_app_bar.dart';
 import 'package:divoc/components/menu_drawer.dart';
 import 'package:divoc/screens/activity_screen.dart';
+import 'package:divoc/screens/delivery_screen.dart';
 import 'package:divoc/screens/feed_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
 import 'package:divoc/screens/profile_screen.dart';
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _appBarTitle = ActivityScreen.title;
     }
     if (index == 2) {
-      _appBarTitle = 'Delivery';
+      _appBarTitle = DeliveryScreen.title;
     }
     if (index == 3) {
       _appBarTitle = ProfileScreen.title;
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _widgetOptions = <Widget>[
     FeedScreen(),
     ActivityScreen(),
-    SettingsScreen(),
+    DeliveryScreen(),
     ProfileScreen(),
     SettingsScreen(),
   ];

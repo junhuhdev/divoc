@@ -2,14 +2,18 @@ import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class ActivityScreen extends StatelessWidget {
-  static const title = "Activity";
+class DeliveryScreen extends StatefulWidget {
+  static const title = "Delivery";
 
+  @override
+  _DeliveryScreenState createState() => _DeliveryScreenState();
+}
+
+class _DeliveryScreenState extends State<DeliveryScreen> {
   final FeedService feedService = new FeedService();
 
   @override
@@ -20,7 +24,9 @@ class ActivityScreen extends StatelessWidget {
         stream: feedService.streamUserFeeds(currentUser.uid),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            print("Error: ${snapshot.error}");
+            if (snapshot.hasError) {
+              print("Error: ${snapshot.error}");
+            }
             return LoadingScreen();
           } else {
             return Scaffold(
@@ -48,7 +54,7 @@ class ActivityScreen extends StatelessWidget {
 class ActivityCard extends StatelessWidget {
   final Feed feed;
 
-   ActivityCard({this.feed});
+  ActivityCard({this.feed});
 
   final formatter = new DateFormat('EEE d MMM h:mm a');
 
@@ -92,11 +98,7 @@ class ActivityCard extends StatelessWidget {
                   ),
                   SizedBox(height: 5.0),
                   Row(
-                    children: <Widget>[
-                      Icon(Icons.category, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(feed.category)
-                    ],
+                    children: <Widget>[Icon(Icons.category, size: 18.0), SizedBox(width: 8.0), Text(feed.category)],
                   ),
                 ],
               ),
@@ -132,9 +134,7 @@ class ActivityCard extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {
-        
-      },
+      onTap: () {},
     );
   }
 }
