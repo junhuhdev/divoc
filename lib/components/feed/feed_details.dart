@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/components/feed/caregiver_scroller.dart';
 import 'package:divoc/components/feed/caretaker_details.dart';
 import 'package:divoc/components/feed/caretaker_info.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
-import 'package:divoc/models/feed_request.dart';
 import 'package:divoc/models/user.dart';
-import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -71,37 +67,38 @@ class AssistButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<User>(
       builder: (context, currentUser, child) {
-        return feed.requestedUsers.containsKey(currentUser.id)
-            ? Container()
-            : FloatingActionButton(
-                child: Icon(Icons.local_hospital),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ListTile(
-                              leading: Icon(Icons.thumb_up),
-                              title: Text('Assist'),
-                              onTap: () async {
-                                feedService.updateRequestedUser(feed.id, currentUser);
-                                Navigator.pop(context);
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.share),
-                              title: Text('Share'),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
+        if (feed.requestedUsers.containsKey(currentUser.id)) {
+          return Container();
+        }
+        return FloatingActionButton(
+          child: Icon(Icons.local_hospital),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.thumb_up),
+                        title: Text('Assist'),
+                        onTap: () async {
+                          feedService.updateRequestedUser(feed.id, currentUser);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.share),
+                        title: Text('Share'),
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
       },
     );
   }
