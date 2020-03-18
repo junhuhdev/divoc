@@ -76,15 +76,14 @@ class FeedListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formatter = new DateFormat('EEE d MMM h:mm a');
     return Card(
       elevation: 3.0,
       child: ListTile(
+        contentPadding: EdgeInsets.all(15.0),
         leading: CircleAvatar(
           backgroundImage: feed.image == null ? Icon(Icons.person) : CachedNetworkImageProvider(feed.image),
           radius: 30.0,
         ),
-        contentPadding: EdgeInsets.all(8.0),
         subtitle: FeedListTileColumn(name: feed.name, created: feed.created, category: feed.category),
         trailing: Icon(Icons.arrow_forward_ios, size: 14.0),
         onTap: () {
