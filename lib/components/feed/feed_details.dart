@@ -84,7 +84,7 @@ class FeedInfo extends StatelessWidget {
       children: <Widget>[
         CaretakerDetails(feed: feed),
         CaregiverScroller(title: 'Caretaker', caregiverlist: careTaker),
-        CaretakerInfo(),
+        CaretakerInfo(feed: feed),
         CaregiverScroller(title: 'Contacts', caregiverlist: contactGroups),
         CaregiverScroller(title: 'Caregivers', caregiverlist: caregivers),
       ],
