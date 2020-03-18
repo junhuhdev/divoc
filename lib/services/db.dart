@@ -40,6 +40,11 @@ class Collection<T> {
     return snapshots.documents.map((doc) => Global.models[T](doc.data, doc.documentID) as T).toList();
   }
 
+  Future<List<T>> getDataByEqualTo(String field, String match) async {
+    var snapshots = await ref.where(field, isEqualTo: match).getDocuments();
+    return snapshots.documents.map((doc) => Global.models[T](doc.data, doc.documentID) as T).toList();
+  }
+
   Stream<List<T>> streamData() {
     return ref
         .snapshots()

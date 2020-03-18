@@ -18,13 +18,21 @@ class FeedService {
         .map((list) => list.documents.map((doc) => FeedRequest.fromMap(doc.data, doc.documentID)).toList());
   }
 
-  Future<void> updateRequestedUser(String feedId, User currentUser) async {
-    await Firestore.instance
-        .collection('feeds')
-        .document(feedId)
-        .updateData({'requestedUsers.${currentUser.id}': true});
+  /// When user accepts help from another user
+  Future<void> acceptUserRequest(String feedId, String helperUserId) async {
+    await _db.collection('feeds').document(feedId).updateData({'status': 'pending'});
+    await _db.collection('feeds').document(feedId).collection('requests').document(helperUserId).updateData(
+          ({
+            'status': 'pending',
+          }),
+        );
+  }
 
-    await Firestore.instance.collection('feeds').document(feedId).collection('requests').add(
+  /// When user wants to help
+  Future<void> updateRequestedUser(String feedId, User currentUser) async {
+    await _db.collection('feeds').document(feedId).updateData({'requestedUsers.${currentUser.id}': true});
+
+    await _db.collection('feeds').document(feedId).collection('requests').add(
           ({
             'userId': currentUser.id,
             'name': currentUser.name,

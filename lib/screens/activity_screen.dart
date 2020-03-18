@@ -108,8 +108,8 @@ class _ActivityDetailsState extends State<ActivityDetails> {
   @override
   void initState() {
     super.initState();
-    _feedRequests = Collection<FeedRequest>(path: 'feeds/${widget.feed.id}/requests').getData();
-    var temp = Firestore.instance.collection('feeds').document(widget.feed.id).collection('requests').getDocuments();
+    _feedRequests =
+        Collection<FeedRequest>(path: 'feeds/${widget.feed.id}/requests').getDataByEqualTo('status', 'requested');
   }
 
   @override
@@ -147,7 +147,9 @@ class _ActivityDetailsState extends State<ActivityDetails> {
 class ActivityDetailsCard extends StatelessWidget {
   final FeedRequest feedRequest;
 
-  const ActivityDetailsCard({this.feedRequest});
+  ActivityDetailsCard({this.feedRequest});
+
+  final FeedService feedService = new FeedService();
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +166,9 @@ class ActivityDetailsCard extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.check_circle, color: Colors.green),
-              onPressed: () {},
+              onPressed: () async {
+                feedService.acceptUserRequest('', feedRequest.userId);
+              },
             ),
           ],
         ),
