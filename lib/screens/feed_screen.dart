@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
 import 'package:divoc/components/feed/feed_details.dart';
@@ -84,43 +85,7 @@ class FeedListTile extends StatelessWidget {
           radius: 30.0,
         ),
         contentPadding: EdgeInsets.all(8.0),
-        subtitle: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Icon(Icons.person, size: 18.0),
-                SizedBox(width: 8.0),
-                Text(feed.name + ", "),
-                Text("Male, "),
-                Text("70 y"),
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Icon(Icons.place, size: 18.0),
-                SizedBox(width: 8.0),
-                Text("Kista, "),
-                Text("Stockholm"),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Icon(Icons.calendar_today, size: 18.0),
-                SizedBox(width: 8.0),
-                Text(formatter.format(feed.created))
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Icon(Icons.category, size: 18.0),
-                SizedBox(width: 8.0),
-                Text(feed.category),
-              ],
-            )
-          ],
-        ),
+        subtitle: FeedListTileColumn(name: feed.name, created: feed.created, category: feed.category),
         trailing: Icon(Icons.arrow_forward_ios, size: 14.0),
         onTap: () {
           Navigator.push(
