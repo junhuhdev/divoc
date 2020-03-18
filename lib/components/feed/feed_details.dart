@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/components/feed/caregiver_scroller.dart';
 import 'package:divoc/components/feed/caretaker_details.dart';
 import 'package:divoc/components/feed/caretaker_info.dart';
@@ -56,6 +57,8 @@ class _FeedDetailsState extends State<FeedDetails> {
                       ListTile(
                         leading: Icon(Icons.thumb_up),
                         title: Text('Assist'),
+                        onTap: () {
+                        },
                       ),
                       ListTile(
                         leading: Icon(Icons.share),

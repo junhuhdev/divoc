@@ -41,7 +41,7 @@ class Collection<T> {
   }
 
   Stream<List<T>> streamData() {
-    return ref.snapshots().map((list) => list.documents.map((doc) => Global.models[T](doc.data) as T).toList());
+    return ref.snapshots().map((list) => list.documents.map((doc) => Global.models[T](doc.data, doc.documentID) as T).toList());
   }
 
   Future<DocumentReference> insert(Map data) async {

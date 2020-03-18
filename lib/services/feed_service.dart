@@ -7,7 +7,7 @@ class FeedService {
 
   Stream<List<Feed>> streamUserFeeds(String userId)  {
     var ref = _db.collection('feeds').where('ownerId', isEqualTo: userId).limit(100);
-    return ref.snapshots().map((list) => list.documents.map((doc) => Feed.fromMap(doc.data)).toList());
+    return ref.snapshots().map((list) => list.documents.map((doc) => Feed.fromMap(doc.data, doc.documentID)).toList());
   }
 
 
