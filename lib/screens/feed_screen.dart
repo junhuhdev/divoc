@@ -86,19 +86,12 @@ class FeedListTile extends StatelessWidget {
                 Text(formatter.format(feed.created))
               ],
             ),
-            SizedBox(height: 8.0),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Icon(Icons.local_hospital, size: 18.0),
+                Icon(Icons.category, size: 18.0),
                 SizedBox(width: 8.0),
-                Transform(
-                  transform: new Matrix4.identity()..scale(0.8),
-                  child: Chip(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    label: Text(feed.category),
-                  ),
-                ),
+                Text(feed.category),
               ],
             )
           ],
