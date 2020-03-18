@@ -133,7 +133,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
               child: ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return ActivityDetailsCard(feedRequest: snapshot.data[index]);
+                  return ActivityDetailsCard(feed: widget.feed, feedRequest: snapshot.data[index]);
                 },
               ),
             );
@@ -145,9 +145,10 @@ class _ActivityDetailsState extends State<ActivityDetails> {
 }
 
 class ActivityDetailsCard extends StatelessWidget {
+  final Feed feed;
   final FeedRequest feedRequest;
 
-  ActivityDetailsCard({this.feedRequest});
+  ActivityDetailsCard({this.feed, this.feedRequest});
 
   final FeedService feedService = new FeedService();
 
@@ -167,7 +168,7 @@ class ActivityDetailsCard extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.check_circle, color: Colors.green),
               onPressed: () async {
-                feedService.acceptUserRequest('', feedRequest.userId);
+                feedService.acceptUserRequest(feed.id, feedRequest.userId);
               },
             ),
           ],
