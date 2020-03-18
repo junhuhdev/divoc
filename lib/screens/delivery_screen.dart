@@ -22,7 +22,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     FirebaseUser currentUser = Provider.of<FirebaseUser>(context);
     if (currentUser != null) {
       return StreamBuilder(
-        stream: feedService.streamUserFeeds(currentUser.uid),
+        stream: feedService.streamOwnerFeeds(currentUser.uid),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             if (snapshot.hasError) {

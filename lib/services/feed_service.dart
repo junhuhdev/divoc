@@ -5,7 +5,7 @@ import 'package:divoc/models/user.dart';
 class FeedService {
   final Firestore _db = Firestore.instance;
 
-  Stream<List<Feed>> streamUserFeeds(String userId) {
+  Stream<List<Feed>> streamOwnerFeeds(String userId) {
     var ref = _db.collection('feeds').where('ownerId', isEqualTo: userId).limit(100);
     return ref.snapshots().map((list) => list.documents.map((doc) => Feed.fromMap(doc.data, doc.documentID)).toList());
   }

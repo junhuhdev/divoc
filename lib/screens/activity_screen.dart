@@ -18,7 +18,7 @@ class ActivityScreen extends StatelessWidget {
     FirebaseUser currentUser = Provider.of<FirebaseUser>(context);
     if (currentUser != null) {
       return StreamBuilder(
-        stream: feedService.streamUserFeeds(currentUser.uid),
+        stream: feedService.streamOwnerFeeds(currentUser.uid),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             print("Error: ${snapshot.error}");
