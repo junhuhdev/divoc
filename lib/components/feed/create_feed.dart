@@ -18,6 +18,31 @@ class _CreateFeedState extends State<CreateFeed> {
   String _mobile;
   String _category = "Food";
   bool _isLoading = false;
+  List<ShoppingItem> _shoppingItems = List();
+  String _itemName;
+  String _itemQuantity;
+
+  Widget _buildShoppingList() {
+    if (_shoppingItems.isEmpty) {
+      return Container();
+    }
+    List<Widget> list = new List();
+    for (var item in _shoppingItems) {
+      list.add(
+        Row(
+          children: <Widget>[
+            TextFormField(
+              initialValue: item.name,
+            ),
+            TextFormField(
+              initialValue: item.quantity,
+            ),
+          ],
+        ),
+      );
+    }
+    return Column(children: list);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +85,7 @@ class _CreateFeedState extends State<CreateFeed> {
                 ),
                 DropdownButtonFormField(
                   decoration: InputDecoration(
-                    icon: Icon(Icons.local_hospital),
+                    icon: Icon(Icons.category),
                     labelText: 'Category',
                     hintText: 'Select category',
                   ),
@@ -93,6 +118,13 @@ class _CreateFeedState extends State<CreateFeed> {
                     _description = val;
                   },
                 ),
+                for (var item in _shoppingItems)
+                  Column(
+                    children: <Widget>[
+                      TextFormField(initialValue: item.name),
+                      TextFormField(initialValue: item.quantity),
+                    ],
+                  ),
                 SizedBox(height: 40.0),
                 RaisedButton(
                   color: Theme.of(context).primaryColor,
@@ -122,8 +154,71 @@ class _CreateFeedState extends State<CreateFeed> {
               ],
             ),
           ),
+          floatingActionButton: FloatingActionButton.extended(
+            label: Text('Add Shopping List'),
+            icon: Icon(Icons.add_shopping_cart),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    padding: EdgeInsets.all(35.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: InputDecoration(
+                            icon: Icon(Icons.add_shopping_cart),
+                            labelText: 'Item name',
+                            hintText: 'Toilet paper',
+                          ),
+                          onChanged: (val) {
+                            _itemName = val;
+                          },
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            icon: Icon(Icons.add_shopping_cart),
+                            labelText: 'Quantity',
+                            hintText: '2',
+                          ),
+                          onChanged: (val) {
+                            _itemQuantity = val;
+                          },
+                        ),
+                        SizedBox(height: 20.0),
+                        RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          child: Text('Add', style: TextStyle(color: Colors.white)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _shoppingItems.add(ShoppingItem(_itemName, _itemQuantity));
+                              _itemName = '';
+                              _itemQuantity = '';
+                            });
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         );
       },
     );
   }
+}
+
+class ShoppingItem {
+  final String name;
+  final String quantity;
+
+  ShoppingItem(this.name, this.quantity);
 }
