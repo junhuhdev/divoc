@@ -89,12 +89,17 @@ class DeliveryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DeliveryDetails(),
-          ),
-        );
+        if (feedRequest.status == 'requested') {
+
+        }
+        if (feedRequest.status == 'pending' || feedRequest.status == 'completed') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DeliveryDetails(),
+            ),
+          );
+        }
       },
     );
   }
