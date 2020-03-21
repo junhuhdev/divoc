@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _name;
   DateTime _birthDate;
   int _age;
-  String _gender;
+  String _gender = "MALE";
 
   bool _codeSent = false;
   LoginResult _result;
@@ -225,7 +225,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: 'Birthdate',
                           hint: 'Select Your Birth Date',
                           icon: Icons.calendar_today,
-                          onChanged: (DateTime val) => setState(() => _birthDate = val),
+                          onChanged: (DateTime val) {
+                            int age = userService.calculateAge(val);
+                            setState(() {
+                              _birthDate = val;
+                              _age = age;
+                            });
+                          },
                         ),
                         SizedBox(height: 30.0),
                         GenericDropdownField(
@@ -237,11 +243,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         ActionButton(
                           title: 'Complete',
-                          onPressed: () async {
-                            var user = await authService.signUp(_email, _password);
-                            if (user != null) {
-                              Navigator.pushReplacementNamed(context, HomeScreen.id);
-                            }
+                          onPressed: () {
+                            setState(() {
+                              _formType = FormType.phone_verification;
+                            });
                           },
                         ),
                       ],
