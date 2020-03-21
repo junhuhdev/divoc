@@ -1,12 +1,11 @@
+import 'package:divoc/models/feed.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class FeedListTileColumn extends StatelessWidget {
-  final String name;
-  final DateTime created;
-  final String category;
+  final Feed feed;
 
-  const FeedListTileColumn({Key key, this.name, this.created, this.category}) : super(key: key);
+  const FeedListTileColumn({this.feed});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +17,17 @@ class FeedListTileColumn extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.person, size: 18.0),
             SizedBox(width: 8.0),
-            Text(name + ", "),
-            Text("Male, "),
-            Text("70 y"),
+            Text(feed.name + ", "),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            if (feed.gender != null && feed.age != null) ...[
+              Icon(Icons.person, size: 18.0),
+              SizedBox(width: 8.0),
+              Text(toBeginningOfSentenceCase(feed.gender.toLowerCase()) + ", "),
+              Text("${feed.age}"),
+            ],
           ],
         ),
         Row(
@@ -36,16 +43,16 @@ class FeedListTileColumn extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.calendar_today, size: 18.0),
             SizedBox(width: 8.0),
-            Text(formatter.format(created))
+            Text(formatter.format(feed.created))
           ],
         ),
-        if (category != null) ...[
+        if (feed.category != null) ...[
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Icon(Icons.category, size: 18.0),
               SizedBox(width: 8.0),
-              Text(category),
+              Text(feed.category),
             ],
           ),
         ],

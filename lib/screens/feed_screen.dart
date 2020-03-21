@@ -84,7 +84,7 @@ class FeedListTile extends StatelessWidget {
           backgroundImage: feed.image == null ? Icon(Icons.person) : CachedNetworkImageProvider(feed.image),
           radius: 30.0,
         ),
-        subtitle: FeedListTileColumn(name: feed.name, created: feed.created, category: feed.category),
+        subtitle: FeedListTileColumn(feed: feed),
         trailing: Icon(Icons.arrow_forward_ios, size: 14.0),
         onTap: () {
           Navigator.push(

@@ -94,7 +94,7 @@ class _CreateFeedState extends State<CreateFeed> {
                         'mobile': _mobile ?? user.mobile,
                         'gender': user.gender,
                         'age': user.age,
-                        'photo': user.photo,
+                        'image': user.photo,
                         'category': _category,
                         'description': _description,
                         'status': "created",

@@ -67,7 +67,7 @@ class DeliveryCard extends StatelessWidget {
         elevation: 3.0,
         child: ListTile(
           contentPadding: EdgeInsets.all(15.0),
-          subtitle: FeedListTileColumn(name: feedRequest.name, created: feedRequest.created),
+          subtitle: FeedListTileColumn(feed: Feed(name: feedRequest.name, created: feedRequest.created)),
           trailing: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

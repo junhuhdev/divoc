@@ -63,7 +63,7 @@ class ActivityCard extends StatelessWidget {
         elevation: 3.0,
         child: ListTile(
           contentPadding: EdgeInsets.all(15.0),
-          subtitle: FeedListTileColumn(name: feed.name, created: feed.created, category: feed.category),
+          subtitle: FeedListTileColumn(feed: feed),
           trailing: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -157,7 +157,7 @@ class ActivityDetailsCard extends StatelessWidget {
     return Card(
       child: ListTile(
         contentPadding: EdgeInsets.all(15.0),
-        subtitle: FeedListTileColumn(name: feedRequest.name, created: feedRequest.created),
+        subtitle: FeedListTileColumn(feed: Feed(name: feedRequest.name, created: feedRequest.created)),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
