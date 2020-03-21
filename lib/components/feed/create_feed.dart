@@ -1,3 +1,4 @@
+import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/loader.dart';
@@ -83,17 +84,8 @@ class _CreateFeedState extends State<CreateFeed> {
                   textInputType: TextInputType.multiline,
                   onChanged: (String val) => setState(() => _shoppingInfo = val),
                 ),
-                SizedBox(height: 40.0),
-                RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.all(15.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Text(
-                    'Create',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                ActionButton(
+                  title: 'Create',
                   onPressed: () async {
                     await Global.feedCollection.insert(
                       ({
