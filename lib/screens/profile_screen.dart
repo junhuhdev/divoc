@@ -60,104 +60,109 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: EdgeInsets.all(35.0),
             child: ListView(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                  child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(user.photo),
-                    radius: 120.0,
+                if (user != null) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                    child: CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(user.photo),
+                      radius: 120.0,
+                    ),
                   ),
-                ),
-                TextFormField(
-                  initialValue: user.name,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.person),
-                    labelText: 'Name',
-                    hintText: 'Name...',
+                  TextFormField(
+                    initialValue: user.name,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.person),
+                      labelText: 'Name',
+                      hintText: 'Name...',
+                    ),
+                    onChanged: (val) {
+                      _name = val;
+                    },
                   ),
-                  onChanged: (val) {
-                    _name = val;
-                  },
-                ),
-                TextFormField(
-                  initialValue: user.email,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.email),
-                    labelText: 'Email address',
-                    hintText: 'Name...',
+                  TextFormField(
+                    initialValue: user.email,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.email),
+                      labelText: 'Email address',
+                      hintText: 'Name...',
+                    ),
+                    onChanged: (val) {
+                      _email = val;
+                    },
                   ),
-                  onChanged: (val) {
-                    _email = val;
-                  },
-                ),
-                TextFormField(
-                  enabled: false,
-                  initialValue: user.mobile,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.phone),
-                    labelText: 'Phonenumber',
-                    hintText: '+46...',
+                  TextFormField(
+                    enabled: false,
+                    initialValue: user.mobile,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.phone),
+                      labelText: 'Phonenumber',
+                      hintText: '+46...',
+                    ),
+                    onChanged: (val) {},
                   ),
-                  onChanged: (val) {},
-                ),
-                TextFormField(
-                  initialValue: '${user.birthdate.toLocal()}'.split(' ')[0],
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.calendar_today),
-                    labelText: 'Birthday',
-                    hintText: 'Name...',
+                  TextFormField(
+                    initialValue: '${user.birthdate.toLocal()}'.split(' ')[0],
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.calendar_today),
+                      labelText: 'Birthday',
+                      hintText: 'Name...',
+                    ),
+                    onTap: () {
+                      selectDate(context);
+                    },
                   ),
-                  onTap: () {
-                    selectDate(context);
-                  },
-                ),
-                DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.sentiment_satisfied),
-                    labelText: 'Gender',
-                    hintText: 'Select your gender',
+                  DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.sentiment_satisfied),
+                      labelText: 'Gender',
+                      hintText: 'Select your gender',
+                    ),
+                    value: _gender ?? user.gender,
+                    isExpanded: true,
+                    isDense: true,
+                    items: ['MALE', 'FEMALE'].map((val) {
+                      return DropdownMenuItem<String>(
+                        value: val,
+                        child: Text(val),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      setState(() {
+                        _gender = val;
+                      });
+                    },
                   ),
-                  value: _gender ?? user.gender,
-                  isExpanded: true,
-                  isDense: true,
-                  items: ['MALE', 'FEMALE'].map((val) {
-                    return DropdownMenuItem<String>(
-                      value: val,
-                      child: Text(val),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    setState(() {
-                      _gender = val;
-                    });
-                  },
-                ),
-                SizedBox(height: 40.0),
-                RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.all(15.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                  SizedBox(height: 40.0),
+                  RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    padding: EdgeInsets.all(15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Text(
+                      'Save Changes',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {},
                   ),
-                  child: Text(
-                    'Save Changes',
-                    style: TextStyle(color: Colors.white),
+                  SizedBox(height: 10.0),
+                  RaisedButton(
+                    padding: EdgeInsets.all(15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    color: Colors.red,
+                    child: Text(
+                      'Delete Account',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
-                ),
-                SizedBox(height: 10.0),
-                RaisedButton(
-                  padding: EdgeInsets.all(15.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  color: Colors.red,
-                  child: Text(
-                    'Delete Account',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {},
-                )
+                ],
+                if (user == null) ...[
+                  Container(),
+                ]
               ],
             ),
           ),
