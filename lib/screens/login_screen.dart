@@ -45,18 +45,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
+      child: ActionButton(
+        title: 'Login',
         onPressed: () async {
           var user = await authService.signIn(_email, _password);
           if (user != null) {
             Navigator.pushReplacementNamed(context, HomeScreen.id);
           }
         },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        color: Colors.white,
-        child: Text('LOGIN', style: kLoginActionButtonStyle),
       ),
     );
   }
@@ -65,54 +61,52 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: Builder(builder: (BuildContext context) {
-        return RaisedButton(
-          elevation: 5.0,
-          onPressed: () async {
-            if (_codeSent) {
-              var user = await authService.verifySmsCode(_verificationId, _smsCode);
-              if (user == null) {
-                final snackBar = SnackBar(content: Text('Invalid Code'));
-                Scaffold.of(context).showSnackBar(snackBar);
+      child: Builder(
+        builder: (BuildContext context) {
+          return ActionButton(
+            title: _codeSent ? 'Verify' : 'Send Code',
+            onPressed: () async {
+              if (_codeSent) {
+                var user = await authService.verifySmsCode(_verificationId, _smsCode);
+                if (user == null) {
+                  final snackBar = SnackBar(content: Text('Invalid Code'));
+                  Scaffold.of(context).showSnackBar(snackBar);
+                } else {
+                  await authService.updateNewUser(_result, _phoneNumber);
+                  Navigator.pushReplacementNamed(context, HomeScreen.id);
+                }
               } else {
-                await authService.updateNewUser(_result, _phoneNumber);
-                Navigator.pushReplacementNamed(context, HomeScreen.id);
+                final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+                  FirebaseAuth.instance.signInWithCredential(authResult);
+                };
+
+                final PhoneVerificationFailed verificationfailed = (AuthException authException) {
+                  print('${authException.message}');
+                };
+
+                final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+                  this._verificationId = verId;
+                  setState(() {
+                    this._codeSent = true;
+                  });
+                };
+
+                final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+                  this._verificationId = verId;
+                };
+
+                await FirebaseAuth.instance.verifyPhoneNumber(
+                    phoneNumber: _phoneNumber,
+                    timeout: const Duration(seconds: 60),
+                    verificationCompleted: verified,
+                    verificationFailed: verificationfailed,
+                    codeSent: smsSent,
+                    codeAutoRetrievalTimeout: autoTimeout);
               }
-            } else {
-              final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-                FirebaseAuth.instance.signInWithCredential(authResult);
-              };
-
-              final PhoneVerificationFailed verificationfailed = (AuthException authException) {
-                print('${authException.message}');
-              };
-
-              final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
-                this._verificationId = verId;
-                setState(() {
-                  this._codeSent = true;
-                });
-              };
-
-              final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-                this._verificationId = verId;
-              };
-
-              await FirebaseAuth.instance.verifyPhoneNumber(
-                  phoneNumber: _phoneNumber,
-                  timeout: const Duration(seconds: 60),
-                  verificationCompleted: verified,
-                  verificationFailed: verificationfailed,
-                  codeSent: smsSent,
-                  codeAutoRetrievalTimeout: autoTimeout);
-            }
-          },
-          padding: EdgeInsets.all(15.0),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          color: Colors.white,
-          child: Text(_codeSent ? 'Verify' : 'Send Code', style: kLoginActionButtonStyle),
-        );
-      }),
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -120,18 +114,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
+      child: ActionButton(
+        title: 'Register',
         onPressed: () async {
           var user = await authService.signUp(_email, _password);
           if (user != null) {
             Navigator.pushReplacementNamed(context, HomeScreen.id);
           }
         },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        color: Colors.white,
-        child: Text('REGISTER', style: kLoginActionButtonStyle),
       ),
     );
   }

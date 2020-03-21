@@ -1,7 +1,4 @@
-import 'package:divoc/screens/home_screen.dart';
-import 'package:divoc/services/auth_service.dart';
 import 'package:flutter/material.dart';
-
 import 'constants.dart';
 
 class RedirectRegisterButton extends StatelessWidget {
@@ -87,6 +84,25 @@ class ForgottenPasswordButton extends StatelessWidget {
           style: kLabelStyle,
         ),
       ),
+    );
+  }
+}
+
+class ActionButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String title;
+
+  const ActionButton({this.onPressed, this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      elevation: 5.0,
+      padding: EdgeInsets.all(15.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      color: Colors.white,
+      onPressed: onPressed,
+      child: Text(title, style: kLoginActionButtonStyle),
     );
   }
 }
