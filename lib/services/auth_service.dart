@@ -66,10 +66,11 @@ class AuthService {
     }
   }
 
-  Future<FirebaseUser> verifySmsCode(String verificationId, String smsCode) async {
+  Future<FirebaseUser> verifySmsCode(String verificationId, String smsCode, LoginResult loginResult) async {
     try {
       AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
       var authResult = await _auth.signInWithCredential(authCreds);
+      authResult = await _auth.signInWithCredential(loginResult.credential);
       print("Successfully verified sms ${authResult.user}");
       return authResult.user;
     } catch (error) {
@@ -86,7 +87,7 @@ class AuthService {
     } else {
       Global.userDoc.upsert(
         ({
-          'lastLogin': DateTime.now().toIso8601String(),
+          'lastLogin': DateTime.now(),
         }),
       );
     }
@@ -110,7 +111,7 @@ class AuthService {
           'id': firebaseUser.uid,
           'email': firebaseUser.email,
           'mobile': user.mobile,
-          'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
+          'createdAt': DateTime.now(),
           'chattingWith': null
         },
       );

@@ -17,7 +17,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _name = 'Jun Huh';
   String _email = 'junhuhdev@gmail.com';
   String _phoneNumber = '';
-  String _gender = 'Male';
+  String _gender;
   String _status = 'Caregiver';
   DateTime _dob = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
   Future<User> _currentUser;
@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onChanged: (val) {},
                 ),
                 TextFormField(
-                  initialValue: '${_dob.toLocal()}'.split(' ')[0],
+                  initialValue: '${user.birthdate.toLocal()}'.split(' ')[0],
                   decoration: InputDecoration(
                     icon: Icon(Icons.calendar_today),
                     labelText: 'Birthday',
@@ -117,10 +117,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'Gender',
                     hintText: 'Select your gender',
                   ),
-                  value: _gender,
+                  value: _gender ?? user.gender,
                   isExpanded: true,
                   isDense: true,
-                  items: ['Male', 'Female'].map((val) {
+                  items: ['MALE', 'FEMALE'].map((val) {
                     return DropdownMenuItem<String>(
                       value: val,
                       child: Text(val),
@@ -129,28 +129,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onChanged: (val) {
                     setState(() {
                       _gender = val;
-                    });
-                  },
-                ),
-                SizedBox(height: 5.0),
-                DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.local_hospital),
-                    labelText: 'Status',
-                    hintText: 'Select your gender',
-                  ),
-                  value: _status,
-                  isExpanded: true,
-                  isDense: true,
-                  items: ['Caregiver', 'Caretaker'].map((val) {
-                    return DropdownMenuItem<String>(
-                      value: val,
-                      child: Text(val),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    setState(() {
-                      _status = val;
                     });
                   },
                 ),

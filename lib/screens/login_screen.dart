@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _gender = "MALE";
 
   bool _codeSent = false;
-  LoginResult _result;
+  LoginResult _loginResult;
   FormType _formType = FormType.login;
   AuthService authService = AuthService();
   UserService userService = UserService();
@@ -94,13 +94,13 @@ class _LoginScreenState extends State<LoginScreen> {
               }
               if (_codeSent) {
                 /// (2) Verify sms code
-                var user = await authService.verifySmsCode(_verificationId, _smsCode);
+                var user = await authService.verifySmsCode(_verificationId, _smsCode, _loginResult);
                 if (user == null) {
                   final snackBar = SnackBar(content: Text('Invalid Code'));
                   Scaffold.of(context).showSnackBar(snackBar);
                 } else {
                   await authService.updateNewUser(
-                    _result,
+                    _loginResult,
                     User(
                       name: _name,
                       mobile: _phoneNumber,
@@ -129,13 +129,13 @@ class _LoginScreenState extends State<LoginScreen> {
               setState(() {
                 _isLoading = true;
               });
-              _result = await authService.facebookSignIn();
-              if (_result != null && _result.authType == AuthType.COLLECT_INFORMATION) {
+              _loginResult = await authService.facebookSignIn();
+              if (_loginResult != null && _loginResult.authType == AuthType.COLLECT_INFORMATION) {
                 setState(() {
                   _isLoading = false;
                   _formType = FormType.collect_information;
                 });
-              } else if (_result != null) {
+              } else if (_loginResult != null) {
                 setState(() {
                   _isLoading = false;
                 });
