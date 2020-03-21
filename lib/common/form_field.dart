@@ -72,60 +72,49 @@ class GenericDateField extends StatefulWidget {
 }
 
 class _GenericDateFieldState extends State<GenericDateField> {
-  DateTime _date = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
+  DateTime _date;
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: _date == null ? DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day) : _date,
+      firstDate: DateTime(1940),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null && picked != _date) {
+      setState(() {
+        _date = picked;
+      });
+      widget.onChanged(_date);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            widget.title,
-            style: kLabelStyle,
-          ),
-          SizedBox(height: 10.0),
-          Container(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          widget.title,
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        GestureDetector(
+          onTap: () => selectDate(context),
+          child: Container(
             alignment: Alignment.centerLeft,
             decoration: kBoxDecorationStyle,
             height: 60.0,
-            child: TextFormField(
-              keyboardType: TextInputType.datetime,
-              initialValue: '${_date.toLocal()}'.split(' ')[0],
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'OpenSans',
+            child: Container(
+              padding: EdgeInsets.only(top: 14.0),
+              child: Text(
+                _date == null ? '' : '${_date.toLocal()}'.split(' ')[0],
+                style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
               ),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14.0),
-                prefixIcon: Icon(
-                  widget.icon,
-                  color: Colors.white,
-                ),
-                hintText: widget.hint,
-                hintStyle: kHintTextStyle,
-              ),
-              onTap: () async {
-                FocusScope.of(context).unfocus();
-                final DateTime picked = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1940),
-                  lastDate: DateTime(2030),
-                );
-                if (picked != null) {
-                  setState(() {
-                    _date = picked;
-                  });
-                  widget.onChanged(_date);
-                }
-              },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
