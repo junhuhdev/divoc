@@ -44,11 +44,6 @@ class GenericTextField extends StatelessWidget {
                 onChanged(val);
               }
             },
-            onTap: () {
-              if (onTap != null) {
-                onTap();
-              }
-            },
           ),
         ),
       ],

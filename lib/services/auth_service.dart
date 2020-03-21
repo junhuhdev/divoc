@@ -70,11 +70,11 @@ class AuthService {
     try {
       AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
       // (1) Verify sms
-//      var authResult = await _auth.signInWithCredential(authCreds);
+      var authResult = await _auth.signInWithCredential(authCreds);
       // (2) Sign out since firebase creates another user
-//      await _auth.signOut();
+      await _auth.signOut();
       // (3) Sign back in with previous authenticated method
-      var authResult = await _auth.signInWithCredential(loginResult.credential);
+      authResult = await _auth.signInWithCredential(loginResult.credential);
       print("Successfully verified sms ${authResult.user}");
       return authResult.user;
     } catch (error) {
