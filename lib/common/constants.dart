@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 const kMainColor = Color(0xff465466);
 
+final kTextStyle = TextStyle(
+  color: Colors.white,
+  fontFamily: 'OpenSans',
+);
+
 final kHintTextStyle = TextStyle(
   color: Colors.white54,
   fontFamily: 'OpenSans',
@@ -86,7 +91,6 @@ final kSmsCodeInputDecoration = InputDecoration(
   hintText: 'Enter your Code',
   hintStyle: kHintTextStyle,
 );
-
 
 final kPasswordInputDecoration = InputDecoration(
   border: InputBorder.none,

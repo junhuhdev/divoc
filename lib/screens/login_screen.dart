@@ -224,7 +224,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         GenericDateField(
                           title: 'Birthdate',
                           hint: 'Select Your Birth Date',
-                          icon: Icons.calendar_today,
                           onChanged: (DateTime val) {
                             int age = userService.calculateAge(val);
                             setState(() {

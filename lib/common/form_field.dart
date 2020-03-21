@@ -28,10 +28,7 @@ class GenericTextField extends StatelessWidget {
           height: 60.0,
           child: TextField(
             keyboardType: textInputType,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
+            style: kTextStyle,
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -62,10 +59,9 @@ class GenericTextField extends StatelessWidget {
 class GenericDateField extends StatefulWidget {
   final String title;
   final String hint;
-  final IconData icon;
   final Function(DateTime) onChanged;
 
-  const GenericDateField({this.title, this.hint, this.icon, this.onChanged});
+  const GenericDateField({this.title, this.hint, this.onChanged});
 
   @override
   _GenericDateFieldState createState() => _GenericDateFieldState();
@@ -105,12 +101,20 @@ class _GenericDateFieldState extends State<GenericDateField> {
             alignment: Alignment.centerLeft,
             decoration: kBoxDecorationStyle,
             height: 60.0,
-            child: Container(
-              padding: EdgeInsets.only(top: 14.0),
-              child: Text(
-                _date == null ? '' : '${_date.toLocal()}'.split(' ')[0],
-                style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
-              ),
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 12.0),
+                  child: Icon(Icons.calendar_today, color: Colors.white),
+                ),
+                SizedBox(width: 12.0),
+                if (_date == null) ...[
+                  Text(widget.hint, style: kHintTextStyle),
+                ],
+                if (_date != null) ...[
+                  Text(_date.toLocal().toString().split(' ')[0], style: kTextStyle),
+                ],
+              ],
             ),
           ),
         ),
