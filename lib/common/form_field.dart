@@ -4,13 +4,24 @@ import 'constants.dart';
 
 class GenericTextField extends StatelessWidget {
   final Function(String) onChanged;
-  final Function onTap;
   final String title;
   final String hint;
   final IconData icon;
   final TextInputType textInputType;
+  final String initialValue;
+  final int maxLines;
+  final double height;
 
-  const GenericTextField({this.onChanged, this.onTap, this.title, this.hint, this.icon, this.textInputType});
+  const GenericTextField({
+    this.onChanged,
+    this.title,
+    this.hint,
+    this.icon,
+    this.textInputType,
+    this.initialValue,
+    this.maxLines,
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +36,11 @@ class GenericTextField extends StatelessWidget {
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
+          height: height ?? 60.0,
+          child: TextFormField(
+            minLines: 1,
+            maxLines: maxLines ?? 1,
+            initialValue: initialValue,
             keyboardType: textInputType,
             style: kTextStyle,
             decoration: InputDecoration(
