@@ -5,6 +5,7 @@ class User {
   final String email;
   final String city;
   final String state;
+  final int age;
   final DateTime birthdate;
   final String mobile;
   final String gender;
@@ -16,6 +17,7 @@ class User {
     this.email,
     this.city,
     this.state,
+    this.age,
     this.birthdate,
     this.mobile,
     this.gender,
@@ -29,6 +31,7 @@ class User {
       email: data['email'] ?? '',
       city: data['city'] ?? '',
       state: data['state'] ?? '',
+      age: data['age'] ?? 0,
       birthdate: data['birthdate'] == null ? DateTime.now() : data['birthdate'].toDate(),
       mobile: data['mobile'] ?? '',
       gender: data['gender'] ?? '',
