@@ -39,18 +39,6 @@ class AuthService {
     return user;
   }
 
-  Future<FirebaseUser> verifySmsCode(String verificationId, String smsCode) async {
-    try {
-      AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
-      var authResult = await _auth.signInWithCredential(authCreds);
-      print("Successfully verified sms ${authResult.user}");
-      return authResult.user;
-    } catch (error) {
-      print("Failed to verify sms $error");
-      return null;
-    }
-  }
-
   Future<LoginResult> facebookSignIn() async {
     AuthCredential facebookCredentials;
     try {
@@ -72,7 +60,7 @@ class AuthService {
       }
       FirebaseUser user = authResult.user;
       AuthType authType = await refresh(user);
-      if (authType == AuthType.PHONE_VERIFICATION) {
+      if (authType == AuthType.COLLECT_INFORMATION) {
         await _auth.signOut();
       }
       return LoginResult(user, authType, facebookCredentials);
@@ -82,12 +70,24 @@ class AuthService {
     }
   }
 
+  Future<FirebaseUser> verifySmsCode(String verificationId, String smsCode) async {
+    try {
+      AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+      var authResult = await _auth.signInWithCredential(authCreds);
+      print("Successfully verified sms ${authResult.user}");
+      await _auth.signOut();
+      return authResult.user;
+    } catch (error) {
+      print("Failed to verify sms $error");
+      return null;
+    }
+  }
+
   Future<AuthType> refresh(FirebaseUser user) async {
     final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: user.uid).getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     if (documents.length == 0) {
-      // (1) Verify phone
-      return AuthType.PHONE_VERIFICATION;
+      return AuthType.COLLECT_INFORMATION;
     } else {
       Global.userDoc.upsert(
         ({
@@ -145,6 +145,7 @@ enum AuthType {
   SUCCESS,
   FAILED,
   PHONE_VERIFICATION,
+  COLLECT_INFORMATION,
 }
 
 class LoginResult {

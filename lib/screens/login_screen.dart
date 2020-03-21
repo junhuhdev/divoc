@@ -14,8 +14,13 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-enum FormType { login, register, phone_verification, finalize_registration }
+enum FormType { login, register, phone_verification, collect_information }
 
+/// Login or Register
+/// Register
+/// (1) name
+/// (2) birthdate
+/// (3) gender
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = true;
   String _email;
@@ -23,6 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
   String _phoneNumber;
   String _verificationId;
   String _smsCode;
+  String _name;
+  DateTime _birthDate;
+  String _gender;
+
   bool _codeSent = false;
   LoginResult _result;
   FormType _formType = FormType.login;
@@ -141,10 +150,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 _isLoading = true;
               });
               _result = await authService.facebookSignIn();
-              if (_result != null && _result.authType == AuthType.PHONE_VERIFICATION) {
+              if (_result != null && _result.authType == AuthType.COLLECT_INFORMATION) {
                 setState(() {
                   _isLoading = false;
-                  _formType = FormType.phone_verification;
+                  _formType = FormType.collect_information;
                 });
               } else if (_result != null) {
                 setState(() {
@@ -214,6 +223,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         _socialButtonRow(),
                         RedirectLoginButton(onTap: () => setState(() => _formType = FormType.login)),
                       ],
+                      if (_formType == FormType.collect_information) ...[
+                        Text('Complete Registration', style: kLoginStyle),
+                        SizedBox(height: 30.0),
+                      ],
                       if (_formType == FormType.phone_verification) ...[
                         Text('Phone Verification', style: kLoginStyle),
                         SizedBox(height: 30.0),
@@ -223,10 +236,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? SmsCodeField(callback: (String val) => setState(() => _smsCode = val))
                             : Container(),
                         _smsVerifyButton(),
-                      ],
-                      if (_formType == FormType.finalize_registration) ...[
-                        Text('Complete Registration', style: kLoginStyle),
-                        SizedBox(height: 30.0),
                       ],
                     ],
                   ),

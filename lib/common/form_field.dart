@@ -38,6 +38,44 @@ class EmailField extends StatelessWidget {
   }
 }
 
+class GenericField extends StatelessWidget {
+  final Function(String) onChanged;
+  final String title;
+  final TextInputType textInputType;
+
+  const GenericField({this.onChanged, this.title, this.textInputType});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextField(
+            keyboardType: textInputType,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: kEmailInputDecoration,
+            onChanged: (val) {
+              onChanged(val);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class PhoneNumberField extends StatelessWidget {
   final Function(String) callback;
 
