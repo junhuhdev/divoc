@@ -97,6 +97,7 @@ class _CreateFeedState extends State<CreateFeed> {
                         'image': user.photo,
                         'category': _category,
                         'description': _description,
+                        'shoppingInfo': _shoppingInfo,
                         'status': "created",
                         'created': DateTime.now(),
                       }),

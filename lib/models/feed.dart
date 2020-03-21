@@ -3,6 +3,7 @@ class Feed {
   final String ownerId;
   final String name;
   final String description;
+  final String shoppingInfo;
   final String mobile;
   final int age;
   final String gender;
@@ -22,6 +23,7 @@ class Feed {
     this.ownerId,
     this.name,
     this.description,
+    this.shoppingInfo,
     this.mobile,
     this.age,
     this.gender,
@@ -41,6 +43,7 @@ class Feed {
       ownerId: data['ownerId'] ?? '',
       name: data['name'] ?? '',
       description: data['description'] ?? '',
+      shoppingInfo: data['shoppingInfo'] ?? '',
       mobile: data['mobile'] ?? '',
       age: data['age'] ?? 0,
       gender: data['gender'] ?? '',
@@ -51,7 +54,7 @@ class Feed {
       severity: data['severity'] ?? 0,
       status: data['status'] ?? '',
       requestedUsers: data['requestedUsers'] ?? new Map(),
-      created: DateTime.now(),
+      created: data['created'] == null ? DateTime.now() : data['created'].toDate(),
     );
   }
 }

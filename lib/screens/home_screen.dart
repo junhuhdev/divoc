@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
-            title: Text('Activity'),
+            title: Text('Status'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_shipping),

@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class FeedScreen extends StatefulWidget {
-  static const title = "Feed";
+  static const title = "Activity Feed";
 
   @override
   _FeedScreenState createState() => _FeedScreenState();
