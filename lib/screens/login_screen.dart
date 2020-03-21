@@ -209,8 +209,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         ActionButton(
                           title: 'Register',
                           onPressed: () async {
-                            var user = await authService.signUp(_email, _password);
-                            if (user != null) {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            _loginResult = await authService.signUp(_email, _password);
+                            if (_loginResult != null && _loginResult.authType == AuthType.COLLECT_INFORMATION) {
+                              setState(() {
+                                _isLoading = false;
+                                _formType = FormType.collect_information;
+                              });
+                            } else if (_loginResult != null) {
+                              setState(() {
+                                _isLoading = false;
+                              });
                               Navigator.pushReplacementNamed(context, HomeScreen.id);
                             }
                           },

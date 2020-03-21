@@ -15,16 +15,6 @@ class AuthService {
 
   Stream<FirebaseUser> get user => _auth.onAuthStateChanged;
 
-  Future<FirebaseUser> signUp(String email, String password) async {
-    AuthResult result = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    FirebaseUser user = result.user;
-    await refresh(user);
-    return user;
-  }
-
   Future<FirebaseUser> signIn(String email, String password) async {
     AuthResult result = await _auth.signInWithEmailAndPassword(
       email: email,
@@ -33,6 +23,21 @@ class AuthService {
     FirebaseUser user = result.user;
     await refresh(user);
     return user;
+  }
+
+  Future<LoginResult> signUp(String email, String password) async {
+    try {
+      AuthResult result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      FirebaseUser user = result.user;
+      AuthType authType = await refresh(user);
+      return LoginResult(user, authType, EmailAuthProvider.getCredential(email: email, password: password));
+    } catch (error) {
+      print("Failed to create user $error");
+      return null;
+    }
   }
 
   Future<LoginResult> facebookSignIn() async {
@@ -56,9 +61,6 @@ class AuthService {
       }
       FirebaseUser user = authResult.user;
       AuthType authType = await refresh(user);
-      if (authType == AuthType.COLLECT_INFORMATION) {
-        await _auth.signOut();
-      }
       return LoginResult(user, authType, facebookCredentials);
     } catch (error) {
       print("Facebook login error $error");
@@ -87,6 +89,7 @@ class AuthService {
     final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: user.uid).getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     if (documents.length == 0) {
+      await _auth.signOut();
       return AuthType.COLLECT_INFORMATION;
     } else {
       Global.userDoc.upsert(
