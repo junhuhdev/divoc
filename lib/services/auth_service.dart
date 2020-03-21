@@ -69,7 +69,11 @@ class AuthService {
   Future<FirebaseUser> verifySmsCode(String verificationId, String smsCode, LoginResult loginResult) async {
     try {
       AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+      // (1) Verify sms
       var authResult = await _auth.signInWithCredential(authCreds);
+      // (2) Sign out since firebase creates another user
+      await _auth.signOut();
+      // (3) Sign back in with previous authenticated method
       authResult = await _auth.signInWithCredential(loginResult.credential);
       print("Successfully verified sms ${authResult.user}");
       return authResult.user;
@@ -100,7 +104,7 @@ class AuthService {
     final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     if (documents.length == 0) {
-      // (2) Create new user
+      // (1) Create new user
       _db.collection('users').document(firebaseUser.uid).setData(
         {
           'name': user.name,
@@ -116,6 +120,7 @@ class AuthService {
         },
       );
     } else {
+      // (2) Update existing user
       Global.userDoc.upsert(
         ({
           'lastLogin': DateTime.now().toIso8601String(),

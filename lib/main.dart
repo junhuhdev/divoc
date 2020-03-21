@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         StreamProvider<FirebaseUser>.value(value: AuthService().user),
-        FutureProvider<User>.value(value: Global.userDoc.getDocument()),
+        StreamProvider<User>.value(value: Global.userDoc.documentStream),
       ],
       child: MaterialApp(
         title: 'Divoc',
