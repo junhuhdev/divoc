@@ -93,6 +93,20 @@ class _CreateFeedState extends State<CreateFeed> {
                     _description = val;
                   },
                 ),
+                TextFormField(
+                  initialValue: _description,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.add_shopping_cart),
+                    labelText: 'Shopping List',
+                    hintText: 'Enter a detailed shopping list with name and quantity',
+                  ),
+                  onChanged: (val) {
+                    _description = val;
+                  },
+                ),
                 SizedBox(height: 40.0),
                 RaisedButton(
                   color: Theme.of(context).primaryColor,
