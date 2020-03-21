@@ -84,6 +84,11 @@ class _CreateFeedState extends State<CreateFeed> {
                   textInputType: TextInputType.multiline,
                   onChanged: (String val) => setState(() => _shoppingInfo = val),
                 ),
+                SizedBox(height: 30.0),
+                GenericGoogleMapField(
+                  title: 'Location',
+                  hint: 'Select location',
+                ),
                 ActionButton(
                   title: 'Create',
                   onPressed: () async {

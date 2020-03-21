@@ -65,6 +65,53 @@ class GenericTextField extends StatelessWidget {
   }
 }
 
+class GenericGoogleMapField extends StatefulWidget {
+  final String title;
+  final String hint;
+  final Function(DateTime) onChanged;
+
+  const GenericGoogleMapField({this.title, this.hint, this.onChanged});
+
+  @override
+  _GenericGoogleMapFieldState createState() => _GenericGoogleMapFieldState();
+}
+
+class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          widget.title,
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        GestureDetector(
+          onTap: () {
+
+          },
+          child: Container(
+            alignment: Alignment.centerLeft,
+            decoration: kBoxDecorationStyle,
+            height: 60.0,
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 12.0),
+                  child: Icon(Icons.map, color: Colors.white),
+                ),
+                SizedBox(width: 12.0),
+                Text(widget.hint, style: kHintTextStyle),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class GenericDateField extends StatefulWidget {
   final String title;
   final String hint;
