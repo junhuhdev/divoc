@@ -5,8 +5,9 @@ class User {
   final String email;
   final String city;
   final String state;
-  final String birthdate;
+  final DateTime birthdate;
   final String mobile;
+  final String gender;
 
   User({
     this.id,
@@ -17,17 +18,20 @@ class User {
     this.state,
     this.birthdate,
     this.mobile,
+    this.gender,
   });
 
-  factory User.fromMap(Map data, id) {
+  factory User.fromMap(Map data, String id) {
     return User(
-        id: data['id'] ?? '',
-        photo: data['photo'] ?? '',
-        name: data['name'] ?? '',
-        email: data['email'] ?? '',
-        city: data['city'] ?? '',
-        state: data['state'] ?? '',
-        birthdate: data['birthdate'] ?? '',
-        mobile: data['mobile'] ?? '');
+      id: data['id'] ?? '',
+      photo: data['photo'] ?? '',
+      name: data['name'] ?? '',
+      email: data['email'] ?? '',
+      city: data['city'] ?? '',
+      state: data['state'] ?? '',
+      birthdate: data['birthdate'] == null ? DateTime.now() : data['birthdate'].toDate(),
+      mobile: data['mobile'] ?? '',
+      gender: data['gender'] ?? '',
+    );
   }
 }

@@ -18,7 +18,7 @@ class FeedRequest {
     this.created,
   });
 
-  factory FeedRequest.fromMap(Map data, id) {
+  factory FeedRequest.fromMap(Map data, String id) {
     return FeedRequest(
       id: id ?? '',
       userId: data['userId'] ?? '',

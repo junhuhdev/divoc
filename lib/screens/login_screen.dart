@@ -3,6 +3,7 @@ import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/common/text_field.dart';
+import 'package:divoc/models/user.dart';
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/services/auth_service.dart';
 import 'package:divoc/services/user_service.dart';
@@ -31,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String _smsCode;
   String _name;
   DateTime _birthDate;
-  int _age;
   String _gender = "MALE";
 
   bool _codeSent = false;
@@ -99,7 +99,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   final snackBar = SnackBar(content: Text('Invalid Code'));
                   Scaffold.of(context).showSnackBar(snackBar);
                 } else {
-                  await authService.updateNewUser(_result, _phoneNumber);
+                  await authService.updateNewUser(
+                    _result,
+                    User(
+                      name: _name,
+                      mobile: _phoneNumber,
+                      birthdate: _birthDate,
+                      gender: _gender,
+                    ),
+                  );
                   Navigator.pushReplacementNamed(context, HomeScreen.id);
                 }
               }
@@ -226,10 +234,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: 'Birthdate',
                           hint: 'Select Your Birth Date',
                           onChanged: (DateTime val) {
-                            int age = userService.calculateAge(val);
                             setState(() {
                               _birthDate = val;
-                              _age = age;
                             });
                           },
                         ),

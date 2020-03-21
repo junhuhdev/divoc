@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:divoc/models/user.dart';
+import 'package:divoc/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'globals.dart';
@@ -7,6 +9,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FacebookLogin _facebookAuth = FacebookLogin();
   final Firestore _db = Firestore.instance;
+  final UserService _userService = UserService();
 
   Future<FirebaseUser> get getCurrentUser => _auth.currentUser();
 
@@ -91,20 +94,23 @@ class AuthService {
     return AuthType.SUCCESS;
   }
 
-  Future<void> updateNewUser(LoginResult loginResult, String phoneNumber) async {
+  Future<void> updateNewUser(LoginResult loginResult, User user) async {
     await _auth.signInWithCredential(loginResult.credential);
-    final FirebaseUser user = loginResult.user;
-    final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: user.uid).getDocuments();
+    final FirebaseUser firebaseUser = loginResult.user;
+    final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     if (documents.length == 0) {
       // (2) Create new user
-      _db.collection('users').document(user.uid).setData(
+      _db.collection('users').document(firebaseUser.uid).setData(
         {
-          'name': user.email,
-          'photo': user.photoUrl,
-          'id': user.uid,
-          'email': user.email,
-          'mobile': phoneNumber,
+          'name': user.name,
+          'birthdate': user.birthdate,
+          'age': _userService.calculateAge(user.birthdate),
+          'gender': user.gender,
+          'photo': firebaseUser.photoUrl,
+          'id': firebaseUser.uid,
+          'email': firebaseUser.email,
+          'mobile': user.mobile,
           'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
           'chattingWith': null
         },
