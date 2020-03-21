@@ -4,12 +4,13 @@ import 'constants.dart';
 
 class GenericTextField extends StatelessWidget {
   final Function(String) onChanged;
+  final Function onTap;
   final String title;
   final String hint;
   final IconData icon;
   final TextInputType textInputType;
 
-  const GenericTextField({this.onChanged, this.title, this.hint, this.icon, this.textInputType});
+  const GenericTextField({this.onChanged, this.onTap, this.title, this.hint, this.icon, this.textInputType});
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +43,89 @@ class GenericTextField extends StatelessWidget {
               hintStyle: kHintTextStyle,
             ),
             onChanged: (val) {
-              onChanged(val);
+              if (onChanged != null) {
+                onChanged(val);
+              }
+            },
+            onTap: () {
+              if (onTap != null) {
+                onTap();
+              }
             },
           ),
         ),
       ],
+    );
+  }
+}
+
+class GenericDateField extends StatefulWidget {
+  final String title;
+  final String hint;
+  final IconData icon;
+  final Function(DateTime) onChanged;
+
+  const GenericDateField({this.title, this.hint, this.icon, this.onChanged});
+
+  @override
+  _GenericDateFieldState createState() => _GenericDateFieldState();
+}
+
+class _GenericDateFieldState extends State<GenericDateField> {
+  DateTime _date = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            widget.title,
+            style: kLabelStyle,
+          ),
+          SizedBox(height: 10.0),
+          Container(
+            alignment: Alignment.centerLeft,
+            decoration: kBoxDecorationStyle,
+            height: 60.0,
+            child: TextFormField(
+              keyboardType: TextInputType.datetime,
+              initialValue: '${_date.toLocal()}'.split(' ')[0],
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'OpenSans',
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14.0),
+                prefixIcon: Icon(
+                  widget.icon,
+                  color: Colors.white,
+                ),
+                hintText: widget.hint,
+                hintStyle: kHintTextStyle,
+              ),
+              onTap: () async {
+                FocusScope.of(context).unfocus();
+                final DateTime picked = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1940),
+                  lastDate: DateTime(2030),
+                );
+                if (picked != null) {
+                  setState(() {
+                    _date = picked;
+                  });
+                  widget.onChanged(_date);
+                }
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -86,7 +165,7 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
-          height: 70.0,
+          height: 62.0,
           child: DropdownButtonFormField(
             value: _val,
             items: widget.options

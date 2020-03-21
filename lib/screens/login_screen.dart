@@ -237,20 +237,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           onChanged: (String val) => setState(() => _name = val),
                         ),
                         SizedBox(height: 30.0),
+                        GenericDateField(
+                          title: 'Birthdate',
+                          hint: 'Select Your Birth Date',
+                          icon: Icons.calendar_today,
+                          onChanged: (DateTime val) => setState(() => _birthDate = val),
+                        ),
+                        SizedBox(height: 30.0),
                         GenericDropdownField(
                           title: 'Gender',
                           hint: 'Select Your Gender',
                           icon: Icons.sentiment_satisfied,
                           options: ['MALE', 'FEMALE'],
                           onChanged: (String val) => setState(() => _gender = val),
-                        ),
-                        SizedBox(height: 30.0),
-                        GenericTextField(
-                          title: 'Birthdate',
-                          hint: 'Select Your Birth Date',
-                          icon: Icons.calendar_today,
-                          textInputType: TextInputType.datetime,
-                          onChanged: (String val) => setState(() => _name = val),
                         ),
                       ],
                       if (_formType == FormType.phone_verification) ...[
