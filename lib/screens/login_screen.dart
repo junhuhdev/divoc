@@ -53,22 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _isLoading = false;
   }
 
-  Widget _loginButton() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: ActionButton(
-        title: 'Login',
-        onPressed: () async {
-          var user = await authService.signIn(_email, _password);
-          if (user != null) {
-            Navigator.pushReplacementNamed(context, HomeScreen.id);
-          }
-        },
-      ),
-    );
-  }
-
   Widget _smsVerifyButton() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -120,22 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
               }
             },
           );
-        },
-      ),
-    );
-  }
-
-  Widget _registerButton() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: ActionButton(
-        title: 'Register',
-        onPressed: () async {
-          var user = await authService.signUp(_email, _password);
-          if (user != null) {
-            Navigator.pushReplacementNamed(context, HomeScreen.id);
-          }
         },
       ),
     );
@@ -210,7 +178,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 30.0),
                         PasswordField(callback: (String val) => setState(() => _password = val)),
                         ForgottenPasswordButton(),
-                        _loginButton(),
+                        ActionButton(
+                          title: 'Login',
+                          onPressed: () async {
+                            var user = await authService.signIn(_email, _password);
+                            if (user != null) {
+                              Navigator.pushReplacementNamed(context, HomeScreen.id);
+                            }
+                          },
+                        ),
                         SocialLoginText(),
                         _socialButtonRow(),
                         RedirectRegisterButton(onTap: () => setState(() => _formType = FormType.register)),
@@ -221,7 +197,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         EmailField(callback: (String val) => setState(() => _email = val)),
                         SizedBox(height: 30.0),
                         PasswordField(callback: (String val) => setState(() => _password = val)),
-                        _registerButton(),
+                        ActionButton(
+                          title: 'Register',
+                          onPressed: () async {
+                            var user = await authService.signUp(_email, _password);
+                            if (user != null) {
+                              Navigator.pushReplacementNamed(context, HomeScreen.id);
+                            }
+                          },
+                        ),
                         SocialLoginText(),
                         _socialButtonRow(),
                         RedirectLoginButton(onTap: () => setState(() => _formType = FormType.login)),
@@ -250,6 +234,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           icon: Icons.sentiment_satisfied,
                           options: ['MALE', 'FEMALE'],
                           onChanged: (String val) => setState(() => _gender = val),
+                        ),
+                        ActionButton(
+                          title: 'Complete',
+                          onPressed: () async {
+                            var user = await authService.signUp(_email, _password);
+                            if (user != null) {
+                              Navigator.pushReplacementNamed(context, HomeScreen.id);
+                            }
+                          },
                         ),
                       ],
                       if (_formType == FormType.phone_verification) ...[

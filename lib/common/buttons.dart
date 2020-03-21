@@ -128,13 +128,17 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      elevation: 5.0,
-      padding: EdgeInsets.all(15.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      color: Colors.white,
-      onPressed: onPressed,
-      child: Text(title, style: kLoginActionButtonStyle),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 25.0),
+      width: double.infinity,
+      child: RaisedButton(
+        elevation: 5.0,
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        color: Colors.white,
+        onPressed: onPressed,
+        child: Text(title, style: kLoginActionButtonStyle),
+      ),
     );
   }
 }
