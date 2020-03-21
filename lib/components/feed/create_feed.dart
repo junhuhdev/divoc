@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
@@ -111,7 +112,7 @@ class _CreateFeedState extends State<CreateFeed> {
                         'city': _address.city,
                         'state': _address.state,
                         'street': _address.street,
-                        'geolocation': _address.geolocation,
+                        'geolocation': GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude),
                         'status': "created",
                         'created': DateTime.now(),
                       }),

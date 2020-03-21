@@ -33,10 +33,12 @@ class FeedListTileColumn extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Icon(Icons.place, size: 18.0),
-            SizedBox(width: 8.0),
-            Text("Kista, "),
-            Text("Stockholm"),
+            if (feed.city.isNotEmpty && feed.state.isNotEmpty) ...[
+              Icon(Icons.place, size: 18.0),
+              SizedBox(width: 8.0),
+              Text(feed.state + ", "),
+              Text(feed.city),
+            ],
           ],
         ),
         Row(
