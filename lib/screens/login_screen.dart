@@ -5,6 +5,7 @@ import 'package:divoc/common/loader.dart';
 import 'package:divoc/common/text_field.dart';
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/services/auth_service.dart';
+import 'package:divoc/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginResult _result;
   FormType _formType = FormType.login;
   AuthService authService = AuthService();
+  UserService userService = UserService();
 
   @override
   void initState() {
@@ -226,6 +228,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formType == FormType.collect_information) ...[
                         Text('Complete Registration', style: kLoginStyle),
                         SizedBox(height: 30.0),
+                        GenericTextField(
+                          title: 'Name',
+                          hint: 'Enter Your Full Name',
+                          icon: Icons.person,
+                          textInputType: TextInputType.text,
+                          onChanged: (String val) => setState(() => _name = val),
+                        ),
+                        SizedBox(height: 30.0),
+
                       ],
                       if (_formType == FormType.phone_verification) ...[
                         Text('Phone Verification', style: kLoginStyle),

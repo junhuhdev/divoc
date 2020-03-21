@@ -2,6 +2,55 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
+class GenericTextField extends StatelessWidget {
+  final Function(String) onChanged;
+  final String title;
+  final String hint;
+  final IconData icon;
+  final TextInputType textInputType;
+
+  const GenericTextField({this.onChanged, this.title, this.hint, this.icon, this.textInputType});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextField(
+            keyboardType: textInputType,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                icon,
+                color: Colors.white,
+              ),
+              hintText: hint,
+              hintStyle: kHintTextStyle,
+            ),
+            onChanged: (val) {
+              onChanged(val);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class EmailField extends StatelessWidget {
   final Function(String) callback;
 
@@ -30,44 +79,6 @@ class EmailField extends StatelessWidget {
             decoration: kEmailInputDecoration,
             onChanged: (val) {
               callback(val);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class GenericField extends StatelessWidget {
-  final Function(String) onChanged;
-  final String title;
-  final TextInputType textInputType;
-
-  const GenericField({this.onChanged, this.title, this.textInputType});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            keyboardType: textInputType,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: kEmailInputDecoration,
-            onChanged: (val) {
-              onChanged(val);
             },
           ),
         ),
