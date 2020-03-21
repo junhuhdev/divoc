@@ -66,16 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
           return ActionButton(
             title: _codeSent ? 'Verify' : 'Send Code',
             onPressed: () async {
-              if (_codeSent) {
-                var user = await authService.verifySmsCode(_verificationId, _smsCode);
-                if (user == null) {
-                  final snackBar = SnackBar(content: Text('Invalid Code'));
-                  Scaffold.of(context).showSnackBar(snackBar);
-                } else {
-                  await authService.updateNewUser(_result, _phoneNumber);
-                  Navigator.pushReplacementNamed(context, HomeScreen.id);
-                }
-              } else {
+              if (!_codeSent) {
+                /// (1) Send sms verification code
                 final PhoneVerificationCompleted verified = (AuthCredential authResult) {
                   FirebaseAuth.instance.signInWithCredential(authResult);
                 };
@@ -102,6 +94,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     verificationFailed: verificationfailed,
                     codeSent: smsSent,
                     codeAutoRetrievalTimeout: autoTimeout);
+              }
+              if (_codeSent) {
+                /// (2) Verify sms code
+                var user = await authService.verifySmsCode(_verificationId, _smsCode);
+                if (user == null) {
+                  final snackBar = SnackBar(content: Text('Invalid Code'));
+                  Scaffold.of(context).showSnackBar(snackBar);
+                } else {
+                  await authService.updateNewUser(_result, _phoneNumber);
+                  Navigator.pushReplacementNamed(context, HomeScreen.id);
+                }
               }
             },
           );
