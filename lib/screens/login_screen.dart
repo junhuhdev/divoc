@@ -14,13 +14,10 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-enum FormType { login, register, phone_verification }
+enum FormType { login, register, phone_verification, finalize_registration }
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = true;
-  bool _rememberMe = false;
-  AuthService authService = AuthService();
-
   String _email;
   String _password;
   String _phoneNumber;
@@ -29,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _codeSent = false;
   LoginResult _result;
   FormType _formType = FormType.login;
+  AuthService authService = AuthService();
 
   @override
   void initState() {
@@ -43,55 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _isLoading = false;
   }
 
-  Future<FirebaseUser> login() async {
-    FirebaseUser user;
-    try {
-      user = await authService.signIn(_email, _password);
-      print('Signed in: ${user.email}');
-    } catch (e) {
-      print('Error: $e');
-    }
-    return user;
-  }
-
-  Future<FirebaseUser> register() async {
-    FirebaseUser user;
-    try {
-      user = await authService.signUp(_email, _password);
-      print('Signed in: ${user.email}');
-    } catch (e) {
-      print('Error: $e');
-    }
-    return user;
-  }
-
-  Widget _rememberMeCheckbox() {
-    return Container(
-      height: 20.0,
-      child: Row(
-        children: <Widget>[
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  _rememberMe = value;
-                });
-              },
-            ),
-          ),
-          Text(
-            'Remember me',
-            style: kLabelStyle,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _loginButton() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -99,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
-          var user = await login();
+          var user = await authService.signIn(_email, _password);
           if (user != null) {
             Navigator.pushReplacementNamed(context, HomeScreen.id);
           }
@@ -112,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _otpButton() {
+  Widget _smsVerifyButton() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
@@ -174,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
-          var user = await register();
+          var user = await authService.signUp(_email, _password);
           if (user != null) {
             Navigator.pushReplacementNamed(context, HomeScreen.id);
           }
@@ -273,16 +222,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      if (_formType == FormType.phone_verification) ...[
-                        Text('Phone Verification', style: kLoginStyle),
-                        SizedBox(height: 30.0),
-                        PhoneNumberField(callback: (String val) => setState(() => _phoneNumber = val)),
-                        SizedBox(height: 30.0),
-                        _codeSent
-                            ? SmsCodeField(callback: (String val) => setState(() => _smsCode = val))
-                            : Container(),
-                        _otpButton(),
-                      ],
                       if (_formType == FormType.login) ...[
                         Text('Sign In', style: kLoginStyle),
                         SizedBox(height: 30.0),
@@ -290,7 +229,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 30.0),
                         PasswordField(callback: (String val) => setState(() => _password = val)),
                         ForgottenPasswordButton(),
-                        _rememberMeCheckbox(),
                         _loginButton(),
                         SocialLoginText(),
                         _socialButtonRow(),
@@ -306,7 +244,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         SocialLoginText(),
                         _socialButtonRow(),
                         RedirectLoginButton(onTap: () => setState(() => _formType = FormType.login)),
-                      ]
+                      ],
+                      if (_formType == FormType.phone_verification) ...[
+                        Text('Phone Verification', style: kLoginStyle),
+                        SizedBox(height: 30.0),
+                        PhoneNumberField(callback: (String val) => setState(() => _phoneNumber = val)),
+                        SizedBox(height: 30.0),
+                        _codeSent
+                            ? SmsCodeField(callback: (String val) => setState(() => _smsCode = val))
+                            : Container(),
+                        _smsVerifyButton(),
+                      ],
+                      if (_formType == FormType.finalize_registration) ...[
+                        Text('Complete Registration', style: kLoginStyle),
+                        SizedBox(height: 30.0),
+                      ],
                     ],
                   ),
                 ),

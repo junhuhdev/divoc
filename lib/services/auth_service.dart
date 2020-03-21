@@ -51,10 +51,6 @@ class AuthService {
     }
   }
 
-  sendCode(AuthCredential authCredential) {
-    return _auth.signInWithCredential(authCredential);
-  }
-
   Future<LoginResult> facebookSignIn() async {
     AuthCredential facebookCredentials;
     try {
