@@ -2,6 +2,7 @@ import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/loader.dart';
+import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
@@ -21,6 +22,7 @@ class _CreateFeedState extends State<CreateFeed> {
   String _shoppingInfo;
   String _mobile;
   String _category = "Food";
+  Address _address;
   bool _isLoading = false;
 
   @override
@@ -88,6 +90,9 @@ class _CreateFeedState extends State<CreateFeed> {
                 GenericGoogleMapField(
                   title: 'Location',
                   hint: 'Select location',
+                  onSelected: (Address adress) {
+                    _address = adress;
+                  },
                 ),
                 ActionButton(
                   title: 'Create',
@@ -103,6 +108,10 @@ class _CreateFeedState extends State<CreateFeed> {
                         'category': _category,
                         'description': _description,
                         'shoppingInfo': _shoppingInfo,
+                        'city': _address.city,
+                        'state': _address.state,
+                        'street': _address.street,
+                        'geolocation': _address.geolocation,
                         'status': "created",
                         'created': DateTime.now(),
                       }),

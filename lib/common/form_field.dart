@@ -1,3 +1,5 @@
+import 'package:divoc/components/maps/google_map_location.dart';
+import 'package:divoc/models/address.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -68,15 +70,17 @@ class GenericTextField extends StatelessWidget {
 class GenericGoogleMapField extends StatefulWidget {
   final String title;
   final String hint;
-  final Function(DateTime) onChanged;
+  final Function(Address) onSelected;
 
-  const GenericGoogleMapField({this.title, this.hint, this.onChanged});
+  const GenericGoogleMapField({this.title, this.hint, this.onSelected});
 
   @override
   _GenericGoogleMapFieldState createState() => _GenericGoogleMapFieldState();
 }
 
 class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
+  Address _address;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -89,7 +93,17 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
         SizedBox(height: 10.0),
         GestureDetector(
           onTap: () {
-
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GoogleMapLocation(onSelected: (Address address) {
+                  setState(() {
+                    _address = address;
+                  });
+                  widget.onSelected(address);
+                }),
+              ),
+            );
           },
           child: Container(
             alignment: Alignment.centerLeft,
@@ -102,7 +116,12 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
                   child: Icon(Icons.map, color: Colors.white),
                 ),
                 SizedBox(width: 12.0),
-                Text(widget.hint, style: kHintTextStyle),
+                if (_address == null) ...[
+                  Text(widget.hint, style: kHintTextStyle),
+                ],
+                if (_address != null) ...[
+                  Text(_address.state + ', ' + _address.city, style: kTextStyle),
+                ],
               ],
             ),
           ),
