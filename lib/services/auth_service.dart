@@ -71,7 +71,6 @@ class AuthService {
       AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
       var authResult = await _auth.signInWithCredential(authCreds);
       print("Successfully verified sms ${authResult.user}");
-      await _auth.signOut();
       return authResult.user;
     } catch (error) {
       print("Failed to verify sms $error");
