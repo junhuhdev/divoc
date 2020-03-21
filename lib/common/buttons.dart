@@ -136,7 +136,10 @@ class ActionButton extends StatelessWidget {
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         color: Colors.white,
-        onPressed: onPressed,
+        onPressed: () {
+          FocusScope.of(context).unfocus();
+          onPressed();
+        },
         child: Text(title, style: kLoginActionButtonStyle),
       ),
     );

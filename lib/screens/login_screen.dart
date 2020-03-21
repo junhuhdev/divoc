@@ -187,13 +187,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 30.0),
                         PasswordField(callback: (String val) => setState(() => _password = val)),
                         ForgottenPasswordButton(),
-                        ActionButton(
-                          title: 'Login',
-                          onPressed: () async {
-                            var user = await authService.signIn(_email, _password);
-                            if (user != null) {
-                              Navigator.pushReplacementNamed(context, HomeScreen.id);
-                            }
+                        Builder(
+                          builder: (BuildContext context) {
+                            return ActionButton(
+                              title: 'Login',
+                              onPressed: () async {
+                                if (_email == null || _password == null) {
+                                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Enter Credentials')));
+                                } else {
+                                  var user = await authService.signIn(_email, _password);
+                                  if (user != null) {
+                                    Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                  } else {
+                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Invalid Password')));
+                                  }
+                                }
+                              },
+                            );
                           },
                         ),
                         SocialLoginText(),

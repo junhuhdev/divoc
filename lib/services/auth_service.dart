@@ -16,13 +16,18 @@ class AuthService {
   Stream<FirebaseUser> get user => _auth.onAuthStateChanged;
 
   Future<FirebaseUser> signIn(String email, String password) async {
-    AuthResult result = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    FirebaseUser user = result.user;
-    await refresh(user);
-    return user;
+    try {
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      FirebaseUser user = result.user;
+      await refresh(user);
+      return user;
+    } catch (error) {
+      print("Failed to sign in user $error");
+      return null;
+    }
   }
 
   Future<LoginResult> signUp(String email, String password) async {
