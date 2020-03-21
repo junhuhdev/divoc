@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _smsCode;
   String _name;
   DateTime _birthDate;
+  int _age;
   String _gender;
 
   bool _codeSent = false;
@@ -242,6 +243,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           icon: Icons.sentiment_satisfied,
                           options: ['MALE', 'FEMALE'],
                           onChanged: (String val) => setState(() => _gender = val),
+                        ),
+                        SizedBox(height: 30.0),
+                        GenericTextField(
+                          title: 'Birthdate',
+                          hint: 'Select Your Birth Date',
+                          icon: Icons.calendar_today,
+                          textInputType: TextInputType.datetime,
+                          onChanged: (String val) => setState(() => _name = val),
                         ),
                       ],
                       if (_formType == FormType.phone_verification) ...[
