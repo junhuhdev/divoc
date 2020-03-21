@@ -236,7 +236,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           onChanged: (String val) => setState(() => _name = val),
                         ),
                         SizedBox(height: 30.0),
-
+                        GenericDropdownField(
+                          title: 'Gender',
+                          hint: 'Select Your Gender',
+                          icon: Icons.sentiment_satisfied,
+                          options: ['MALE', 'FEMALE'],
+                          onChanged: (String val) => setState(() => _gender = val),
+                        ),
                       ],
                       if (_formType == FormType.phone_verification) ...[
                         Text('Phone Verification', style: kLoginStyle),
