@@ -62,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
           return ActionButton(
             title: _codeSent ? 'Verify' : 'Send Code',
             onPressed: () async {
+              FocusScope.of(context).unfocus();
               if (!_codeSent) {
                 /// (1) Send sms verification code
                 final PhoneVerificationCompleted verified = (AuthCredential authResult) {
