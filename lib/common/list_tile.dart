@@ -89,13 +89,6 @@ class ActivityListTile extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Icon(Icons.person, size: 18.0),
-            SizedBox(width: 8.0),
-            Text(feed.name + ", "),
-          ],
-        ),
         if (feed.city != null && feed.state != null) ...[
           SizedBox(height: 5.0),
           Row(

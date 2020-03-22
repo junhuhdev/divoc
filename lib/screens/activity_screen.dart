@@ -74,7 +74,7 @@ class ActivityCard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ActivityDetails(feed: feed),
+                        builder: (context) => ActivityShowPending(feed: feed),
                       ),
                     );
                   }
@@ -127,7 +127,7 @@ class ActivityCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ActivityDetails(feed: feed),
+            builder: (context) => ActivityShowPending(feed: feed),
           ),
         );
       },
@@ -136,15 +136,28 @@ class ActivityCard extends StatelessWidget {
 }
 
 class ActivityDetails extends StatefulWidget {
-  final Feed feed;
-
-  const ActivityDetails({this.feed});
-
   @override
   _ActivityDetailsState createState() => _ActivityDetailsState();
 }
 
 class _ActivityDetailsState extends State<ActivityDetails> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
+class ActivityShowPending extends StatefulWidget {
+  final Feed feed;
+
+  const ActivityShowPending({this.feed});
+
+  @override
+  _ActivityShowPendingState createState() => _ActivityShowPendingState();
+}
+
+class _ActivityShowPendingState extends State<ActivityShowPending> {
   Future<List<FeedRequest>> _feedRequests;
 
   @override
