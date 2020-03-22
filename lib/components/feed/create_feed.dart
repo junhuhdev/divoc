@@ -112,6 +112,7 @@ class _CreateFeedState extends State<CreateFeed> {
                         'city': _address.city,
                         'state': _address.state,
                         'street': _address.street,
+                        'postalCode': _address.postalCode,
                         'geolocation': GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude),
                         'status': "created",
                         'created': DateTime.now(),
