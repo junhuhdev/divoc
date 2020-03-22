@@ -61,21 +61,63 @@ class ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Card(
-        elevation: 3.0,
-        child: ListTile(
-          contentPadding: EdgeInsets.all(15.0),
-          subtitle: FeedListTileColumn(feed: feed),
-          trailing: Wrap(
-            alignment: WrapAlignment.spaceAround,
-            direction: Axis.vertical,
-            crossAxisAlignment: WrapCrossAlignment.end,
+        elevation: 2.0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              FeedStatusChip(status: feed.status),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  feedService.deleteFeed(feed.id);
+              Expanded(child: ActivityListTile(feed: feed)),
+              PopupMenuButton(
+                onSelected: (val) {
+                  if (val == 'pending') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ActivityDetails(feed: feed),
+                      ),
+                    );
+                  }
+                  if (val == 'delete') {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Are you sure you want to delete?'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Confirm'),
+                              onPressed: () {
+                                feedService.deleteFeed(feed.id);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
+                child: const Icon(
+                  Icons.more_vert,
+                  size: 20.0,
+                ),
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: 'pending',
+                    child: Text('Pending Requests'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'delete',
+                    child: Text('Delete'),
+                  ),
+                ],
               ),
             ],
           ),
@@ -164,8 +206,7 @@ class ActivityDetailsCard extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.cancel, color: Colors.red),
-              onPressed: () async {
-              },
+              onPressed: () async {},
             ),
             IconButton(
               icon: Icon(Icons.check_circle, color: Colors.green),

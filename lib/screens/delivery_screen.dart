@@ -72,18 +72,7 @@ class DeliveryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (feedRequest.status == 'requested') ...[
-                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.red),
-              ],
-              if (feedRequest.status == 'created') ...[
-                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.red),
-              ],
-              if (feedRequest.status == 'pending') ...[
-                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.amber),
-              ],
-              if (feedRequest.status == 'completed') ...[
-                FeedStatusChip(status: feedRequest.status, backgroundColor: Colors.green),
-              ],
+              FeedStatusBox(status: feedRequest.status),
             ],
           ),
         ),
