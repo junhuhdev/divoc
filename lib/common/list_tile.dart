@@ -63,16 +63,6 @@ class FeedListTileColumn extends StatelessWidget {
             Text(formatter.format(feed.created))
           ],
         ),
-        if (feed.status != null) ...[
-          SizedBox(height: 5.0),
-          Row(
-            children: <Widget>[
-              Icon(Icons.trip_origin, size: 18.0),
-              SizedBox(width: 8.0),
-              FeedStatusBox(status: feed.status),
-            ],
-          )
-        ],
       ],
     );
   }

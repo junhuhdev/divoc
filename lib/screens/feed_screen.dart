@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
@@ -81,7 +82,7 @@ class FeedListTile extends StatelessWidget {
           radius: 30.0,
         ),
         subtitle: FeedListTileColumn(feed: feed),
-        trailing: Icon(Icons.arrow_forward_ios, size: 14.0),
+        trailing: FeedStatusBox(status: feed.status),
         onTap: () {
           Navigator.push(
             context,
