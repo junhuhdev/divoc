@@ -33,6 +33,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
             leading: Icon(Icons.settings),
             title: Text('Settings'),
           ),
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('About'),
+          ),
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('Contact'),
+          ),
         ],
       ),
     );
