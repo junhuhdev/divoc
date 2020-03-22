@@ -15,13 +15,38 @@ class GoogleMapLocation extends StatefulWidget {
 }
 
 class _GoogleMapLocationState extends State<GoogleMapLocation> {
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _controller;
   Address _address;
+  Set<Marker> _markers = <Marker>[Marker(markerId: MarkerId("marker_1"), position: _kLocation)].toSet();
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  static final LatLng _kLocation = LatLng(59.337274, 18.067193);
+
+  static final CameraPosition kStartCameraPosition = CameraPosition(
+    target: _kLocation,
     zoom: 14.4746,
   );
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _onMapCreated(GoogleMapController controllerParam) {
+    setState(() {
+      _controller = controllerParam;
+    });
+  }
+
+  void _updateMarker(LatLng position) {
+    setState(() {
+      _markers = <Marker>[
+        Marker(
+          markerId: MarkerId("marker_1"),
+          position: position,
+        )
+      ].toSet();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +61,20 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
         children: <Widget>[
           GoogleMap(
             mapType: MapType.normal,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
+            initialCameraPosition: kStartCameraPosition,
+            markers: _markers,
+            onMapCreated: _onMapCreated,
           ),
           Positioned(
             top: 60,
             left: MediaQuery.of(context).size.width * 0.05,
-            // width: MediaQuery.of(context).size.width * 0.9,
             child: SearchMapPlaceWidget(
               apiKey: "AIzaSyDMIxb_SbJ2e0RLPdHRjlEp6LgYvUwoUf4",
-              location: _kGooglePlex.target,
+              location: kStartCameraPosition.target,
               radius: 30000,
               onSelected: (place) async {
                 FocusScope.of(context).unfocus();
                 final geolocation = await place.geolocation;
-                final GoogleMapController controller = await _controller.future;
 
                 final String streetAddress = geolocation.fullJSON["address_components"][1]["short_name"];
                 final String streetNumber = geolocation.fullJSON["address_components"][0]["short_name"];
@@ -62,8 +84,9 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
 
                 _address = Address(street: street, state: state, city: city, geolocation: geolocation.coordinates);
 
-                controller.animateCamera(CameraUpdate.newLatLng(geolocation.coordinates));
-                controller.animateCamera(CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+                await _controller.animateCamera(CameraUpdate.newLatLng(geolocation.coordinates));
+                await _controller.animateCamera(CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+                _updateMarker(geolocation.coordinates);
               },
             ),
           ),
