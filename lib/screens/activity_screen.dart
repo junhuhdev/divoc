@@ -64,19 +64,15 @@ class ActivityCard extends StatelessWidget {
         child: ListTile(
           contentPadding: EdgeInsets.all(15.0),
           subtitle: FeedListTileColumn(feed: feed),
-          trailing: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          trailing: Wrap(
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.start,
             children: <Widget>[
-              if (feed.status == 'created') ...[
-                FeedStatusChip(status: feed.status, backgroundColor: Colors.red),
-              ],
-              if (feed.status == 'pending') ...[
-                FeedStatusChip(status: feed.status, backgroundColor: Colors.amber),
-              ],
-              if (feed.status == 'completed') ...[
-                FeedStatusChip(status: feed.status, backgroundColor: Colors.green),
-              ],
+              FeedStatusChip(status: feed.status),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {},
+              ),
             ],
           ),
         ),
