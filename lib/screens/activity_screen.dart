@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/chips.dart';
+import 'package:divoc/services/utils.dart';
+
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/list_tile.dart';
@@ -229,16 +231,16 @@ class _ActivityDetailsState extends State<ActivityDetails> {
               await feedService.updateFeed(
                 widget.feed.id,
                 Feed(
-                  name: _name,
-                  mobile: _mobile,
-                  category: _category,
-                  description: _description,
-                  shoppingInfo: _shoppingInfo,
-                  city: _address.city,
-                  state: _address.state,
-                  street: _address.street,
-                  postalCode: _address.postalCode,
-                  geolocation: GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude),
+                  name: _name.isNullOrEmpty ? widget.feed.name : _name,
+                  mobile: _mobile.isNullOrEmpty ? widget.feed.mobile : _mobile,
+                  category: _category.isNullOrEmpty ? widget.feed.category : _category,
+                  description: _description.isNullOrEmpty ? widget.feed.description : _description,
+                  shoppingInfo: _shoppingInfo.isNullOrEmpty ? widget.feed.shoppingInfo : _shoppingInfo,
+                  city: _address != null ? _address.city : '',
+                  state: _address != null ? _address.state : '',
+                  street: _address != null ? _address.street : '',
+                  postalCode: _address != null ? _address.postalCode : '',
+                  geolocation: _address != null ? GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude) : null,
                 ),
               );
               Navigator.pop(context);

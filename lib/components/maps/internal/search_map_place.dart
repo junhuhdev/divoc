@@ -206,7 +206,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
     /// Api and giving the user Place options
     if (input.length > 0) {
       String url =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}&sessiontoken=${widget.sessionToken}";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}&sessiontoken=${widget.sessionToken}&types=address";
       if (widget.location != null && widget.radius != null) {
         url += "&location=${widget.location.latitude},${widget.location.longitude}&radius=${widget.radius}";
         if (widget.strictBounds) {

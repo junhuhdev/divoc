@@ -70,7 +70,7 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
             top: 60,
             left: MediaQuery.of(context).size.width * 0.05,
             child: SearchMapPlaceWidget(
-              apiKey: "AIzaSyDMIxb_SbJ2e0RLPdHRjlEp6LgYvUwoUf4",
+              apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
               location: kStartCameraPosition.target,
               radius: 30000,
               sessionToken: Uuid().v4(),
