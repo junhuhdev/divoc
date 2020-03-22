@@ -200,12 +200,13 @@ class _GenericDateFieldState extends State<GenericDateField> {
 
 class GenericDropdownField extends StatefulWidget {
   final Function(String) onChanged;
+  final String initialValue;
   final List<String> options;
   final String title;
   final String hint;
   final IconData icon;
 
-  const GenericDropdownField({this.onChanged, this.options, this.title, this.hint, this.icon});
+  const GenericDropdownField({this.onChanged, this.initialValue, this.options, this.title, this.hint, this.icon});
 
   @override
   _GenericDropdownFieldState createState() => _GenericDropdownFieldState();
@@ -217,7 +218,7 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
   @override
   void initState() {
     super.initState();
-    _val = widget.options.first;
+    _val = widget.initialValue ?? widget.options.first;
   }
 
   @override

@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/chips.dart';
+import 'package:divoc/common/form_container.dart';
+import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
+import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
 import 'package:divoc/services/db.dart';
@@ -127,7 +131,7 @@ class ActivityCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ActivityShowPending(feed: feed),
+            builder: (context) => ActivityDetails(feed: feed),
           ),
         );
       },
@@ -136,17 +140,97 @@ class ActivityCard extends StatelessWidget {
 }
 
 class ActivityDetails extends StatefulWidget {
+  final Feed feed;
+
+  const ActivityDetails({this.feed});
+
   @override
   _ActivityDetailsState createState() => _ActivityDetailsState();
 }
 
 class _ActivityDetailsState extends State<ActivityDetails> {
+  String _name;
+  String _mobile;
+  String _category;
+  String _description;
+  String _shoppingInfo;
+  Address _address;
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Activity Details'),
+        centerTitle: true,
+      ),
+      body: FormContainer(
+        children: <Widget>[
+          GenericTextField(
+            title: 'Name',
+            hint: 'Enter name of person involved',
+            icon: Icons.person,
+            initialValue: widget.feed.name,
+            textInputType: TextInputType.text,
+            onChanged: (String val) => setState(() => _name = val),
+          ),
+          SizedBox(height: 30.0),
+          GenericTextField(
+            title: 'Mobile Number',
+            hint: 'Enter number of contact person',
+            icon: Icons.phone,
+            initialValue: widget.feed.mobile,
+            textInputType: TextInputType.phone,
+            onChanged: (String val) => setState(() => _mobile = val),
+          ),
+          SizedBox(height: 30.0),
+          GenericDropdownField(
+            title: 'Category',
+            hint: 'Select category',
+            icon: Icons.category,
+            initialValue: widget.feed.category,
+            options: ['Food', 'Medicine', 'Other'],
+            onChanged: (String val) => setState(() => _category = val),
+          ),
+          SizedBox(height: 30.0),
+          GenericTextField(
+            title: 'Description',
+            hint: 'Enter a detailed description',
+            height: 100.0,
+            maxLines: 5,
+            icon: Icons.comment,
+            initialValue: widget.feed.description,
+            textInputType: TextInputType.multiline,
+            onChanged: (String val) => setState(() => _description = val),
+          ),
+          SizedBox(height: 30.0),
+          GenericTextField(
+            title: 'Shopping List',
+            hint: 'Enter a detailed shopping list with name and quantity',
+            height: 100.0,
+            maxLines: 5,
+            icon: Icons.add_shopping_cart,
+            initialValue: widget.feed.shoppingInfo,
+            textInputType: TextInputType.multiline,
+            onChanged: (String val) => setState(() => _shoppingInfo = val),
+          ),
+          SizedBox(height: 30.0),
+          GenericGoogleMapField(
+            title: 'Location',
+            hint: 'Select location',
+            onSelected: (Address adress) {
+              _address = adress;
+            },
+          ),
+          ActionButton(
+            title: 'Update',
+            onPressed: () async {},
+          ),
+        ],
+      ),
+    );
   }
 }
-
 
 class ActivityShowPending extends StatefulWidget {
   final Feed feed;

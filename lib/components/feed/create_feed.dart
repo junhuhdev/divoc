@@ -16,8 +16,8 @@ class CreateFeed extends StatefulWidget {
 }
 
 class _CreateFeedState extends State<CreateFeed> {
-  String _gender = 'Male';
-  String _age = "18";
+  String _gender;
+  String _age;
   String _name;
   String _description;
   String _shoppingInfo;
