@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _email;
   String _phoneNumber;
   String _gender;
-  DateTime _dob = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
+  DateTime _birthdate = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
 
   Future selectDate(BuildContext context) async {
     setState(() {
@@ -26,13 +26,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: _dob,
+      initialDate: _birthdate,
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
     );
-    if (picked != null && picked != _dob) {
+    if (picked != null && picked != _birthdate) {
       setState(() {
-        _dob = picked;
+        _birthdate = picked;
       });
     }
     setState(() {
