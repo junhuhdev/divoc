@@ -14,13 +14,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = false;
-  String _name = 'Jun Huh';
-  String _email = 'junhuhdev@gmail.com';
-  String _phoneNumber = '';
+  String _name;
+  String _email;
+  String _phoneNumber;
   String _gender;
-  String _status = 'Caregiver';
   DateTime _dob = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
-  Future<User> _currentUser;
 
   Future selectDate(BuildContext context) async {
     setState(() {
