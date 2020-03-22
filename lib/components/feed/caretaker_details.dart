@@ -21,7 +21,7 @@ class _CaretakerDetailsState extends State<CaretakerDetails> {
   @override
   Widget build(BuildContext context) {
     return Consumer<User>(
-      builder: (context, currentUser, child) {
+      builder: (context, user, child) {
         return Card(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -37,49 +37,56 @@ class _CaretakerDetailsState extends State<CaretakerDetails> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  if (widget.feed.status == 'created' && widget.feed.requestedUsers.containsKey(currentUser.id)) ...[
+                  if (widget.feed.status == 'created' &&
+                      user != null &&
+                      widget.feed.requestedUsers.containsKey(user.id)) ...[
                     FeedStatusChip(status: 'requested', backgroundColor: Colors.red),
                   ],
                   if (widget.feed.status != 'created') ...[
                     FeedStatusChip(status: widget.feed.status),
                   ],
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(widget.feed.name, style: TextStyle(fontSize: 20.0)),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.person, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(widget.feed.gender + ", "),
-                      Text(widget.feed.age.toString() + " years old"),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.place, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(widget.feed.state + ", "),
-                      Text(widget.feed.city),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.calendar_today, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(formatter.format(widget.feed.created))
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.local_hospital, size: 18.0),
-                      SizedBox(width: 8.0),
-                      Text(widget.feed.category),
-                    ],
-                  ),
+                  if (user != null) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(widget.feed.name, style: TextStyle(fontSize: 20.0)),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.person, size: 18.0),
+                        SizedBox(width: 8.0),
+                        Text(widget.feed.gender + ", "),
+                        Text(widget.feed.age.toString() + " years old"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.place, size: 18.0),
+                        SizedBox(width: 8.0),
+                        Text(widget.feed.state + ", "),
+                        Text(widget.feed.city),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.calendar_today, size: 18.0),
+                        SizedBox(width: 8.0),
+                        Text(formatter.format(widget.feed.created))
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.local_hospital, size: 18.0),
+                        SizedBox(width: 8.0),
+                        Text(widget.feed.category),
+                      ],
+                    ),
+                  ],
+                  if (user == null) ...[
+                    Container(),
+                  ]
                 ],
               )
             ],

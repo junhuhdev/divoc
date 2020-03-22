@@ -3,14 +3,10 @@ import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
 import 'package:divoc/components/feed/feed_details.dart';
-import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/services/globals.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class FeedScreen extends StatefulWidget {
   static const title = "Activity Feed";
