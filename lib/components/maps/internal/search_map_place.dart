@@ -14,6 +14,7 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.onSelected,
     this.onSearch,
     this.language = 'en',
+    this.sessionToken,
     this.location,
     this.radius,
     this.strictBounds = false,
@@ -35,6 +36,9 @@ class SearchMapPlaceWidget extends StatefulWidget {
   ///
   /// Check the full list of [supported languages](https://developers.google.com/maps/faq#languagesupport) for the Google Maps API
   final String language;
+
+  /// https://developers.google.com/places/web-service/session-tokens
+  final String sessionToken;
 
   /// The point around which you wish to retrieve place information.
   ///
@@ -202,13 +206,14 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
     /// Api and giving the user Place options
     if (input.length > 0) {
       String url =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}&sessiontoken=${widget.sessionToken}";
       if (widget.location != null && widget.radius != null) {
         url += "&location=${widget.location.latitude},${widget.location.longitude}&radius=${widget.radius}";
         if (widget.strictBounds) {
           url += "&strictbounds";
         }
       }
+
       final response = await http.get(url);
       final json = JSON.jsonDecode(response.body);
 

@@ -4,6 +4,7 @@ import 'package:divoc/components/maps/internal/search_map_place.dart';
 import 'package:divoc/models/address.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class GoogleMapLocation extends StatefulWidget {
   final Function(Address) onSelected;
@@ -72,6 +73,7 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
               apiKey: "AIzaSyDMIxb_SbJ2e0RLPdHRjlEp6LgYvUwoUf4",
               location: kStartCameraPosition.target,
               radius: 30000,
+              sessionToken: Uuid().v4(),
               onSelected: (place) async {
                 FocusScope.of(context).unfocus();
                 final geolocation = await place.geolocation;
