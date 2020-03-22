@@ -43,6 +43,23 @@ class FeedService {
         );
   }
 
+  Future<void> updateFeed(String feedId, Feed feed) async {
+    await _db.collection('feeds').document(feedId).updateData(
+          ({
+            'name': feed.name,
+            'mobile': feed.mobile,
+            'category': feed.category,
+            'description': feed.description,
+            'shoppingInfo': feed.shoppingInfo,
+            'city': feed.city,
+            'state': feed.state,
+            'street': feed.street,
+            'postalCode': feed.postalCode,
+            'geolocation': feed.geolocation,
+          }),
+        );
+  }
+
   /// Delete user's own feed
   Future<void> deleteFeed(String feedId) async {
     await _db.collection('feeds').document(feedId).delete();

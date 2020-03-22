@@ -155,6 +155,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
   String _description;
   String _shoppingInfo;
   Address _address;
+  final FeedService feedService = FeedService();
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +225,23 @@ class _ActivityDetailsState extends State<ActivityDetails> {
           ),
           ActionButton(
             title: 'Update',
-            onPressed: () async {},
+            onPressed: () async {
+              await feedService.updateFeed(
+                widget.feed.id,
+                Feed(
+                  name: _name,
+                  mobile: _mobile,
+                  category: _category,
+                  description: _description,
+                  shoppingInfo: _shoppingInfo,
+                  city: _address.city,
+                  state: _address.state,
+                  street: _address.street,
+                  postalCode: _address.postalCode,
+                  geolocation: GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude),
+                ),
+              );
+            },
           ),
         ],
       ),

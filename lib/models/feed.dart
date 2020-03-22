@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Feed {
   final String id;
   final String ownerId;
@@ -10,7 +12,10 @@ class Feed {
   final String image;
   final String city;
   final String state;
+  final String street;
+  final String postalCode;
   final String category;
+  final GeoPoint geolocation;
   final int severity;
 
   /// created, pending, complete
@@ -30,7 +35,10 @@ class Feed {
     this.image,
     this.city,
     this.state,
+    this.street,
+    this.postalCode,
     this.category,
+    this.geolocation,
     this.severity,
     this.status,
     this.requestedUsers,
@@ -50,7 +58,10 @@ class Feed {
       image: data['image'] ?? '',
       city: data['city'] ?? '',
       state: data['state'] ?? '',
+      street: data['street'] ?? '',
+      postalCode: data['postalCode'] ?? '',
       category: data['category'] ?? '',
+      geolocation: data['geolocation'] ?? null,
       severity: data['severity'] ?? 0,
       status: data['status'] ?? '',
       requestedUsers: data['requestedUsers'] ?? new Map(),
