@@ -13,7 +13,7 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.iconColor = Colors.blue,
     this.onSelected,
     this.onSearch,
-    this.language = 'en',
+    this.language = 'sv',
     this.sessionToken,
     this.location,
     this.radius,

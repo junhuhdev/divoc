@@ -33,6 +33,10 @@ class _MainAppBarState extends State<MainAppBar> {
               );
             },
           ),
+        new IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: () {},
+        ),
         Padding(
           padding: const EdgeInsets.only(right: 5.0),
           child: new IconButton(
