@@ -81,8 +81,16 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
                 final String street = streetAddress + " " + streetNumber;
                 final String state = geolocation.fullJSON["address_components"][2]["short_name"];
                 final String city = geolocation.fullJSON["address_components"][4]["short_name"];
+                final String postalCode = geolocation.fullJSON["address_components"][6]["short_name"];
 
-                _address = Address(street: street, state: state, city: city, geolocation: geolocation.coordinates);
+                _address = Address(
+                  street: street,
+                  state: state,
+                  city: city,
+                  geolocation: geolocation.coordinates,
+                  postalCode: postalCode,
+                  formatted: geolocation.fullJSON["formatted_address"],
+                );
 
                 await _controller.animateCamera(CameraUpdate.newLatLng(geolocation.coordinates));
                 await _controller.animateCamera(CameraUpdate.newLatLngBounds(geolocation.bounds, 0));

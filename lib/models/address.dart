@@ -5,6 +5,15 @@ class Address {
   final String state;
   final String street;
   final LatLng geolocation;
+  final String formatted;
+  final String postalCode;
 
-  Address({this.city, this.state, this.street, this.geolocation});
+  Address({
+    this.city,
+    this.state,
+    this.street,
+    this.geolocation,
+    this.formatted,
+    this.postalCode,
+  });
 }
