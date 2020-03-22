@@ -120,7 +120,7 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
                   Text(widget.hint, style: kHintTextStyle),
                 ],
                 if (_address != null) ...[
-                  Text(_address.formatted, style: kTextStyle),
+                  Expanded(child: Text(_address.formatted, style: kTextStyle)),
                 ],
               ],
             ),
