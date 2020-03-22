@@ -1,6 +1,6 @@
 import 'dart:convert' as JSON;
+import 'package:divoc/components/maps/internal/geolocation.dart';
 import 'package:http/http.dart' as http;
-import 'package:divoc/components/maps/geolocation.dart';
 
 class Geocoding {
   Geocoding({this.apiKey, language = 'en'});

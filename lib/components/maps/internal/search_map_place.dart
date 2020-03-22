@@ -1,5 +1,5 @@
-import 'package:divoc/components/maps/geocoding.dart';
-import 'package:divoc/components/maps/place.dart';
+import 'file:///C:/FlutterRepo/divoc/lib/components/maps/internal/geocoding.dart';
+import 'file:///C:/FlutterRepo/divoc/lib/components/maps/internal/place.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' as JSON;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
