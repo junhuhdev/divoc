@@ -16,13 +16,11 @@ class CreateFeed extends StatefulWidget {
 }
 
 class _CreateFeedState extends State<CreateFeed> {
-  String _gender;
-  String _age;
   String _name;
-  String _description;
-  String _shoppingInfo;
   String _mobile;
   String _category = "Food";
+  String _description;
+  String _shoppingInfo;
   Address _address;
   bool _isLoading = false;
 

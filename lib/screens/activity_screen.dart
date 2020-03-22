@@ -241,6 +241,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                   geolocation: GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude),
                 ),
               );
+              Navigator.pop(context);
             },
           ),
         ],
