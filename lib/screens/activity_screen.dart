@@ -55,6 +55,7 @@ class ActivityCard extends StatelessWidget {
   ActivityCard({this.feed});
 
   final formatter = new DateFormat('EEE d MMM h:mm a');
+  final FeedService feedService = new FeedService();
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +66,16 @@ class ActivityCard extends StatelessWidget {
           contentPadding: EdgeInsets.all(15.0),
           subtitle: FeedListTileColumn(feed: feed),
           trailing: Wrap(
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.spaceAround,
+            direction: Axis.vertical,
+            crossAxisAlignment: WrapCrossAlignment.end,
             children: <Widget>[
               FeedStatusChip(status: feed.status),
               IconButton(
                 icon: Icon(Icons.delete),
-                onPressed: () {},
+                onPressed: () {
+                  feedService.deleteFeed(feed.id);
+                },
               ),
             ],
           ),
@@ -140,6 +144,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
   }
 }
 
+/// Accept or cancel pending requests
 class ActivityDetailsCard extends StatelessWidget {
   final Feed feed;
   final FeedRequest feedRequest;
@@ -159,7 +164,8 @@ class ActivityDetailsCard extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.cancel, color: Colors.red),
-              onPressed: () {},
+              onPressed: () async {
+              },
             ),
             IconButton(
               icon: Icon(Icons.check_circle, color: Colors.green),

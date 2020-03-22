@@ -42,4 +42,10 @@ class FeedService {
           }),
         );
   }
+
+  /// Delete user's own feed
+  Future<void> deleteFeed(String feedId) async {
+    await _db.collection('feeds').document(feedId).delete();
+    print("Deleted feed $feedId");
+  }
 }
