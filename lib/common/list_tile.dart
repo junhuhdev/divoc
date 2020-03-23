@@ -35,11 +35,11 @@ class FeedListTileColumn extends StatelessWidget {
         if (feed.city != null && feed.state != null) ...[
           SizedBox(height: 5.0),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+
             children: <Widget>[
               Icon(Icons.place, size: 18.0),
               SizedBox(width: 8.0),
-              Text(feed.state + ", "),
+              Text(feed.state + ", ", softWrap: true),
               Text(feed.city),
             ],
           ),
@@ -71,7 +71,7 @@ class FeedListTileColumn extends StatelessWidget {
 class ActivityListTile extends StatelessWidget {
   final Feed feed;
 
-  const ActivityListTile({ this.feed}) ;
+  const ActivityListTile({this.feed});
 
   @override
   Widget build(BuildContext context) {

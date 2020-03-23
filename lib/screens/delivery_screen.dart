@@ -3,6 +3,8 @@ import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/maps/static_google_map.dart';
+import 'package:divoc/components/speeddial/speed_dial.dart';
+import 'package:divoc/components/speeddial/speed_dial_controller.dart';
 import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
@@ -10,7 +12,6 @@ import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -112,6 +113,7 @@ class DeliveryDetails extends StatefulWidget {
 
 class _DeliveryDetailsState extends State<DeliveryDetails> {
   Future<Feed> _feed;
+  SpeedDialController _controller = SpeedDialController();
 
   @override
   void initState() {
@@ -120,23 +122,33 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.unfold();
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text('Delivery Details'),
-          centerTitle: true,
-        ),
-        body: FutureBuilder(
-          future: _feed,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              if (snapshot.hasError) {
-                print("Error: ${snapshot.error}");
-              }
-              return LoadingScreen();
-            } else {
-              return FormContainer(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Delivery Details'),
+        centerTitle: true,
+      ),
+      body: FutureBuilder(
+        future: _feed,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            if (snapshot.hasError) {
+              print("Error: ${snapshot.error}");
+            }
+            return LoadingScreen();
+          } else {
+            return SafeArea(
+              child: FormContainer(
                 horizontal: 0.0,
                 vertical: 0.0,
                 children: <Widget>[
@@ -145,50 +157,37 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
                     address: Address.fromFeed(snapshot.data),
                   ),
                 ],
-              );
-            }
-          },
-        ),
-        floatingActionButton: SpeedDial(
-          // both default to 16
-          marginRight: 18,
-          marginBottom: 20,
-          animatedIcon: AnimatedIcons.add_event,
-          animatedIconTheme: IconThemeData(size: 22.0, color: Colors.deepPurple),
-          closeManually: false,
-          curve: Curves.bounceIn,
-          overlayColor: Colors.black,
-          overlayOpacity: 0.5,
-          onOpen: () => print('OPENING DIAL'),
-          onClose: () => print('DIAL CLOSED'),
-          tooltip: 'Speed Dial',
-          heroTag: 'speed-dial-hero-tag',
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 8.0,
-          shape: CircleBorder(),
-          children: [
-            SpeedDialChild(
-                child: Icon(Icons.accessibility),
-                backgroundColor: Colors.red,
-                label: 'First',
-                labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () => print('FIRST CHILD')),
-            SpeedDialChild(
-              child: Icon(Icons.brush),
-              backgroundColor: Colors.blue,
-              label: 'Second',
-              labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => print('SECOND CHILD'),
-            ),
-            SpeedDialChild(
-              child: Icon(Icons.keyboard_voice),
-              backgroundColor: Colors.green,
-              label: 'Third',
-              labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => print('THIRD CHILD'),
-            ),
-          ],
-        ));
+              ),
+            );
+          }
+        },
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
+    );
   }
+
+  Widget _buildFloatingActionButton() {
+    final icons = [
+      SpeedDialAction(child: Icon(Icons.mode_edit)),
+      SpeedDialAction(child: Icon(Icons.date_range)),
+      SpeedDialAction(child: Icon(Icons.list)),
+    ];
+
+    return SpeedDialFloatingActionButton(
+      actions: icons,
+      controller: _controller,
+      // Make sure one of child widget has Key value to have fade transition if widgets are same type.
+      childOnFold: Icon(Icons.event_note, key: UniqueKey()),
+      childOnUnfold: Icon(Icons.add),
+      useRotateAnimation: true,
+      animationDuration: 50,
+      onAction: _onSpeedDialAction,
+    );
+  }
+
+  _onSpeedDialAction(int selectedActionIndex) {
+    print('$selectedActionIndex Selected');
+  }
+
+
 }
