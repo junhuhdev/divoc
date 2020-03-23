@@ -6,6 +6,8 @@ const kBackgroundColor = Color.fromRGBO(58, 66, 86, 1.0);
 
 const kCardColor = Color.fromRGBO(64, 75, 96, .9);
 
+const kInputColor = Color.fromRGBO(58, 66, 86, 1.0);
+
 final kTextStyle = TextStyle(
   color: Colors.white,
   fontFamily: 'OpenSans',
@@ -23,7 +25,7 @@ final kLabelStyle = TextStyle(
 );
 
 final kBoxDecorationStyle = BoxDecoration(
-  color: Color(0xFF8542e3),
+  color: kInputColor,
   borderRadius: BorderRadius.circular(10.0),
   boxShadow: [
     BoxShadow(
@@ -39,12 +41,12 @@ final kLinearGradient = BoxDecoration(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFF8542e3),
-      Color(0xFF722ed1),
-      Color(0xFF6211d4),
-      Color(0xFF6415d4),
+      Color.fromRGBO(137, 149, 178, 1.0),
+      Color.fromRGBO(106, 120, 153, 1.0),
+      Color.fromRGBO(58, 66, 86, 1.0),
+      Color.fromRGBO(47, 54, 69, 1.0),
     ],
-    stops: [0.1, 0.4, 0.7, 0.9],
+    stops: [0.1, 0.3, 0.7, 0.9],
   ),
 );
 
