@@ -14,40 +14,43 @@ class GenericTextContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        if (title != null) ...[
-          Text(
-            title,
-            style: kLabelStyle,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          if (title != null) ...[
+            Text(
+              title,
+              style: kLabelStyle,
+            ),
+          ],
+          SizedBox(height: 10.0),
+          Container(
+            alignment: Alignment.centerLeft,
+            decoration: kBoxDecorationStyle,
+            child: TextFormField(
+              keyboardType: TextInputType.multiline,
+              enabled: false,
+              maxLines:  null,
+              textAlign: TextAlign.start,
+              initialValue: content,
+              style: kTextStyle,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: contentPadding ?? EdgeInsets.only(top: 14.0),
+                prefixIcon: icon == null ? null : Icon(
+                  icon,
+                  color: Colors.white,
+                ),
+                hintStyle: kHintTextStyle,
+              ),
+              onChanged: (val) {
+              },
+            ),
           ),
         ],
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          child: TextFormField(
-            keyboardType: TextInputType.multiline,
-            enabled: false,
-            maxLines:  null,
-            textAlign: TextAlign.start,
-            initialValue: content,
-            style: kTextStyle,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: contentPadding ?? EdgeInsets.only(top: 14.0),
-              prefixIcon: icon == null ? null : Icon(
-                icon,
-                color: Colors.white,
-              ),
-              hintStyle: kHintTextStyle,
-            ),
-            onChanged: (val) {
-            },
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

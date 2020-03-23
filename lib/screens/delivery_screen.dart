@@ -167,38 +167,23 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                   apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
                   address: Address.fromFeed(feed),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  child: GenericTextContainer(
-                    title: 'Location',
-                    content: '${feed.street}, ${feed.postalCode}, ${feed.state}, ${feed.city}',
-                    icon: Icons.place,
-                    contentPadding: EdgeInsets.symmetric(vertical: 30.0),
-                  ),
+                GenericTextContainer(
+                  title: 'Location',
+                  content: '${feed.street}, ${feed.postalCode}, ${feed.state}, ${feed.city}',
+                  icon: Icons.place,
+                  contentPadding: EdgeInsets.symmetric(vertical: 30.0),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  child: GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
+                GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
+                GenericTextContainer(title: 'Phone Number', content: feed.mobile, icon: Icons.phone),
+                GenericTextContainer(
+                  title: 'Description',
+                  content: '${feed.description}',
+                  contentPadding: EdgeInsets.all(30.0),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  child: GenericTextContainer(title: 'Phone Number', content: feed.mobile, icon: Icons.phone),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  child: GenericTextContainer(
-                    title: 'Description',
-                    content: '${feed.description}',
-                    contentPadding: EdgeInsets.all(30.0),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  child: GenericTextContainer(
-                    title: 'Shopping Info',
-                    content: '${feed.shoppingInfo}',
-                    contentPadding: EdgeInsets.all(30.0),
-                  ),
+                GenericTextContainer(
+                  title: 'Shopping Info',
+                  content: '${feed.shoppingInfo}',
+                  contentPadding: EdgeInsets.all(30.0),
                 ),
                 SizedBox(height: 80.0),
               ],

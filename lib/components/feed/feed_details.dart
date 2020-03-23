@@ -1,7 +1,8 @@
+import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/form_container.dart';
+import 'package:divoc/common/form_field.dart';
 import 'package:divoc/components/feed/caregiver_scroller.dart';
 import 'package:divoc/components/feed/caretaker_details.dart';
-import 'package:divoc/components/feed/caretaker_info.dart';
 import 'package:divoc/data/feed_list.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/user.dart';
@@ -115,15 +116,33 @@ class FeedInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formatter = new DateFormat('EEE d MMM h:mm a');
+
     return FormContainer(
       horizontal: 0.0,
-      vertical: 0.0,
+      vertical: 30.0,
       children: <Widget>[
-        CaretakerDetails(feed: feed),
+        Align(alignment: Alignment.centerRight,child: FeedStatusBox(status: feed.status)),
+        GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
+        GenericTextContainer(
+          title: 'Location',
+          content: '${feed.state}, ${feed.city}',
+          icon: Icons.place,
+          contentPadding: EdgeInsets.symmetric(vertical: 30.0),
+        ),
+        GenericTextContainer(
+          title: 'Description',
+          content: '${feed.description}',
+          contentPadding: EdgeInsets.all(30.0),
+        ),
+        GenericTextContainer(
+          title: 'Shopping Info',
+          content: '${feed.shoppingInfo}',
+          contentPadding: EdgeInsets.all(30.0),
+        ),
+        GenericTextContainer(
+            title: 'Created', content: formatter.format(feed.created), icon: Icons.calendar_today),
         CaregiverScroller(title: 'Caretaker', caregiverlist: careTaker),
-        CaretakerInfo(feed: feed),
-        CaregiverScroller(title: 'Contacts', caregiverlist: contactGroups),
-        CaregiverScroller(title: 'Caregivers', caregiverlist: caregivers),
       ],
     );
   }
