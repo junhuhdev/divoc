@@ -123,7 +123,6 @@ class FeedListTile extends StatelessWidget {
               Text(formatter.format(feed.created), style: TextStyle(color: Colors.white70, fontSize: 12.0))
             ],
           ),
-//          trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
           onTap: () {
             Navigator.push(
               context,
