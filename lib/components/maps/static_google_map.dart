@@ -21,7 +21,12 @@ class StaticGoogleMap extends StatelessWidget {
       color: theme.accentColor,
     );
     var staticMapProvider = new StaticMapProvider(apiKey);
-    Uri staticMapUri = staticMapProvider.getStaticUriWithMarkers([_marker], 17, width: 900, height: 450);
+    Uri staticMapUri = staticMapProvider.getStaticUriWithMarkers(
+      [_marker],
+      18,
+      width: 600,
+      height: 450,
+    );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

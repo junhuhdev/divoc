@@ -48,6 +48,7 @@ class StaticMapProvider {
       String markersString = markers.join('|');
       finalUri.queryParameters = {
         'markers': markersString,
+        'zoom': zoomLevel.toString(),
         'size': '${width ?? defaultWidth}x${height ?? defaultHeight}',
         'key': googleMapsApiKey,
       };
