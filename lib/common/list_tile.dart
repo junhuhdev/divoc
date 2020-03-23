@@ -17,9 +17,9 @@ class FeedListTileColumn extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Icon(Icons.person, size: 18.0),
+            Icon(Icons.person, size: 18.0, color: Colors.white),
             SizedBox(width: 8.0),
-            Text(feed.name + ", "),
+            Text(feed.name, style: TextStyle(color: Colors.white)),
           ],
         ),
         if (feed.gender != null && feed.age != null) ...[
@@ -60,7 +60,7 @@ class FeedListTileColumn extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.calendar_today, size: 18.0),
             SizedBox(width: 8.0),
-            Text(formatter.format(feed.created))
+            Text(formatter.format(feed.created), style: TextStyle(color: Colors.white))
           ],
         ),
       ],

@@ -323,6 +323,7 @@ class _ActivityShowPendingState extends State<ActivityShowPending> {
         title: Text('Pending Requests'),
         centerTitle: true,
       ),
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       body: FutureBuilder(
         future: _feedRequests,
         builder: (context, snapshot) {
@@ -359,26 +360,32 @@ class ActivityDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        contentPadding: EdgeInsets.all(15.0),
-        subtitle: FeedListTileColumn(feed: Feed(name: feedRequest.name, created: feedRequest.created)),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.cancel, color: Colors.red),
-              onPressed: () async {
-                Navigator.pop(context);
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.check_circle, color: Colors.green),
-              onPressed: () async {
-                await feedService.acceptUserRequest(feed.id, feedRequest.userId);
-                Navigator.pop(context);
-              },
-            ),
-          ],
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(color: kCardColor),
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          subtitle: FeedListTileColumn(feed: Feed(name: feedRequest.name, created: feedRequest.created)),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              IconButton(
+                color: Colors.white,
+                icon: Icon(Icons.cancel, color: Colors.red),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.check_circle, color: Colors.green),
+                onPressed: () async {
+                  await feedService.acceptUserRequest(feed.id, feedRequest.userId);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
