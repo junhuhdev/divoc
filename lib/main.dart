@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: kBackgroundColor,
           primarySwatch: Colors.blueGrey,
           fontFamily: 'Raleway',
+//          iconTheme: IconThemeData(color: Colors.white),
         ),
         home: LoginScreen(),
       ),
