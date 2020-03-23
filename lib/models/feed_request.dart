@@ -1,6 +1,7 @@
 /// TODO: save Id as userId in firestore
 class FeedRequest {
   final String id;
+  final String feedId;
   final String userId;
   final String name;
   final String ownerName;
@@ -11,6 +12,7 @@ class FeedRequest {
 
   FeedRequest({
     this.id,
+    this.feedId,
     this.userId,
     this.name,
     this.ownerName,
@@ -21,6 +23,7 @@ class FeedRequest {
   factory FeedRequest.fromMap(Map data, String id) {
     return FeedRequest(
       id: id ?? '',
+      feedId: data['feedId'] ?? '',
       userId: data['userId'] ?? '',
       name: data['name'] ?? '',
       ownerName: data['ownerName'] ?? '',

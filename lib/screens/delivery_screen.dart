@@ -1,9 +1,13 @@
 import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
+import 'package:divoc/components/maps/google_map_box.dart';
+import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
+import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
+import 'package:divoc/services/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -78,14 +82,12 @@ class DeliveryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if (feedRequest.status == 'requested') {
-
-        }
+        if (feedRequest.status == 'requested') {}
         if (feedRequest.status == 'pending' || feedRequest.status == 'completed') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DeliveryDetails(),
+              builder: (context) => DeliveryDetails(feedRequest: feedRequest),
             ),
           );
         }
@@ -95,11 +97,23 @@ class DeliveryCard extends StatelessWidget {
 }
 
 class DeliveryDetails extends StatefulWidget {
+  final FeedRequest feedRequest;
+
+  const DeliveryDetails({this.feedRequest});
+
   @override
   _DeliveryDetailsState createState() => _DeliveryDetailsState();
 }
 
 class _DeliveryDetailsState extends State<DeliveryDetails> {
+  Future<Feed> _feed;
+
+  @override
+  void initState() {
+    super.initState();
+    _feed = Document<Feed>(path: 'feeds/${widget.feedRequest.feedId}').getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +122,28 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
         title: Text('Delivery Details'),
         centerTitle: true,
       ),
-      body: Container(),
+      body: FutureBuilder(
+        future: _feed,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            if (snapshot.hasError) {
+              print("Error: ${snapshot.error}");
+            }
+            return LoadingScreen();
+          } else {
+            return SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: <Widget>[
+                  GoogleMapBox(
+                    address: Address.fromFeed(snapshot.data),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }

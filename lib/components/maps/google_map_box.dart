@@ -43,13 +43,51 @@ class _GoogleMapBoxState extends State<GoogleMapBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _kStartCameraPosition,
-        markers: _markers,
-        onMapCreated: _onMapCreated,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Center(
+            child: SizedBox(
+              height: 250.0,
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: _kStartCameraPosition,
+                markers: _markers,
+                onMapCreated: _onMapCreated,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10.0),
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Address: ${widget.address.street}",
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                "Postal Code: ${widget.address.postalCode}",
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                "State: ${widget.address.state}",
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                "City: ${widget.address.city}",
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
