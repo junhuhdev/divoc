@@ -25,8 +25,11 @@ class MyApp extends StatelessWidget {
           HomeScreen.id: (context) => HomeScreen(),
         },
         theme: ThemeData(
+//          brightness: Brightness.dark,
+          primaryColor: Color.fromRGBO(58, 66, 86, 1.0),
+          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           primarySwatch: Colors.deepPurple,
-          fontFamily: 'OpenSans',
+          fontFamily: 'Raleway',
         ),
         home: LoginScreen(),
       ),

@@ -55,26 +55,26 @@ class _HomeScreenState extends State<HomeScreen> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: CupertinoTabBar(
-        backgroundColor: Colors.black54,
+        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         inactiveColor: Colors.white54,
         activeColor: Colors.white,
-        iconSize: 24.0,
+        iconSize: 22.0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.language),
-            title: Text('Feed'),
+            title: Text('Feed', style: TextStyle(fontSize: 12.0)),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
-            title: Text('Status'),
+            title: Text('Status', style: TextStyle(fontSize: 12.0)),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_shipping),
-            title: Text('Delivery'),
+            title: Text('Delivery', style: TextStyle(fontSize: 12.0)),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            title: Text('Profile'),
+            title: Text('Profile', style: TextStyle(fontSize: 12.0)),
           ),
         ],
         currentIndex: _selectedIndex,
