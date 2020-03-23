@@ -33,10 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
     if (index == 3) {
       _appBarTitle = ProfileScreen.title;
     }
-    if (index == 4) {
-      _appBarTitle = SettingsScreen.title;
-    }
-
     setState(() {
       _selectedIndex = index;
     });
@@ -47,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ActivityScreen(),
     DeliveryScreen(),
     ProfileScreen(),
-    SettingsScreen(),
   ];
 
   @override
@@ -82,10 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             title: Text('Profile'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('Settings'),
           ),
         ],
         currentIndex: _selectedIndex,
