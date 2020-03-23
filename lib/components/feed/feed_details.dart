@@ -1,3 +1,4 @@
+import 'package:divoc/common/form_container.dart';
 import 'package:divoc/components/feed/caregiver_scroller.dart';
 import 'package:divoc/components/feed/caretaker_details.dart';
 import 'package:divoc/components/feed/caretaker_info.dart';
@@ -114,7 +115,9 @@ class FeedInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return FormContainer(
+      horizontal: 0.0,
+      vertical: 0.0,
       children: <Widget>[
         CaretakerDetails(feed: feed),
         CaregiverScroller(title: 'Caretaker', caregiverlist: careTaker),

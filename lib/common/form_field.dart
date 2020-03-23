@@ -17,10 +17,12 @@ class GenericTextContainer extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          title,
-          style: kLabelStyle,
-        ),
+        if (title != null) ...[
+          Text(
+            title,
+            style: kLabelStyle,
+          ),
+        ],
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
