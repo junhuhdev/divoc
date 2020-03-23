@@ -97,6 +97,10 @@ class DeliveryCard extends StatelessWidget {
   }
 }
 
+/// (1) See delivery location
+/// (2) Upload recipe image
+/// (3) Upload delivered image
+/// (4) Mark as delivered
 class DeliveryDetails extends StatefulWidget {
   final FeedRequest feedRequest;
 
