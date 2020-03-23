@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
@@ -122,7 +123,31 @@ class FeedInfo extends StatelessWidget {
       horizontal: 0.0,
       vertical: 30.0,
       children: <Widget>[
-        Align(alignment: Alignment.centerRight,child: FeedStatusBox(status: feed.status)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Align(alignment: Alignment.centerRight, child: FeedStatusBox(status: feed.status)),
+        ),
+        SizedBox(height: 20.0),
+        SizedBox(
+          width: 300.0,
+          height: 300.0,
+          child: Center(
+            child: CachedNetworkImage(
+              imageUrl: feed.image,
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
+          ),
+        ),
         GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
         GenericTextContainer(
           title: 'Location',
@@ -140,9 +165,7 @@ class FeedInfo extends StatelessWidget {
           content: '${feed.shoppingInfo}',
           contentPadding: EdgeInsets.all(30.0),
         ),
-        GenericTextContainer(
-            title: 'Created', content: formatter.format(feed.created), icon: Icons.calendar_today),
-        CaregiverScroller(title: 'Caretaker', caregiverlist: careTaker),
+        GenericTextContainer(title: 'Created', content: formatter.format(feed.created), icon: Icons.calendar_today),
       ],
     );
   }
