@@ -151,7 +151,8 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
+        backgroundColor: Colors.green,
+        child: Icon(Icons.check, color: Colors.white),
         onPressed: () {},
       ),
     );
