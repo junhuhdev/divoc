@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static const title = "Profile";
+  static const title = "Profil";
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();

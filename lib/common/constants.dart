@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 const kMainColor = Color(0xff465466);
 
+const kBackgroundColor = Color.fromRGBO(58, 66, 86, 1.0);
+
 final kTextStyle = TextStyle(
   color: Colors.white,
   fontFamily: 'OpenSans',

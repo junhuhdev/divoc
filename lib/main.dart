@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'common/constants.dart';
 import 'models/user.dart';
 
 void main() => runApp(MyApp());
@@ -26,9 +27,9 @@ class MyApp extends StatelessWidget {
         },
         theme: ThemeData(
 //          brightness: Brightness.dark,
-          primaryColor: Color.fromRGBO(58, 66, 86, 1.0),
-          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-          primarySwatch: Colors.deepPurple,
+          primaryColor: kBackgroundColor,
+          backgroundColor: kBackgroundColor,
+          primarySwatch: Colors.blueGrey,
           fontFamily: 'Raleway',
         ),
         home: LoginScreen(),

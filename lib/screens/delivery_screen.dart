@@ -17,7 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DeliveryScreen extends StatefulWidget {
-  static const title = "Delivery";
+  static const title = "Leverans";
 
   @override
   _DeliveryScreenState createState() => _DeliveryScreenState();

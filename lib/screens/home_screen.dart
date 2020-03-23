@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.language),
-            title: Text('Feed', style: TextStyle(fontSize: 12.0)),
+            title: Text('Flöde', style: TextStyle(fontSize: 12.0)),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
@@ -70,11 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_shipping),
-            title: Text('Delivery', style: TextStyle(fontSize: 12.0)),
+            title: Text('Leverans', style: TextStyle(fontSize: 12.0)),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            title: Text('Profile', style: TextStyle(fontSize: 12.0)),
+            title: Text('Profil', style: TextStyle(fontSize: 12.0)),
           ),
         ],
         currentIndex: _selectedIndex,
