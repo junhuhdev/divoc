@@ -4,7 +4,6 @@ import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/address.dart';
-import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:flutter/material.dart';

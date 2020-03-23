@@ -3,6 +3,7 @@ import 'package:divoc/models/user.dart';
 import 'package:divoc/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+
 import 'globals.dart';
 
 class AuthService {

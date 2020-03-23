@@ -2,7 +2,6 @@ import 'package:divoc/components/maps/static/static_map_provider.dart';
 import 'package:divoc/components/maps/static/static_marker.dart';
 import 'package:divoc/models/address.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class StaticGoogleMap extends StatelessWidget {
   final String apiKey;

@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/common/buttons.dart';
-import 'package:divoc/common/chips.dart';
-import 'package:divoc/services/utils.dart';
-
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/list_tile.dart';
@@ -12,6 +9,7 @@ import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
 import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
+import 'package:divoc/services/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

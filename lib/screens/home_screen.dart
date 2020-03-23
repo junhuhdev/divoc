@@ -3,9 +3,7 @@ import 'package:divoc/components/menu_drawer.dart';
 import 'package:divoc/screens/activity_screen.dart';
 import 'package:divoc/screens/delivery_screen.dart';
 import 'package:divoc/screens/feed_screen.dart';
-import 'package:divoc/screens/login_screen.dart';
 import 'package:divoc/screens/profile_screen.dart';
-import 'package:divoc/screens/settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:divoc/components/maps/internal/search_map_place.dart';
 import 'package:divoc/models/address.dart';
 import 'package:flutter/material.dart';
