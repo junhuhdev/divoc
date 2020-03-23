@@ -168,9 +168,34 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                   address: Address.fromFeed(feed),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 50.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: GenericTextContainer(
+                    title: 'Location',
+                    content: '${feed.street}, ${feed.postalCode}, ${feed.state}, ${feed.city}',
+                    icon: Icons.place,
+                    height: 80.0,
+                    contentPadding: EdgeInsets.only(top: 5.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   child: GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: GenericTextContainer(title: 'Phone Number', content: feed.mobile, icon: Icons.phone),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: GenericTextContainer(
+                    title: 'Description',
+                    content: '${feed.description}',
+                    icon: Icons.place,
+                    height: 80.0,
+                    contentPadding: EdgeInsets.only(top: 5.0),
+                  ),
+                ),
+                SizedBox(height: 80.0),
               ],
             );
           }
