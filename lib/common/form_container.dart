@@ -5,8 +5,10 @@ import 'constants.dart';
 
 class FormContainer extends StatelessWidget {
   final List<Widget> children;
+  final double horizontal;
+  final double vertical;
 
-  const FormContainer({this.children});
+  const FormContainer({this.children, this.horizontal: 40.0, this.vertical: 50.0});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class FormContainer extends StatelessWidget {
               height: double.infinity,
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 50.0),
+                padding: EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: children,
