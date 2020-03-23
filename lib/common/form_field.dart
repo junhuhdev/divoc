@@ -8,10 +8,9 @@ class GenericTextContainer extends StatelessWidget {
   final String title;
   final String content;
   final IconData icon;
-  final double height;
   final EdgeInsetsGeometry contentPadding;
 
-  const GenericTextContainer({this.title, this.content, this.icon, this.height, this.contentPadding});
+  const GenericTextContainer({this.title, this.content, this.icon, this.contentPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +25,17 @@ class GenericTextContainer extends StatelessWidget {
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
-          height: height ?? 60.0,
           child: TextFormField(
+            keyboardType: TextInputType.multiline,
             enabled: false,
-            minLines: 1,
-            maxLines:  3,
+            maxLines:  null,
+            textAlign: TextAlign.start,
             initialValue: content,
             style: kTextStyle,
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: contentPadding ?? EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
+              prefixIcon: icon == null ? null : Icon(
                 icon,
                 color: Colors.white,
               ),

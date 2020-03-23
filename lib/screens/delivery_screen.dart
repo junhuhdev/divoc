@@ -173,8 +173,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                     title: 'Location',
                     content: '${feed.street}, ${feed.postalCode}, ${feed.state}, ${feed.city}',
                     icon: Icons.place,
-                    height: 80.0,
-                    contentPadding: EdgeInsets.only(top: 5.0),
+                    contentPadding: EdgeInsets.symmetric(vertical: 30.0),
                   ),
                 ),
                 Padding(
@@ -190,9 +189,15 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                   child: GenericTextContainer(
                     title: 'Description',
                     content: '${feed.description}',
-                    icon: Icons.place,
-                    height: 80.0,
-                    contentPadding: EdgeInsets.only(top: 5.0),
+                    contentPadding: EdgeInsets.all(30.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: GenericTextContainer(
+                    title: 'Shopping Info',
+                    content: '${feed.shoppingInfo}',
+                    contentPadding: EdgeInsets.all(30.0),
                   ),
                 ),
                 SizedBox(height: 80.0),
