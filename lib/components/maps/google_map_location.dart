@@ -27,10 +27,6 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
     zoom: 14.4746,
   );
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   void _onMapCreated(GoogleMapController controllerParam) {
     setState(() {
