@@ -20,7 +20,7 @@ class UnicornButton extends FloatingActionButton {
       {this.currentButton,
       this.labelText,
       this.labelFontSize = 14.0,
-      this.labelColor,
+      this.labelColor: Colors.white,
       this.labelBackgroundColor,
       this.labelShadowColor,
       this.labelHasShadow = true,
@@ -29,17 +29,17 @@ class UnicornButton extends FloatingActionButton {
 
   Widget returnLabel() {
     return Container(
-        decoration: BoxDecoration(
-            boxShadow: this.labelHasShadow
-                ? [
-                    new BoxShadow(
-                      color: this.labelShadowColor == null ? Color.fromRGBO(204, 204, 204, 1.0) : this.labelShadowColor,
-                      blurRadius: 3.0,
-                    ),
-                  ]
-                : null,
-            color: this.labelBackgroundColor == null ? Colors.white : this.labelBackgroundColor,
-            borderRadius: BorderRadius.circular(3.0)), //color: Colors.white,
+//        decoration: BoxDecoration(
+//            boxShadow: this.labelHasShadow
+//                ? [
+//                    new BoxShadow(
+//                      color: this.labelShadowColor == null ? Color.fromRGBO(204, 204, 204, 1.0) : this.labelShadowColor,
+//                      blurRadius: 3.0,
+//                    ),
+//                  ]
+//                : null,
+//            color: this.labelBackgroundColor == null ? Colors.white : this.labelBackgroundColor,
+//            borderRadius: BorderRadius.circular(3.0)), //color: Colors.white,
         padding: EdgeInsets.all(9.0),
         child: Text(this.labelText,
             style: TextStyle(
@@ -53,7 +53,7 @@ class UnicornButton extends FloatingActionButton {
   }
 }
 
-class UnicornDialer extends StatefulWidget {
+class UnicornContainer extends StatefulWidget {
   final int orientation;
   final Icon parentButton;
   final Icon finalButtonIcon;
@@ -70,7 +70,7 @@ class UnicornDialer extends StatefulWidget {
   final Object parentHeroTag;
   final bool hasNotch;
 
-  UnicornDialer(
+  UnicornContainer(
       {this.parentButton,
       this.parentButtonBackground,
       this.childButtons,
@@ -89,7 +89,7 @@ class UnicornDialer extends StatefulWidget {
   _UnicornDialer createState() => _UnicornDialer();
 }
 
-class _UnicornDialer extends State<UnicornDialer> with TickerProviderStateMixin {
+class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMixin {
   AnimationController _animationController;
   AnimationController _parentController;
 
@@ -122,7 +122,7 @@ class _UnicornDialer extends State<UnicornDialer> with TickerProviderStateMixin 
   }
 
   Icon getIcon() {
-    if (this._animationController.isDismissed) {
+    if (_animationController != null && _animationController.isDismissed) {
       return widget.parentButton;
     }
     if (widget.finalButtonIcon == null) {

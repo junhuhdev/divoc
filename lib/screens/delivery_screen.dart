@@ -114,7 +114,6 @@ class DeliveryDetails extends StatefulWidget {
 
 class _DeliveryDetailsState extends State<DeliveryDetails> {
   Future<Feed> _feed;
-  SpeedDialController _controller = SpeedDialController();
 
   @override
   void initState() {
@@ -123,42 +122,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _controller.unfold();
-  }
-
-
-
-  @override
   Widget build(BuildContext context) {
-
-    var childButtons = List<UnicornButton>();
-
-    childButtons.add(UnicornButton(
-        hasLabel: true,
-        labelText: "Choo choo",
-        currentButton: FloatingActionButton(
-          heroTag: "train",
-          backgroundColor: Colors.redAccent,
-          mini: true,
-          child: Icon(Icons.train),
-          onPressed: () {},
-        )));
-
-    childButtons.add(UnicornButton(
-        currentButton: FloatingActionButton(
-            heroTag: "airplane",
-            backgroundColor: Colors.greenAccent,
-            mini: true,
-            child: Icon(Icons.airplanemode_active))));
-
-    childButtons.add(UnicornButton(
-        currentButton: FloatingActionButton(
-            heroTag: "directions",
-            backgroundColor: Colors.blueAccent,
-            mini: true,
-            child: Icon(Icons.directions_car))));
 
 
     return Scaffold(
@@ -191,37 +155,47 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
           }
         },
       ),
-      floatingActionButton: UnicornDialer(
-          backgroundColor: Colors.black54,
-          parentButtonBackground: Colors.white,
-          orientation: UnicornOrientation.VERTICAL,
-          parentButton: Icon(Icons.check, color: Colors.deepPurple, size: 30.0),
-          childButtons: childButtons),
+      floatingActionButton: UnicornContainer(
+        backgroundColor: Colors.black54,
+        parentButtonBackground: Colors.white,
+        orientation: UnicornOrientation.VERTICAL,
+        parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
+        childButtons: <UnicornButton>[
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Upload Recipe",
+            currentButton: FloatingActionButton(
+              heroTag: "upload-recipe",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+              onPressed: () {},
+            ),
+          ),
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Upload Delivery",
+            currentButton: FloatingActionButton(
+              heroTag: "upload-delivery",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+              onPressed: () {},
+            ),
+          ),
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Delivered",
+            currentButton: FloatingActionButton(
+              heroTag: "delivery",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
     );
   }
-
-  Widget _buildFloatingActionButton() {
-    final icons = [
-      SpeedDialAction(child: Icon(Icons.mode_edit)),
-      SpeedDialAction(child: Icon(Icons.date_range)),
-      SpeedDialAction(child: Icon(Icons.list)),
-    ];
-
-    return SpeedDialFloatingActionButton(
-      actions: icons,
-      controller: _controller,
-      // Make sure one of child widget has Key value to have fade transition if widgets are same type.
-      childOnFold: Icon(Icons.event_note, key: UniqueKey()),
-      childOnUnfold: Icon(Icons.add),
-      useRotateAnimation: true,
-      animationDuration: 50,
-      onAction: _onSpeedDialAction,
-    );
-  }
-
-  _onSpeedDialAction(int selectedActionIndex) {
-    print('$selectedActionIndex Selected');
-  }
-
-
 }
