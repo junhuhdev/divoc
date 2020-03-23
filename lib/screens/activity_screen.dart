@@ -240,7 +240,8 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                   state: _address != null ? _address.state : '',
                   street: _address != null ? _address.street : '',
                   postalCode: _address != null ? _address.postalCode : '',
-                  geolocation: _address != null ? GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude) : null,
+                  geolocation:
+                      _address != null ? GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude) : null,
                 ),
               );
               Navigator.pop(context);
@@ -323,12 +324,15 @@ class ActivityDetailsCard extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.cancel, color: Colors.red),
-              onPressed: () async {},
+              onPressed: () async {
+                Navigator.pop(context);
+              },
             ),
             IconButton(
               icon: Icon(Icons.check_circle, color: Colors.green),
               onPressed: () async {
-                feedService.acceptUserRequest(feed.id, feedRequest.userId);
+                await feedService.acceptUserRequest(feed.id, feedRequest.userId);
+                Navigator.pop(context);
               },
             ),
           ],

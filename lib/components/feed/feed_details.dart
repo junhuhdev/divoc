@@ -84,13 +84,16 @@ class AssistButton extends StatelessWidget {
                         leading: Icon(Icons.thumb_up),
                         title: Text('Assist'),
                         onTap: () async {
-                          feedService.updateRequestedUser(feed.id, currentUser);
+                          await feedService.updateRequestedUser(feed.id, currentUser);
                           Navigator.pop(context);
                         },
                       ),
                       ListTile(
                         leading: Icon(Icons.share),
                         title: Text('Share'),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                       )
                     ],
                   ),
