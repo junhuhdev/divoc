@@ -77,10 +77,10 @@ class FeedListTile extends StatelessWidget {
       elevation: 3.0,
       child: ListTile(
         contentPadding: EdgeInsets.all(15.0),
-        leading: CircleAvatar(
-          backgroundImage: feed.image == null ? Icon(Icons.person) : CachedNetworkImageProvider(feed.image),
-          radius: 30.0,
-        ),
+//        leading: CircleAvatar(
+//          backgroundImage: feed.image == null ? Icon(Icons.person) : CachedNetworkImageProvider(feed.image),
+//          radius: 30.0,
+//        ),
         subtitle: FeedListTileColumn(feed: feed),
         trailing: FeedStatusBox(status: feed.status),
         onTap: () {
