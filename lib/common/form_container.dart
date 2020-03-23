@@ -7,15 +7,27 @@ class FormContainer extends StatelessWidget {
   final List<Widget> children;
   final double horizontal;
   final double vertical;
+  final VoidCallback onTap;
 
-  const FormContainer({this.children, this.horizontal: 40.0, this.vertical: 50.0});
+  const FormContainer({
+    this.children,
+    this.horizontal: 40.0,
+    this.vertical: 50.0,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () {
+          if (onTap == null) {
+            FocusScope.of(context).unfocus();
+          } else {
+            onTap();
+          }
+        },
         child: Stack(
           children: <Widget>[
             Container(

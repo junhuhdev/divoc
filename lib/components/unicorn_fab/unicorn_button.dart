@@ -29,17 +29,6 @@ class UnicornButton extends FloatingActionButton {
 
   Widget returnLabel() {
     return Container(
-//        decoration: BoxDecoration(
-//            boxShadow: this.labelHasShadow
-//                ? [
-//                    new BoxShadow(
-//                      color: this.labelShadowColor == null ? Color.fromRGBO(204, 204, 204, 1.0) : this.labelShadowColor,
-//                      blurRadius: 3.0,
-//                    ),
-//                  ]
-//                : null,
-//            color: this.labelBackgroundColor == null ? Colors.white : this.labelBackgroundColor,
-//            borderRadius: BorderRadius.circular(3.0)), //color: Colors.white,
         padding: EdgeInsets.all(9.0),
         child: Text(this.labelText,
             style: TextStyle(
@@ -58,17 +47,23 @@ class UnicornContainer extends StatefulWidget {
   final Icon parentButton;
   final Icon finalButtonIcon;
   final bool hasBackground;
+
   /// Color of the fab button
   final Color parentButtonBackground;
   final List<UnicornButton> childButtons;
   final int animationDuration;
   final int mainAnimationDuration;
   final double childPadding;
+
   /// Background color when modal pressed
   final Color backgroundColor;
   final Function onMainButtonPressed;
   final Object parentHeroTag;
   final bool hasNotch;
+
+  /// AnimationControllers
+  final AnimationController animationController;
+  final AnimationController parentController;
 
   UnicornContainer(
       {this.parentButton,
@@ -83,46 +78,27 @@ class UnicornContainer extends StatefulWidget {
       this.animationDuration = 180,
       this.mainAnimationDuration = 200,
       this.childPadding = 4.0,
+      this.animationController,
+      this.parentController,
       this.hasNotch = false})
       : assert(parentButton != null);
 
-  _UnicornDialer createState() => _UnicornDialer();
+  _UnicornContainer createState() => _UnicornContainer();
 }
 
-class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMixin {
-  AnimationController _animationController;
-  AnimationController _parentController;
-
+class _UnicornContainer extends State<UnicornContainer> with TickerProviderStateMixin {
   bool isOpen = false;
 
-  @override
-  void initState() {
-    this._animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: widget.animationDuration));
-
-    this._parentController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: widget.mainAnimationDuration));
-
-    super.initState();
-  }
-
-  @override
-  dispose() {
-    this._animationController.dispose();
-    this._parentController.dispose();
-    super.dispose();
-  }
-
   void mainActionButtonOnPressed() {
-    if (this._animationController.isDismissed) {
-      this._animationController.forward();
+    if (widget.animationController.isDismissed) {
+      widget.animationController.forward();
     } else {
-      this._animationController.reverse();
+      widget.animationController.reverse();
     }
   }
 
   Icon getIcon() {
-    if (_animationController != null && _animationController.isDismissed) {
+    if (widget.animationController != null && widget.animationController.isDismissed) {
       return widget.parentButton;
     }
     if (widget.finalButtonIcon == null) {
@@ -133,31 +109,31 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    this._animationController.reverse();
+    widget.animationController.reverse();
 
     var hasChildButtons = widget.childButtons != null && widget.childButtons.length > 0;
 
-    if (!this._parentController.isAnimating) {
-      if (this._parentController.isCompleted) {
-        this._parentController.forward().then((s) {
-          this._parentController.reverse().then((e) {
-            this._parentController.forward();
+    if (!widget.parentController.isAnimating) {
+      if (widget.parentController.isCompleted) {
+        widget.parentController.forward().then((s) {
+          widget.parentController.reverse().then((e) {
+            widget.parentController.forward();
           });
         });
       }
-      if (this._parentController.isDismissed) {
-        this._parentController.reverse().then((s) {
-          this._parentController.forward();
+      if (widget.parentController.isDismissed) {
+        widget.parentController.reverse().then((s) {
+          widget.parentController.forward();
         });
       }
     }
 
     var mainFAB = AnimatedBuilder(
-        animation: this._parentController,
+        animation: widget.parentController,
         builder: (BuildContext context, Widget child) {
           return Transform(
-              transform: new Matrix4.diagonal3(
-                  vector.Vector3(_parentController.value, _parentController.value, _parentController.value)),
+              transform: new Matrix4.diagonal3(vector.Vector3(
+                  widget.parentController.value, widget.parentController.value, widget.parentController.value)),
               alignment: FractionalOffset.center,
               child: FloatingActionButton(
                   isExtended: false,
@@ -172,10 +148,10 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
                   child: !hasChildButtons
                       ? widget.parentButton
                       : AnimatedBuilder(
-                          animation: this._animationController,
+                          animation: widget.animationController,
                           builder: (BuildContext context, Widget child) {
                             return Transform(
-                              transform: new Matrix4.rotationZ(this._animationController.value * 0.8),
+                              transform: new Matrix4.rotationZ(widget.animationController.value * 0.8),
                               alignment: FractionalOffset.center,
                               child: getIcon(),
                             );
@@ -184,9 +160,9 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
 
     if (hasChildButtons) {
       var mainFloatingButton = AnimatedBuilder(
-          animation: this._animationController,
+          animation: widget.animationController,
           builder: (BuildContext context, Widget child) {
-            return Transform.rotate(angle: this._animationController.value * 0.8, child: mainFAB);
+            return Transform.rotate(angle: widget.animationController.value * 0.8, child: mainFAB);
           });
 
       var childButtonsList = widget.childButtons == null || widget.childButtons.length == 0
@@ -203,7 +179,7 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
                       widget.childButtons[index].currentButton.onPressed();
                     }
 
-                    this._animationController.reverse();
+                    widget.animationController.reverse();
                   },
                   child: widget.childButtons[index].currentButton.child,
                   heroTag: widget.childButtons[index].currentButton.heroTag,
@@ -227,7 +203,7 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
                 child: Row(children: [
                   ScaleTransition(
                       scale: CurvedAnimation(
-                        parent: this._animationController,
+                        parent: widget.animationController,
                         curve: Interval(intervalValue, 1.0, curve: Curves.linear),
                       ),
                       alignment: FractionalOffset.center,
@@ -239,7 +215,7 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
                                   child: widget.childButtons[index].returnLabel())),
                   ScaleTransition(
                       scale: CurvedAnimation(
-                        parent: this._animationController,
+                        parent: widget.animationController,
                         curve: Interval(intervalValue, 1.0, curve: Curves.linear),
                       ),
                       alignment: FractionalOffset.center,
@@ -260,7 +236,7 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
 
       var modal = ScaleTransition(
           scale: CurvedAnimation(
-            parent: this._animationController,
+            parent: widget.animationController,
             curve: Interval(1.0, 1.0, curve: Curves.linear),
           ),
           alignment: FractionalOffset.center,
@@ -272,12 +248,14 @@ class _UnicornDialer extends State<UnicornContainer> with TickerProviderStateMix
                 height: MediaQuery.of(context).size.height,
               )));
 
-      return widget.hasBackground
-          ? Stack(
-              alignment: Alignment.topCenter,
-              overflow: Overflow.visible,
-              children: [Positioned(right: -16.0, bottom: -16.0, child: modal), unicornDialWidget])
-          : unicornDialWidget;
+      if (widget.hasBackground) {
+        return Stack(
+            alignment: Alignment.topCenter,
+            overflow: Overflow.visible,
+            children: [Positioned(right: -16.0, bottom: -16.0, child: modal), unicornDialWidget]);
+      } else {
+        return unicornDialWidget;
+      }
     }
 
     return mainFAB;
