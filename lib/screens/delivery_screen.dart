@@ -2,16 +2,15 @@ import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
-import 'package:divoc/components/maps/google_map_box.dart';
 import 'package:divoc/components/maps/static_google_map.dart';
 import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
 import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
-import 'package:divoc/services/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -123,38 +122,73 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Delivery Details'),
-        centerTitle: true,
-      ),
-      body: FutureBuilder(
-        future: _feed,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            if (snapshot.hasError) {
-              print("Error: ${snapshot.error}");
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title: Text('Delivery Details'),
+          centerTitle: true,
+        ),
+        body: FutureBuilder(
+          future: _feed,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              if (snapshot.hasError) {
+                print("Error: ${snapshot.error}");
+              }
+              return LoadingScreen();
+            } else {
+              return FormContainer(
+                horizontal: 0.0,
+                vertical: 0.0,
+                children: <Widget>[
+                  StaticGoogleMap(
+                    apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
+                    address: Address.fromFeed(snapshot.data),
+                  ),
+                ],
+              );
             }
-            return LoadingScreen();
-          } else {
-            return FormContainer(
-              horizontal: 0.0,
-              vertical: 0.0,
-              children: <Widget>[
-                StaticGoogleMap(
-                  apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
-                  address: Address.fromFeed(snapshot.data),
-                ),
-              ],
-            );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        child: Icon(Icons.check, color: Colors.white),
-        onPressed: () {},
-      ),
-    );
+          },
+        ),
+        floatingActionButton: SpeedDial(
+          // both default to 16
+          marginRight: 18,
+          marginBottom: 20,
+          animatedIcon: AnimatedIcons.add_event,
+          animatedIconTheme: IconThemeData(size: 22.0, color: Colors.deepPurple),
+          closeManually: false,
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          onOpen: () => print('OPENING DIAL'),
+          onClose: () => print('DIAL CLOSED'),
+          tooltip: 'Speed Dial',
+          heroTag: 'speed-dial-hero-tag',
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.accessibility),
+                backgroundColor: Colors.red,
+                label: 'First',
+                labelStyle: TextStyle(fontSize: 18.0),
+                onTap: () => print('FIRST CHILD')),
+            SpeedDialChild(
+              child: Icon(Icons.brush),
+              backgroundColor: Colors.blue,
+              label: 'Second',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => print('SECOND CHILD'),
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.keyboard_voice),
+              backgroundColor: Colors.green,
+              label: 'Third',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => print('THIRD CHILD'),
+            ),
+          ],
+        ));
   }
 }
