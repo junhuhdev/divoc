@@ -25,6 +25,7 @@ class FormContainer extends StatelessWidget {
           if (onTap == null) {
             FocusScope.of(context).unfocus();
           } else {
+            FocusScope.of(context).unfocus();
             onTap();
           }
         },

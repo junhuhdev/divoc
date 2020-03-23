@@ -1,5 +1,6 @@
 import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/form_container.dart';
+import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
@@ -141,57 +142,6 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    var button = UnicornContainer(
-      animationController: animationController,
-      parentController: parentController,
-      backgroundColor: Colors.black54,
-      parentButtonBackground: Colors.white,
-      orientation: UnicornOrientation.VERTICAL,
-      parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
-      childButtons: <UnicornButton>[
-        UnicornButton(
-          hasLabel: true,
-          labelText: "Upload Recipe",
-          currentButton: FloatingActionButton(
-            heroTag: "upload-recipe",
-            backgroundColor: Colors.white,
-            mini: true,
-            child: Icon(Icons.camera_alt, color: Colors.deepPurple),
-            onPressed: () {},
-          ),
-        ),
-        UnicornButton(
-          hasLabel: true,
-          labelText: "Upload Delivery",
-          currentButton: FloatingActionButton(
-            heroTag: "upload-delivery",
-            backgroundColor: Colors.white,
-            mini: true,
-            child: Icon(Icons.camera_alt, color: Colors.deepPurple),
-            onPressed: () {},
-          ),
-        ),
-        UnicornButton(
-          hasLabel: true,
-          labelText: "Delivered",
-          currentButton: FloatingActionButton(
-            heroTag: "delivery",
-            backgroundColor: Colors.white,
-            mini: true,
-            child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateFeed(),
-                  ));
-              print("delivered");
-            },
-          ),
-        ),
-      ],
-    );
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -207,6 +157,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
             }
             return LoadingScreen();
           } else {
+            final Feed feed = snapshot.data;
             return FormContainer(
               onTap: () => this.closeFloatingButton(),
               horizontal: 0.0,
@@ -214,14 +165,67 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
               children: <Widget>[
                 StaticGoogleMap(
                   apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
-                  address: Address.fromFeed(snapshot.data),
+                  address: Address.fromFeed(feed),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 50.0),
+                  child: GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
                 ),
               ],
             );
           }
         },
       ),
-      floatingActionButton: button,
+      floatingActionButton: UnicornContainer(
+        animationController: animationController,
+        parentController: parentController,
+        backgroundColor: Colors.black54,
+        parentButtonBackground: Colors.white,
+        orientation: UnicornOrientation.VERTICAL,
+        parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
+        childButtons: <UnicornButton>[
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Upload Recipe",
+            currentButton: FloatingActionButton(
+              heroTag: "upload-recipe",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+              onPressed: () {},
+            ),
+          ),
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Upload Delivery",
+            currentButton: FloatingActionButton(
+              heroTag: "upload-delivery",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+              onPressed: () {},
+            ),
+          ),
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Delivered",
+            currentButton: FloatingActionButton(
+              heroTag: "delivery",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateFeed(),
+                    ));
+                print("delivered");
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

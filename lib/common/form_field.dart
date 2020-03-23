@@ -4,6 +4,51 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
+class GenericTextContainer extends StatelessWidget {
+  final String title;
+  final String content;
+  final IconData icon;
+
+  const GenericTextContainer({this.title, this.content, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            enabled: false,
+            minLines: 1,
+            maxLines:  3,
+            initialValue: content,
+            style: kTextStyle,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                icon,
+                color: Colors.white,
+              ),
+              hintStyle: kHintTextStyle,
+            ),
+            onChanged: (val) {
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class GenericTextField extends StatelessWidget {
   final Function(String) onChanged;
   final String title;
