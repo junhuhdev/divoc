@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:divoc/common/chips.dart';
+import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
@@ -117,11 +118,12 @@ class FeedListTile extends StatelessWidget {
             direction: Axis.vertical,
             alignment: WrapAlignment.spaceBetween,
             children: <Widget>[
-              Text("${feed.state}, ${feed.city}", style: TextStyle(color: Colors.white)),
-              Text(formatter.format(feed.created), style: TextStyle(color: Colors.white70))
+              Text("${feed.state}, ${feed.city}", style: TextStyle(color: Colors.white, fontSize: 12.0)),
+              SizedBox(height: 3),
+              Text(formatter.format(feed.created), style: TextStyle(color: Colors.white70, fontSize: 12.0))
             ],
           ),
-          trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
+//          trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
           onTap: () {
             Navigator.push(
               context,
@@ -135,23 +137,4 @@ class FeedListTile extends StatelessWidget {
     );
   }
 
-  double getProgressStatus(String status) {
-    if (status == 'created') {
-      return 0.20;
-    }
-    if (status == 'pending') {
-      return 0.50;
-    }
-    return 1;
-  }
-
-  Color getColorStatus(String status) {
-    if (status == 'created') {
-      return Colors.red;
-    }
-    if (status == 'pending') {
-      return Colors.amber;
-    }
-    return Colors.green;
-  }
 }

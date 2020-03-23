@@ -65,78 +65,121 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Card(
-        elevation: 8.0,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Card(
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          leading: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            decoration: new BoxDecoration(border: new Border(right: new BorderSide(width: 1.0, color: Colors.white24))),
+            child: SettingsMenu(feed: feed),
+          ),
+          title: Row(
             children: <Widget>[
-              Expanded(child: ActivityListTile(feed: feed)),
-              PopupMenuButton(
-                onSelected: (val) {
-                  if (val == 'pending') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ActivityShowPending(feed: feed),
-                      ),
-                    );
-                  }
-                  if (val == 'delete') {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Are you sure you want to delete?'),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Cancel'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            FlatButton(
-                              child: Text('Confirm'),
-                              onPressed: () {
-                                feedService.deleteFeed(feed.id);
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
-                child: const Icon(
-                  Icons.more_vert,
-                  size: 20.0,
+              Expanded(
+                flex: 4,
+                child: Text(
+                  feed.name,
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                  const PopupMenuItem<String>(
-                    value: 'pending',
-                    child: Text('Pending Requests'),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'delete',
-                    child: Text('Delete'),
-                  ),
-                ],
               ),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    // tag: 'hero',
+                    child: LinearProgressIndicator(
+                        backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
+                        value: getProgressStatus(feed.status),
+                        valueColor: AlwaysStoppedAnimation(getColorStatus(feed.status))),
+                  )),
             ],
           ),
+          subtitle: Wrap(
+            direction: Axis.vertical,
+            alignment: WrapAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(height: 3),
+              Text("${feed.state}, ${feed.city}", style: TextStyle(color: Colors.white)),
+              SizedBox(height: 3),
+              Text(formatter.format(feed.created), style: TextStyle(color: Colors.white70))
+            ],
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ActivityDetails(feed: feed),
+              ),
+            );
+          },
         ),
       ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ActivityDetails(feed: feed),
-          ),
-        );
+    );
+  }
+}
+
+class SettingsMenu extends StatelessWidget {
+  final Feed feed;
+  final FeedService feedService = FeedService();
+
+  SettingsMenu({this.feed});
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      onSelected: (val) {
+        if (val == 'pending') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ActivityShowPending(feed: feed),
+            ),
+          );
+        }
+        if (val == 'delete') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Are you sure you want to delete?'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('Confirm'),
+                    onPressed: () {
+                      feedService.deleteFeed(feed.id);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
       },
+      child: const Icon(
+        Icons.settings,
+        size: 25.0,
+        color: Colors.white,
+      ),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        const PopupMenuItem<String>(
+          value: 'pending',
+          child: Text('Pending Requests'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'delete',
+          child: Text('Delete'),
+        ),
+      ],
     );
   }
 }

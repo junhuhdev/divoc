@@ -104,3 +104,23 @@ final kPasswordInputDecoration = InputDecoration(
   hintText: 'Enter your Password',
   hintStyle: kHintTextStyle,
 );
+
+double getProgressStatus(String status) {
+  if (status == 'created') {
+    return 0.20;
+  }
+  if (status == 'pending') {
+    return 0.50;
+  }
+  return 1;
+}
+
+Color getColorStatus(String status) {
+  if (status == 'created') {
+    return Colors.red;
+  }
+  if (status == 'pending') {
+    return Colors.amber;
+  }
+  return Colors.green;
+}
