@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/common/buttons.dart';
+import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/list_tile.dart';
@@ -33,6 +34,7 @@ class ActivityScreen extends StatelessWidget {
             return LoadingScreen();
           } else {
             return Scaffold(
+              backgroundColor: kBackgroundColor,
               body: Container(
                 child: ListView.builder(
                   itemCount: snapshot.data.length,
@@ -65,7 +67,7 @@ class ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Card(
-        elevation: 2.0,
+        elevation: 8.0,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
           child: Row(
