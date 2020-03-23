@@ -5,6 +5,7 @@ import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/maps/static_google_map.dart';
 import 'package:divoc/components/speeddial/speed_dial.dart';
 import 'package:divoc/components/speeddial/speed_dial_controller.dart';
+import 'package:divoc/components/unicorn_fab/unicorn_button.dart';
 import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
@@ -132,6 +133,34 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
   @override
   Widget build(BuildContext context) {
 
+    var childButtons = List<UnicornButton>();
+
+    childButtons.add(UnicornButton(
+        hasLabel: true,
+        labelText: "Choo choo",
+        currentButton: FloatingActionButton(
+          heroTag: "train",
+          backgroundColor: Colors.redAccent,
+          mini: true,
+          child: Icon(Icons.train),
+          onPressed: () {},
+        )));
+
+    childButtons.add(UnicornButton(
+        currentButton: FloatingActionButton(
+            heroTag: "airplane",
+            backgroundColor: Colors.greenAccent,
+            mini: true,
+            child: Icon(Icons.airplanemode_active))));
+
+    childButtons.add(UnicornButton(
+        currentButton: FloatingActionButton(
+            heroTag: "directions",
+            backgroundColor: Colors.blueAccent,
+            mini: true,
+            child: Icon(Icons.directions_car))));
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -162,7 +191,12 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
           }
         },
       ),
-      floatingActionButton: _buildFloatingActionButton(),
+      floatingActionButton: UnicornDialer(
+          backgroundColor: Colors.black54,
+          parentButtonBackground: Colors.white,
+          orientation: UnicornOrientation.VERTICAL,
+          parentButton: Icon(Icons.check, color: Colors.deepPurple, size: 30.0),
+          childButtons: childButtons),
     );
   }
 
