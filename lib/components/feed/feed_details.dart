@@ -144,7 +144,13 @@ class FeedInfo extends StatelessWidget {
                 ),
               ),
               placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              errorWidget: (context, url, error) {
+                return SizedBox(
+                  width: 300.0,
+                  height: 300.0,
+                  child: Icon(Icons.account_circle, color: Colors.white, size: 300.0),
+                );
+              },
             ),
           ),
         ),
