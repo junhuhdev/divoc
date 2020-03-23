@@ -140,9 +140,6 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
                     apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
                     address: Address.fromFeed(snapshot.data),
                   ),
-//                  GoogleMapBox(
-//                    address: Address.fromFeed(snapshot.data),
-//                  ),
                 ],
               ),
             );
@@ -151,9 +148,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check),
-        onPressed: () {
-
-        },
+        onPressed: () {},
       ),
     );
   }

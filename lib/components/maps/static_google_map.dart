@@ -49,23 +49,23 @@ class StaticGoogleMap extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "Address: ${address.street}",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 17),
                   softWrap: true,
                 ),
                 SizedBox(height: 5.0),
                 Text(
                   "Postal Code: ${address.postalCode}",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 17),
                 ),
                 SizedBox(height: 5.0),
                 Text(
                   "State: ${address.state}",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 17),
                 ),
                 SizedBox(height: 5.0),
                 Text(
                   "City: ${address.city}",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 17),
                 ),
               ],
             ),
