@@ -144,6 +144,12 @@ class _DeliveryDetailsState extends State<DeliveryDetails> {
           }
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.check),
+        onPressed: () {
+
+        },
+      ),
     );
   }
 }
