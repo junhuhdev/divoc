@@ -82,7 +82,7 @@ class FeedListTile extends StatelessWidget {
       elevation: 8.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: Container(
-        decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+        decoration: BoxDecoration(color: kCardColor),
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
           leading: Container(

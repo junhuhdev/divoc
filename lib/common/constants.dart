@@ -4,6 +4,8 @@ const kMainColor = Color(0xff465466);
 
 const kBackgroundColor = Color.fromRGBO(58, 66, 86, 1.0);
 
+const kCardColor = Color.fromRGBO(64, 75, 96, .9);
+
 final kTextStyle = TextStyle(
   color: Colors.white,
   fontFamily: 'OpenSans',
