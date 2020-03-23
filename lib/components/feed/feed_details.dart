@@ -136,7 +136,7 @@ class FeedInfo extends StatelessWidget {
               imageUrl: feed.image,
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(10.0),
+                  borderRadius: new BorderRadius.circular(140.0),
                   image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
@@ -148,6 +148,7 @@ class FeedInfo extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(height: 20.0),
         GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
         GenericTextContainer(
           title: 'Location',
