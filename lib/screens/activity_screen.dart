@@ -102,9 +102,9 @@ class ActivityCard extends StatelessWidget {
             alignment: WrapAlignment.spaceBetween,
             children: <Widget>[
               SizedBox(height: 3),
-              Text("${feed.state}, ${feed.city}", style: TextStyle(color: Colors.white)),
+              Text("${feed.state}, ${feed.city}", style: TextStyle(color: Colors.white, fontSize: 12.0)),
               SizedBox(height: 3),
-              Text(formatter.format(feed.created), style: TextStyle(color: Colors.white70))
+              Text(formatter.format(feed.created), style: TextStyle(color: Colors.white70, fontSize: 12.0))
             ],
           ),
           onTap: () {
