@@ -27,7 +27,7 @@ class UnicornButton extends FloatingActionButton {
       this.hasLabel = false})
       : assert(currentButton != null);
 
-  Widget returnLabel() {
+  Widget buildButtonLabel() {
     return Container(
         padding: EdgeInsets.all(9.0),
         child: Text(this.labelText,
@@ -89,7 +89,7 @@ class UnicornContainer extends StatefulWidget {
 class _UnicornContainer extends State<UnicornContainer> with TickerProviderStateMixin {
   bool isOpen = false;
 
-  void mainActionButtonOnPressed() {
+  void actionButtonOnPressed() {
     if (widget.animationController.isDismissed) {
       widget.animationController.forward();
     } else {
@@ -97,7 +97,7 @@ class _UnicornContainer extends State<UnicornContainer> with TickerProviderState
     }
   }
 
-  Icon getIcon() {
+  Icon buildIcon() {
     if (widget.animationController != null && widget.animationController.isDismissed) {
       return widget.parentButton;
     }
@@ -140,7 +140,7 @@ class _UnicornContainer extends State<UnicornContainer> with TickerProviderState
                   heroTag: widget.parentHeroTag,
                   backgroundColor: widget.parentButtonBackground,
                   onPressed: () {
-                    mainActionButtonOnPressed();
+                    actionButtonOnPressed();
                     if (widget.onMainButtonPressed != null) {
                       widget.onMainButtonPressed();
                     }
@@ -153,7 +153,7 @@ class _UnicornContainer extends State<UnicornContainer> with TickerProviderState
                             return Transform(
                               transform: new Matrix4.rotationZ(widget.animationController.value * 0.8),
                               alignment: FractionalOffset.center,
-                              child: getIcon(),
+                              child: buildIcon(),
                             );
                           })));
         });
@@ -212,7 +212,7 @@ class _UnicornContainer extends State<UnicornContainer> with TickerProviderState
                               ? Container()
                               : Container(
                                   padding: EdgeInsets.only(right: widget.childPadding),
-                                  child: widget.childButtons[index].returnLabel())),
+                                  child: widget.childButtons[index].buildButtonLabel())),
                   ScaleTransition(
                       scale: CurvedAnimation(
                         parent: widget.animationController,
@@ -241,7 +241,8 @@ class _UnicornContainer extends State<UnicornContainer> with TickerProviderState
           ),
           alignment: FractionalOffset.center,
           child: GestureDetector(
-              onTap: mainActionButtonOnPressed,
+            behavior: HitTestBehavior.translucent,
+              onTap: actionButtonOnPressed,
               child: Container(
                 color: widget.backgroundColor,
                 width: MediaQuery.of(context).size.width,
