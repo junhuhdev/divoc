@@ -4,12 +4,16 @@ import 'package:divoc/services/auth_service.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 import 'common/constants.dart';
 import 'models/user.dart';
 
-void main() => runApp(MyApp());
+void main() {
+//  debugPaintPointersEnabled = true;
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
 //              headline1: TextStyle(color: Colors.white),
 //              bodyText2: TextStyle(color: Colors.white),
 //              bodyText1: TextStyle(color: Colors.white),
-            )),
+                )),
         home: LoginScreen(),
       ),
     );

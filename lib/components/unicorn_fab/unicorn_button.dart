@@ -6,6 +6,28 @@ class UnicornOrientation {
   static const VERTICAL = 1;
 }
 
+class LabelFlatButton extends StatelessWidget {
+  final UnicornButton unicornButton;
+
+  const LabelFlatButton({Key key, this.unicornButton}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () {
+        print("snopp");
+      },
+      child: Text(
+        unicornButton.labelText,
+        style: TextStyle(
+            fontSize: unicornButton.labelFontSize,
+            fontWeight: FontWeight.bold,
+            color: unicornButton.labelColor == null ? Color.fromRGBO(119, 119, 119, 1.0) : unicornButton.labelColor),
+      ),
+    );
+  }
+}
+
 class UnicornButton extends FloatingActionButton {
   final FloatingActionButton currentButton;
   final String labelText;
