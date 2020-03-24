@@ -34,15 +34,19 @@ class FeedService {
   }
 
   /// When user wants to help
-  Future<void> updateRequestedUser(String feedId, User currentUser) async {
+  Future<void> updateRequestedUser(String feedId, User currentUser, Feed feed) async {
     await _db.collection('feeds').document(feedId).updateData({'requestedUsers.${currentUser.id}': true});
 
     await _db.collection('feeds').document(feedId).collection('requests').document(currentUser.id).setData(
           ({
             'userId': currentUser.id,
             'name': currentUser.name,
-            'ownerName': 'Petra',
             'status': 'requested',
+            'ownerName': feed.name,
+            'feedId': feed.id,
+            'image': feed.image,
+            'city': feed.city,
+            'state': feed.state,
             'created': DateTime.now(),
           }),
         );
