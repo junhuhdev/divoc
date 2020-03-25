@@ -18,11 +18,6 @@ class FeedService {
         .map((list) => list.documents.map((doc) => FeedRequest.fromMap(doc.data, doc.documentID)).toList());
   }
 
-//  getFeedRequest(String feedId) {
-//    var ref = _db.collection('feeds').document(feedId);
-//    return ref.get().
-//  }
-
   /// When user accepts help from another user
   Future<void> acceptUserRequest(String feedId, String helperUserId) async {
     await _db.collection('feeds').document(feedId).updateData({'status': 'pending'});
