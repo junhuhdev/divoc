@@ -8,6 +8,7 @@ import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
+import 'package:divoc/screens/user_profile_screen.dart';
 import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:divoc/services/utils.dart';
@@ -173,11 +174,11 @@ class SettingsMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
         const PopupMenuItem<String>(
           value: 'pending',
-          child: Text('Pending Requests'),
+          child: Text('Visa förfrågningar'),
         ),
         const PopupMenuItem<String>(
           value: 'delete',
-          child: Text('Delete'),
+          child: Text('Ta bort'),
         ),
       ],
     );
@@ -320,7 +321,7 @@ class _ActivityShowPendingState extends State<ActivityShowPending> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Pending Requests'),
+        title: Text('Förfrågningar'),
         centerTitle: true,
       ),
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
@@ -386,6 +387,14 @@ class ActivityDetailsCard extends StatelessWidget {
               ),
             ],
           ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserProfileScreen(),
+              ),
+            );
+          },
         ),
       ),
     );
