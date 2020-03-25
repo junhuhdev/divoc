@@ -32,7 +32,7 @@ class GenericTextContainer extends StatelessWidget {
             child: TextFormField(
               keyboardType: TextInputType.multiline,
               enabled: false,
-              maxLines:  null,
+              maxLines: null,
               textAlign: TextAlign.start,
               initialValue: content,
               style: kTextStyle,
@@ -45,8 +45,7 @@ class GenericTextContainer extends StatelessWidget {
                 ),
                 hintStyle: kHintTextStyle,
               ),
-              onChanged: (val) {
-              },
+              onChanged: (val) {},
             ),
           ),
         ],
@@ -64,6 +63,7 @@ class GenericTextField extends StatelessWidget {
   final String initialValue;
   final int maxLines;
   final double height;
+  final FormFieldValidator<String> validator;
 
   const GenericTextField({
     this.onChanged,
@@ -74,6 +74,7 @@ class GenericTextField extends StatelessWidget {
     this.initialValue,
     this.maxLines,
     this.height,
+    this.validator,
   });
 
   @override
@@ -91,6 +92,7 @@ class GenericTextField extends StatelessWidget {
           decoration: kBoxDecorationStyle,
           height: height ?? 60.0,
           child: TextFormField(
+            validator: validator,
             minLines: 1,
             maxLines: maxLines ?? 1,
             initialValue: initialValue,
@@ -147,12 +149,13 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => GoogleMapLocation(onSelected: (Address address) {
-                  setState(() {
-                    _address = address;
-                  });
-                  widget.onSelected(address);
-                }),
+                builder: (context) =>
+                    GoogleMapLocation(onSelected: (Address address) {
+                      setState(() {
+                        _address = address;
+                      });
+                      widget.onSelected(address);
+                    }),
               ),
             );
           },
@@ -199,7 +202,13 @@ class _GenericDateFieldState extends State<GenericDateField> {
   Future<void> selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: _date == null ? DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day) : _date,
+      initialDate: _date == null ? DateTime(DateTime
+          .now()
+          .year - 29, DateTime
+          .now()
+          .month, DateTime
+          .now()
+          .day) : _date,
       firstDate: DateTime(1940),
       lastDate: DateTime(2030),
     );
@@ -289,7 +298,8 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
           child: DropdownButtonFormField(
             value: _val,
             items: widget.options
-                .map((val) => DropdownMenuItem<String>(
+                .map((val) =>
+                DropdownMenuItem<String>(
                     value: val, child: Text(val, style: TextStyle(color: Colors.grey, fontFamily: 'OpenSans'))))
                 .toList(),
             decoration: InputDecoration(

@@ -22,6 +22,7 @@ class _CreateFeedState extends State<CreateFeed> {
   String _shoppingInfo;
   Address _address;
   bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,93 +37,105 @@ class _CreateFeedState extends State<CreateFeed> {
             title: Text('Create New Event'),
             centerTitle: true,
           ),
-          body: FormContainer(
-            children: <Widget>[
-              if (user != null) ...[
-                GenericTextField(
-                  title: 'Name',
-                  hint: 'Enter name of person involved',
-                  icon: Icons.person,
-                  initialValue: user.name,
-                  textInputType: TextInputType.text,
-                  onChanged: (String val) => setState(() => _name = val),
-                ),
-                SizedBox(height: 30.0),
-                GenericTextField(
-                  title: 'Mobile Number',
-                  hint: 'Enter number of contact person',
-                  icon: Icons.phone,
-                  initialValue: user.mobile,
-                  textInputType: TextInputType.phone,
-                  onChanged: (String val) => setState(() => _mobile = val),
-                ),
-                SizedBox(height: 30.0),
-                GenericDropdownField(
-                  title: 'Category',
-                  hint: 'Select category',
-                  icon: Icons.category,
-                  options: ['Food', 'Medicine', 'Other'],
-                  onChanged: (String val) => setState(() => _category = val),
-                ),
-                SizedBox(height: 30.0),
-                GenericTextField(
-                  title: 'Description',
-                  hint: 'Enter a detailed description',
-                  height: 100.0,
-                  maxLines: 5,
-                  icon: Icons.comment,
-                  textInputType: TextInputType.multiline,
-                  onChanged: (String val) => setState(() => _description = val),
-                ),
-                SizedBox(height: 30.0),
-                GenericTextField(
-                  title: 'Shopping List',
-                  hint: 'Enter a detailed shopping list with name and quantity',
-                  height: 100.0,
-                  maxLines: 5,
-                  icon: Icons.add_shopping_cart,
-                  textInputType: TextInputType.multiline,
-                  onChanged: (String val) => setState(() => _shoppingInfo = val),
-                ),
-                SizedBox(height: 30.0),
-                GenericGoogleMapField(
-                  title: 'Location',
-                  hint: 'Select location',
-                  onSelected: (Address adress) {
-                    _address = adress;
-                  },
-                ),
-                ActionButton(
-                  title: 'Create',
-                  onPressed: () async {
-                    await Global.feedCollection.insert(
-                      ({
-                        'ownerId': user.id,
-                        'name': _name ?? user.name,
-                        'mobile': _mobile ?? user.mobile,
-                        'gender': user.gender,
-                        'age': user.age,
-                        'image': user.photo,
-                        'category': _category,
-                        'description': _description,
-                        'shoppingInfo': _shoppingInfo,
-                        'city': _address.city,
-                        'state': _address.state,
-                        'street': _address.street,
-                        'postalCode': _address.postalCode,
-                        'geolocation': GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude),
-                        'status': "created",
-                        'created': DateTime.now(),
-                      }),
-                    );
-                    Navigator.pop(context);
-                  },
-                ),
+          body: Form(
+            key: _formKey,
+            child: FormContainer(
+              children: <Widget>[
+                if (user != null) ...[
+                  GenericTextField(
+                    title: 'Name',
+                    hint: 'Enter name of person involved',
+                    icon: Icons.person,
+                    initialValue: user.name,
+                    textInputType: TextInputType.text,
+                    onChanged: (String val) => setState(() => _name = val),
+                    validator: (val) => val.isEmpty ? "Please enter a valid name" : null,
+                  ),
+                  SizedBox(height: 30.0),
+                  GenericTextField(
+                    title: 'Mobile Number',
+                    hint: 'Enter number of contact person',
+                    icon: Icons.phone,
+                    initialValue: user.mobile,
+                    textInputType: TextInputType.phone,
+                    onChanged: (String val) => setState(() => _mobile = val),
+                  ),
+                  SizedBox(height: 30.0),
+                  GenericDropdownField(
+                    title: 'Category',
+                    hint: 'Select category',
+                    icon: Icons.category,
+                    options: ['Food', 'Medicine', 'Other'],
+                    onChanged: (String val) => setState(() => _category = val),
+                  ),
+                  SizedBox(height: 30.0),
+                  GenericTextField(
+                    title: 'Description',
+                    hint: 'Enter a detailed description',
+                    height: 100.0,
+                    maxLines: 5,
+                    icon: Icons.comment,
+                    textInputType: TextInputType.multiline,
+                    onChanged: (String val) => setState(() => _description = val),
+                  ),
+                  SizedBox(height: 30.0),
+                  GenericTextField(
+                    title: 'Shopping List',
+                    hint: 'Enter a detailed shopping list with name and quantity',
+                    height: 100.0,
+                    maxLines: 5,
+                    icon: Icons.add_shopping_cart,
+                    textInputType: TextInputType.multiline,
+                    onChanged: (String val) => setState(() => _shoppingInfo = val),
+                  ),
+                  SizedBox(height: 30.0),
+                  GenericGoogleMapField(
+                    title: 'Location',
+                    hint: 'Select location',
+                    onSelected: (Address adress) {
+                      _address = adress;
+                    },
+                  ),
+                  Builder(
+                    builder: (BuildContext context) {
+                      return ActionButton(
+                        title: 'Create',
+                        onPressed: () async {
+                          if (_address == null) {
+                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Please select valid address')));
+                          } else if (_formKey.currentState.validate()) {
+                            await Global.feedCollection.insert(
+                              ({
+                                'ownerId': user.id,
+                                'name': _name ?? user.name,
+                                'mobile': _mobile ?? user.mobile,
+                                'gender': user.gender,
+                                'age': user.age,
+                                'image': user.photo,
+                                'category': _category,
+                                'description': _description,
+                                'shoppingInfo': _shoppingInfo,
+                                'city': _address.city,
+                                'state': _address.state,
+                                'street': _address.street,
+                                'postalCode': _address.postalCode,
+                                'geolocation': GeoPoint(_address.geolocation.latitude, _address.geolocation.longitude),
+                                'status': "created",
+                                'created': DateTime.now(),
+                              }),
+                            );
+                            Navigator.pop(context);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ],
+                if (user == null) ...[
+                  Container(),
+                ],
               ],
-              if (user == null) ...[
-                Container(),
-              ],
-            ],
+            ),
           ),
         );
       },
