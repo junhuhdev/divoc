@@ -1,6 +1,6 @@
+import 'package:divoc/components/maps/internal/geocoding.dart';
 import 'package:divoc/components/maps/internal/geolocation.dart';
 
-import 'file:///C:/FlutterRepo/divoc/lib/components/maps/internal/geocoding.dart';
 
 class Place {
   Place(

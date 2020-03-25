@@ -1,11 +1,10 @@
 import 'dart:convert' as JSON;
 
+import 'package:divoc/components/maps/internal/geocoding.dart';
+import 'package:divoc/components/maps/internal/place.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-
-import 'file:///C:/FlutterRepo/divoc/lib/components/maps/internal/geocoding.dart';
-import 'file:///C:/FlutterRepo/divoc/lib/components/maps/internal/place.dart';
 
 class SearchMapPlaceWidget extends StatefulWidget {
   SearchMapPlaceWidget({
