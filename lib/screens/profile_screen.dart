@@ -87,11 +87,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     : const Icon(Icons.close, size: 20.0, color: Colors.red),
                                 backgroundColor: user.photo.isNullEmptyOrWhitespace ? Colors.red : Colors.white,
                                 onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   if (user.photo.isNullEmptyOrWhitespace) {
-                                    imageService.uploadImage(user.id);
+                                    await imageService.uploadImage(user.id);
                                   } else {
-                                    imageService.deleteImage(user.id);
+                                    await imageService.deleteImage(user.id);
                                   }
+                                  setState(() {
+                                    isLoading = false;
+                                  });
                                 },
                               ),
                             ),
