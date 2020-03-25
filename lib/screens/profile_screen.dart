@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:divoc/common/constants.dart';
+import 'package:divoc/common/images.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
+import 'package:divoc/services/image_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:divoc/services/utils.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const title = "Profil";
@@ -20,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _phoneNumber;
   String _gender;
   DateTime _birthdate = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
+  ImageService imageService = new ImageService();
 
   Future selectDate(BuildContext context) async {
     setState(() {
@@ -65,12 +69,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: ListView(
                   children: <Widget>[
                     if (user != null) ...[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                        child: CircleAvatar(
-                          backgroundImage: CachedNetworkImageProvider(user.photo),
-                          radius: 120.0,
-                        ),
+                      Stack(
+                        children: <Widget>[
+                          UserProfileImage(image: user.photo),
+                          Positioned(
+                            right: 0.0,
+                            bottom: 0.0,
+                            child: SizedBox(
+                              height: 30.0,
+                              width: 30.0,
+                              child: FloatingActionButton(
+                                heroTag: null,
+                                mini: true,
+                                elevation: 2.0,
+                                child: user.photo.isNullEmptyOrWhitespace
+                                    ? const Icon(Icons.add, size: 20.0)
+                                    : const Icon(Icons.close, size: 20.0, color: Colors.red),
+                                backgroundColor: user.photo.isNullEmptyOrWhitespace ? Colors.red : Colors.white,
+                                onPressed: () async {
+                                  if (user.photo.isNullEmptyOrWhitespace) {
+                                    imageService.uploadImage(user.id);
+                                  } else {
+                                    imageService.deleteImage(user.id);
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       TextFormField(
                         style: TextStyle(color: Colors.white),
@@ -160,10 +186,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         onPressed: () async {
                           await Global.userDoc.upsert(
-                              ({
-                                'name': _name ?? user.name,
-                                'email': _email ?? user.email,
-                              }),
+                            ({
+                              'name': _name ?? user.name,
+                              'email': _email ?? user.email,
+                            }),
                           );
                         },
                       ),
