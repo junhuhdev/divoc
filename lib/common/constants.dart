@@ -110,7 +110,7 @@ final kPasswordInputDecoration = InputDecoration(
 );
 
 double getProgressStatus(String status) {
-  if (status == 'created') {
+  if (status == 'created' || status == 'requested') {
     return 0.20;
   }
   if (status == 'pending') {
@@ -120,7 +120,7 @@ double getProgressStatus(String status) {
 }
 
 Color getColorStatus(String status) {
-  if (status == 'created') {
+  if (status == 'created' || status == 'requested') {
     return Colors.red;
   }
   if (status == 'pending') {
