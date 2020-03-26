@@ -19,7 +19,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ActivityScreen extends StatelessWidget {
-  static const title = "Status";
+  static const title = "Mina Ärenden";
 
   final FeedService feedService = new FeedService();
 

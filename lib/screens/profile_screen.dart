@@ -24,6 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _gender;
   DateTime _birthdate = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
   ImageService imageService = new ImageService();
+  var _genderOptions = ['Man', 'Kvinna', 'Okänd'];
 
   Future selectDate(BuildContext context) async {
     setState(() {
@@ -110,8 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: InputDecoration(
                           labelStyle: TextStyle(color: Colors.white),
                           icon: Icon(Icons.person, color: Colors.white),
-                          labelText: 'Name',
-                          hintText: 'Name...',
+                          labelText: 'Namn',
+                          hintText: 'Förnamn och efternamn',
                         ),
                         onChanged: (val) {
                           _name = val;
@@ -124,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           labelStyle: TextStyle(color: Colors.white),
                           icon: Icon(Icons.email, color: Colors.white),
                           labelText: 'Email address',
-                          hintText: 'Name...',
+                          hintText: 'example@gmail.com',
                         ),
                         onChanged: (val) {
                           _email = val;
@@ -138,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: InputDecoration(
                           labelStyle: TextStyle(color: Colors.white),
                           icon: Icon(Icons.phone, color: Colors.white),
-                          labelText: 'Phonenumber',
+                          labelText: 'Mobil nummer',
                           hintText: '+46...',
                         ),
                         onChanged: (val) {},
@@ -149,25 +150,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: InputDecoration(
                           labelStyle: TextStyle(color: Colors.white),
                           icon: Icon(Icons.calendar_today, color: Colors.white),
-                          labelText: 'Birthday',
-                          hintText: 'Name...',
+                          labelText: 'Födelsedatum',
+                          hintText: '1991-01-05',
                         ),
                         onTap: () {
                           selectDate(context);
                         },
                       ),
                       DropdownButtonFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
+                        selectedItemBuilder: (BuildContext context) {
+                          return _genderOptions.map((String value) {
+                            return Text(
+                              _gender == null ? user.gender : _gender,
+                              style: TextStyle(color: Colors.white),
+                            );
+                          }).toList();
+                        },
                         decoration: InputDecoration(
                           labelStyle: TextStyle(color: Colors.white),
                           icon: Icon(Icons.sentiment_satisfied, color: Colors.white),
-                          labelText: 'Gender',
-                          hintText: 'Select your gender',
+                          labelText: 'Kön',
+                          hintText: 'Välj ditt kön',
                         ),
                         value: _gender ?? user.gender,
                         isExpanded: true,
                         isDense: true,
-                        items: ['MALE', 'FEMALE', 'UNKNOWN'].map((val) {
+                        items: _genderOptions.map((val) {
                           return DropdownMenuItem<String>(
                             value: val,
                             child: Text(val),
@@ -210,9 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           'Radera Konto',
                           style: TextStyle(color: Colors.white),
                         ),
-                        onPressed: () {
-
-                        },
+                        onPressed: () {},
                       ),
                     ],
                     if (user == null) ...[

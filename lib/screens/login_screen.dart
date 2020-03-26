@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _smsCode;
   String _name;
   DateTime _birthDate;
-  String _gender = "MALE";
+  String _gender = "Man";
 
   bool _codeSent = false;
   LoginResult _loginResult;

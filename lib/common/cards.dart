@@ -154,7 +154,7 @@ class ContributorCard extends StatelessWidget {
             direction: Axis.vertical,
             alignment: WrapAlignment.spaceBetween,
             children: <Widget>[
-              Text("${getSwedishGender()}, $age", style: TextStyle(color: Colors.white, fontSize: 12.0)),
+              Text("$gender, $age", style: TextStyle(color: Colors.white, fontSize: 12.0)),
               SizedBox(height: 3),
               Text("$city", style: TextStyle(color: Colors.white, fontSize: 12.0)),
             ],

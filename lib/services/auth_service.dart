@@ -87,7 +87,7 @@ class AuthService {
               'name': '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}',
               'id': user.uid,
               'email': appleIdCredential.email,
-              'gender': 'UNKNOWN',
+              'gender': 'Okänd',
               'createdAt': DateTime.now(),
               'chattingWith': null
             },
