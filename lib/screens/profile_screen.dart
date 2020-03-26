@@ -187,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         child: Text(
-                          'Save Changes',
+                          'Spara Ändringar',
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
@@ -207,10 +207,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         color: Theme.of(context).primaryColor,
                         child: Text(
-                          'Delete Account',
+                          'Radera Konto',
                           style: TextStyle(color: Colors.white),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+
+                        },
                       ),
                     ],
                     if (user == null) ...[
