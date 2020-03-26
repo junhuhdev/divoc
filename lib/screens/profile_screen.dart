@@ -167,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         value: _gender ?? user.gender,
                         isExpanded: true,
                         isDense: true,
-                        items: ['MALE', 'FEMALE'].map((val) {
+                        items: ['MALE', 'FEMALE', 'UNKNOWN'].map((val) {
                           return DropdownMenuItem<String>(
                             value: val,
                             child: Text(val),
