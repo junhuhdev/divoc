@@ -4,6 +4,7 @@ import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
+import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/models/user_comment.dart';
@@ -189,8 +190,32 @@ class FeedCommentScreen extends StatefulWidget {
 }
 
 class _FeedCommentScreenState extends State<FeedCommentScreen> {
-  String _comment;
   final UserCommentService userCommentService = new UserCommentService();
+  String _comment;
+  Stream<List<UserComment>> _comments;
+
+  @override
+  void initState() {
+    super.initState();
+    _comments = userCommentService.streamComments(widget.feed.id);
+  }
+
+  Widget buildItem(UserComment userComment) {
+    return Row(
+      children: <Widget>[
+        Container(
+          child: Text(
+            userComment.content,
+            style: TextStyle(color: Colors.white),
+          ),
+          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+          width: 200.0,
+          decoration: BoxDecoration(color: Colors.red[400], borderRadius: BorderRadius.circular(8.0)),
+          margin: EdgeInsets.only(bottom: 10.0, right: 10.0),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +223,25 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
       builder: (context, user, child) {
         return Scaffold(
           backgroundColor: kBackgroundColor,
-          body: Container(),
+          body: Stack(
+            children: <Widget>[
+              StreamBuilder(
+              stream: _comments,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return LoadingScreen();
+                  } else {
+                    return ListView.builder(
+                      padding: EdgeInsets.all(10.0),
+                      itemBuilder: (context, index) => buildItem(snapshot.data[index]),
+                      itemCount: snapshot.data.length,
+                      reverse: true,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () {
