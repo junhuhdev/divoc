@@ -12,6 +12,6 @@ class Global {
 
   static final UserData<User> userDoc = UserData<User>(collection: 'users');
   static final Collection<Feed> feedCollection = Collection<Feed>(path: 'feeds');
+  static final Collection<User> usersCollection = Collection<User>(path: 'users');
 
-  static final UserData<FeedRequest> feedRequests = UserData<FeedRequest>(collection: '');
 }

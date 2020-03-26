@@ -1,4 +1,5 @@
 import 'package:divoc/common/cards.dart';
+import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
 import 'package:divoc/components/feed/feed_details.dart';
@@ -35,7 +36,7 @@ class _FeedScreenState extends State<FeedScreen> {
           return LoadingScreen();
         } else {
           return Scaffold(
-            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+            backgroundColor: kBackgroundColor,
             body: Container(
               child: RefreshIndicator(
                 onRefresh: () => Future.delayed(Duration(seconds: 2)),

@@ -1,4 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:divoc/models/user.dart';
+
 class UserService {
+  final Firestore _db = Firestore.instance;
+
+  Stream<List<User>> streamTopUsers() {
+    var ref = _db.collection('users').limit(50);
+    return ref.snapshots().map((list) => list.documents.map((doc) => User.fromMap(doc.data, doc.documentID)).toList());
+  }
+
   /// Calculates age based on birthdate
   int calculateAge(DateTime birthDate) {
     DateTime currentDate = DateTime.now();

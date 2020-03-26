@@ -80,3 +80,64 @@ class FeedListTileCard extends StatelessWidget {
     );
   }
 }
+
+class ContributorCard extends StatelessWidget {
+  final String name;
+  final String image;
+  final String gender;
+  final int age;
+  final String city;
+  final VoidCallback onTap;
+
+  const ContributorCard({
+    this.name,
+    this.image,
+    this.gender,
+    this.age,
+    this.city,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(color: kCardColor),
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          leading: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            decoration: new BoxDecoration(border: new Border(right: new BorderSide(width: 1.0, color: Colors.white24))),
+            child: CircleAvatar(
+              backgroundImage: image == null ? Icon(Icons.person) : CachedNetworkImageProvider(image),
+              radius: 30.0,
+            ),
+          ),
+          title: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 4,
+                child: Text(
+                  name,
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          isThreeLine: true,
+          subtitle: Wrap(
+            direction: Axis.vertical,
+            alignment: WrapAlignment.spaceBetween,
+            children: <Widget>[
+              Text("$city", style: TextStyle(color: Colors.white, fontSize: 12.0)),
+              SizedBox(height: 3),
+            ],
+          ),
+          onTap: () => onTap(),
+        ),
+      ),
+    );
+  }
+}
