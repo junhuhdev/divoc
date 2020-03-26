@@ -1,4 +1,5 @@
 import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_field.dart';
@@ -259,7 +260,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 30.0),
                         GenericTextField(
                           title: 'Namn',
-                          hint: 'Skriv in ditt förnamn och efternamn',
+                          hint: 'Förnamn och efternamn',
                           icon: Icons.person,
                           textInputType: TextInputType.text,
                           onChanged: (String val) => setState(() => _name = val),
@@ -278,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         GenericDropdownField(
                           title: 'Kön',
                           hint: 'Välj ditt kön',
-                          icon: Icons.sentiment_satisfied,
+                          icon: CommunityMaterialIcons.gender_male_female,
                           options: ['Man', 'Kvinna', 'Okänd'],
                           onChanged: (String val) => setState(() => _gender = val),
                         ),

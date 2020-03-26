@@ -39,10 +39,12 @@ class GenericTextContainer extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: contentPadding ?? EdgeInsets.only(top: 14.0),
-                prefixIcon: icon == null ? null : Icon(
-                  icon,
-                  color: Colors.white,
-                ),
+                prefixIcon: icon == null
+                    ? null
+                    : Icon(
+                        icon,
+                        color: Colors.white,
+                      ),
                 hintStyle: kHintTextStyle,
               ),
               onChanged: (val) {},
@@ -149,13 +151,12 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    GoogleMapLocation(onSelected: (Address address) {
-                      setState(() {
-                        _address = address;
-                      });
-                      widget.onSelected(address);
-                    }),
+                builder: (context) => GoogleMapLocation(onSelected: (Address address) {
+                  setState(() {
+                    _address = address;
+                  });
+                  widget.onSelected(address);
+                }),
               ),
             );
           },
@@ -202,13 +203,7 @@ class _GenericDateFieldState extends State<GenericDateField> {
   Future<void> selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: _date == null ? DateTime(DateTime
-          .now()
-          .year - 29, DateTime
-          .now()
-          .month, DateTime
-          .now()
-          .day) : _date,
+      initialDate: _date == null ? DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day) : _date,
       firstDate: DateTime(1940),
       lastDate: DateTime(2030),
     );
@@ -266,7 +261,14 @@ class GenericDropdownField extends StatefulWidget {
   final String hint;
   final IconData icon;
 
-  const GenericDropdownField({this.onChanged, this.initialValue, this.options, this.title, this.hint, this.icon});
+  const GenericDropdownField({
+    this.onChanged,
+    this.initialValue,
+    this.options,
+    this.title,
+    this.hint,
+    this.icon,
+  });
 
   @override
   _GenericDropdownFieldState createState() => _GenericDropdownFieldState();
@@ -298,13 +300,12 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
           child: DropdownButtonFormField(
             value: _val,
             items: widget.options
-                .map((val) =>
-                DropdownMenuItem<String>(
+                .map((val) => DropdownMenuItem<String>(
                     value: val, child: Text(val, style: TextStyle(color: Colors.grey, fontFamily: 'OpenSans'))))
                 .toList(),
             decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 5.0),
+//              contentPadding: EdgeInsets.only(top: 5.0),
               prefixIcon: Icon(
                 widget.icon,
                 color: Colors.white,
