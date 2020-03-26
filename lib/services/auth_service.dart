@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/models/user.dart';
@@ -40,7 +42,7 @@ class AuthService {
       );
       FirebaseUser user = result.user;
       AuthType authType = await refresh(user);
-      return LoginResult(user, authType, EmailAuthProvider.getCredential(email: email, password: password));
+      return LoginResult(user, authType, EmailAuthProvider.getCredential(email: email, password: password), LoginProvider.email);
     } catch (error) {
       print("Failed to create user $error");
       return null;
@@ -89,7 +91,7 @@ class AuthService {
               'email': appleIdCredential.email,
               'gender': 'Okänd',
               'createdAt': DateTime.now(),
-              'chattingWith': null
+              'provider': LoginProvider.apple,
             },
           );
           print("New user created");
@@ -128,7 +130,7 @@ class AuthService {
       }
       FirebaseUser user = authResult.user;
       AuthType authType = await refresh(user);
-      return LoginResult(user, authType, facebookCredentials);
+      return LoginResult(user, authType, facebookCredentials, LoginProvider.facebook);
     } catch (error) {
       print("Facebook login error $error");
       return null;
@@ -186,13 +188,13 @@ class AuthService {
           'name': user.name,
           'birthdate': user.birthdate,
           'age': _userService.calculateAge(user.birthdate),
-          'gender': user.gender,
+          'gender': user.gender ?? 'Okänd',
           'photo': firebaseUser.photoUrl,
           'id': firebaseUser.uid,
           'email': firebaseUser.email,
           'mobile': user.mobile,
           'createdAt': DateTime.now(),
-          'chattingWith': null
+          'provider': loginResult.provider,
         },
       );
     } else {
@@ -232,6 +234,14 @@ class LoginResult {
   final FirebaseUser user;
   final AuthType authType;
   final AuthCredential credential;
+  final String provider;
 
-  LoginResult(this.user, this.authType, this.credential);
+  LoginResult(this.user, this.authType, this.credential, this.provider);
+}
+
+class LoginProvider {
+  static const String facebook = "facebook";
+  static const String email = "email";
+  static const String apple = "apple";
+  static const String google = "google";
 }
