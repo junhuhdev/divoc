@@ -31,7 +31,9 @@ class ActivityScreen extends StatelessWidget {
         stream: feedService.streamOwnerFeeds(currentUser.uid),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            print("Error: ${snapshot.error}");
+            if (snapshot.hasError) {
+              print("Error: ${snapshot.error}");
+            }
             return LoadingScreen();
           } else {
             return Scaffold(
