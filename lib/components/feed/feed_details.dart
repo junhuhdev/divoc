@@ -197,28 +197,34 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
             onPressed: () {
               showModalBottomSheet(
                 context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
                 builder: (BuildContext context) {
-                  return FormContainer(
-                    children: <Widget>[
-                      GenericTextField(
-                        title: 'Kommentar',
-                        height: 120.0,
-                        maxLines: 5,
-                        icon: Icons.comment,
-                        textInputType: TextInputType.multiline,
-                        onChanged: (String val) => setState(() => _comment = val),
-                      ),
-                      Builder(
-                        builder: (BuildContext context) {
-                          return ActionButton(
-                            title: 'SKICKA',
-                            onPressed: () async {
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.50,
+                    child: ModalFormContainer(
+                      children: <Widget>[
+                        GenericTextField(
+                          title: 'Kommentar',
+                          height: 120.0,
+                          maxLines: 5,
+                          icon: Icons.comment,
+                          textInputType: TextInputType.multiline,
+                          onChanged: (String val) => setState(() => _comment = val),
+                        ),
+                        Builder(
+                          builder: (BuildContext context) {
+                            return ActionButton(
+                              title: 'SKICKA',
+                              onPressed: () async {
 
-                            },
-                          );
-                        },
-                      ),
-                    ],
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 },
               );
