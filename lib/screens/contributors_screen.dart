@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ContributorsScreen extends StatefulWidget {
-  static const title = "Top Användare";
+  static const title = "Top Medhjälpare";
 
   @override
   _ContributorsScreenState createState() => _ContributorsScreenState();

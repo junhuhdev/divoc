@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            title: Text('Användare', style: TextStyle(fontSize: 12.0)),
+            title: Text('Medhjälpare', style: TextStyle(fontSize: 12.0)),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
