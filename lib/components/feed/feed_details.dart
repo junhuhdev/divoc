@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:divoc/common/chips.dart';
+import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/models/feed.dart';
@@ -183,6 +184,17 @@ class FeedComments extends StatefulWidget {
 class _FeedCommentsState extends State<FeedComments> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: kBackgroundColor,
+      body: Container(
+
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+
+        },
+      ),
+    );
   }
 }
