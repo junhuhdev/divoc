@@ -1,3 +1,4 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_field.dart';
@@ -121,9 +122,20 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _socialButtonRow() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.0),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          AppleSignInButton(
+            style: ButtonStyle.black,
+            type: ButtonType.continueButton,
+            onPressed: () async {
+              FirebaseUser user = await authService.appleSignIn();
+              if (user != null) {
+                Navigator.pushReplacementNamed(context, HomeScreen.id);
+              }
+            },
+          ),
+          SizedBox(height: 10.0),
           SocialButton(
             onTap: () async {
               setState(() {

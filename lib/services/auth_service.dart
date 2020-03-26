@@ -1,3 +1,4 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/user_service.dart';
@@ -46,6 +47,63 @@ class AuthService {
     }
   }
 
+  Future<FirebaseUser> appleSignIn() async {
+    AuthResult authResult;
+    AuthCredential credential;
+    AppleIdCredential appleIdCredential;
+    try {
+      bool isAvailable = await AppleSignIn.isAvailable();
+      if (isAvailable) {
+        print("Apple sign in available");
+        final AuthorizationResult result = await AppleSignIn.performRequests([
+          AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+        ]);
+        switch (result.status) {
+          case AuthorizationStatus.authorized:
+            appleIdCredential = result.credential;
+            final oAuthProvider = OAuthProvider(providerId: 'apple.com');
+            credential = oAuthProvider.getCredential(
+              idToken: String.fromCharCodes(appleIdCredential.identityToken),
+              accessToken: String.fromCharCodes(appleIdCredential.authorizationCode),
+            );
+            authResult = await _auth.signInWithCredential(credential);
+            break;
+          case AuthorizationStatus.error:
+            print("Sign in failed: ${result.error.localizedDescription}");
+            break;
+          case AuthorizationStatus.cancelled:
+            print('User cancelled');
+            break;
+        }
+        if (authResult == null) {
+          print("User aborted apple login");
+          return null;
+        }
+        FirebaseUser user = authResult.user;
+        bool newUser = await isNewUser(user);
+        if (newUser) {
+          _db.collection('users').document(user.uid).setData(
+            {
+              'name': '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}',
+              'id': user.uid,
+              'email': appleIdCredential.email,
+              'createdAt': DateTime.now(),
+              'chattingWith': null
+            },
+          );
+        }
+        print("New user created");
+        return user;
+      } else {
+        print("Apple sign in not available");
+        return null;
+      }
+    } catch (error) {
+      print("Apple login error $error");
+      return null;
+    }
+  }
+
   Future<LoginResult> facebookSignIn() async {
     AuthCredential facebookCredentials;
     try {
@@ -89,6 +147,12 @@ class AuthService {
       print("Failed to verify sms $error");
       return null;
     }
+  }
+
+  Future<bool> isNewUser(FirebaseUser user) async {
+    final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: user.uid).getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    return documents.length == 0;
   }
 
   Future<AuthType> refresh(FirebaseUser user) async {
