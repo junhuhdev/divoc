@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
@@ -182,19 +183,49 @@ class FeedCommentScreen extends StatefulWidget {
 }
 
 class _FeedCommentScreenState extends State<FeedCommentScreen> {
+  String _comment;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: Container(
+    return Consumer<User>(
+      builder: (context, user, child) {
+        return Scaffold(
+          backgroundColor: kBackgroundColor,
+          body: Container(),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return FormContainer(
+                    children: <Widget>[
+                      GenericTextField(
+                        title: 'Kommentar',
+                        height: 120.0,
+                        maxLines: 5,
+                        icon: Icons.comment,
+                        textInputType: TextInputType.multiline,
+                        onChanged: (String val) => setState(() => _comment = val),
+                      ),
+                      Builder(
+                        builder: (BuildContext context) {
+                          return ActionButton(
+                            title: 'SKICKA',
+                            onPressed: () async {
 
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-
-        },
-      ),
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
