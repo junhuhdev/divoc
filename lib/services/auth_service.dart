@@ -92,8 +92,10 @@ class AuthService {
               'chattingWith': null
             },
           );
+          print("New user created");
+          return user;
         }
-        print("New user created");
+        print("Existing apple user login successfully");
         return user;
       } else {
         print("Apple sign in not available");
