@@ -219,6 +219,7 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
                               title: 'SKICKA',
                               onPressed: () async {
 
+                                Navigator.pop(context);
                               },
                             );
                           },
