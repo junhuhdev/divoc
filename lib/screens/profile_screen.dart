@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if (user != null) ...[
                       Stack(
                         children: <Widget>[
-                          UserProfileImage(image: user.photo),
+                          Center(child: UserProfileImage(image: user.photo)),
                           Positioned(
                             right: 0.0,
                             bottom: 0.0,

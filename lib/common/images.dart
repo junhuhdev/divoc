@@ -11,14 +11,14 @@ class UserProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (image.isNullEmptyOrWhitespace) {
       return SizedBox(
-        width: 300.0,
-        height: 300.0,
+        width: 200.0,
+        height: 200.0,
         child: Icon(Icons.account_circle, color: Colors.white, size: 300.0),
       );
     } else {
       return SizedBox(
-        width: 300.0,
-        height: 300.0,
+        width: MediaQuery.of(context).size.width * 0.60,
+        height: MediaQuery.of(context).size.width * 0.60,
         child: CachedNetworkImage(
           imageUrl: image,
           imageBuilder: (context, imageProvider) => Container(

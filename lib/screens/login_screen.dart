@@ -119,23 +119,25 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _socialButtonRow() {
+  Widget _socialButtonRow(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          AppleSignInButton(
-            style: ButtonStyle.black,
-            type: ButtonType.continueButton,
-            onPressed: () async {
-              FirebaseUser user = await authService.appleSignIn();
-              if (user != null) {
-                Navigator.pushReplacementNamed(context, HomeScreen.id);
-              }
-            },
-          ),
-          SizedBox(height: 30.0),
+          if (Theme.of(context).platform == TargetPlatform.iOS) ...[
+            AppleSignInButton(
+              style: ButtonStyle.white,
+              type: ButtonType.continueButton,
+              onPressed: () async {
+                FirebaseUser user = await authService.appleSignIn();
+                if (user != null) {
+                  Navigator.pushReplacementNamed(context, HomeScreen.id);
+                }
+              },
+            ),
+            SizedBox(height: 30.0),
+          ],
           SocialButton(
             onTap: () async {
               setState(() {
@@ -219,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
                         SocialLoginText(),
-                        _socialButtonRow(),
+                        _socialButtonRow(context),
                         RedirectRegisterButton(onTap: () => setState(() => _formType = FormType.register)),
                       ],
                       if (_formType == FormType.register) ...[
@@ -249,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
                         SocialLoginText(),
-                        _socialButtonRow(),
+                        _socialButtonRow(context),
                         RedirectLoginButton(onTap: () => setState(() => _formType = FormType.login)),
                       ],
                       if (_formType == FormType.collect_information) ...[
