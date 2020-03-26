@@ -34,7 +34,7 @@ class _CreateFeedState extends State<CreateFeed> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
-            title: Text('Create New Event'),
+            title: Text('Skapa nytt event'),
             centerTitle: true,
           ),
           body: Form(
@@ -43,8 +43,8 @@ class _CreateFeedState extends State<CreateFeed> {
               children: <Widget>[
                 if (user != null) ...[
                   GenericTextField(
-                    title: 'Name',
-                    hint: 'Enter name of person involved',
+                    title: 'Namn',
+                    hint: 'Skriv in ditt namn',
                     icon: Icons.person,
                     initialValue: user.name,
                     textInputType: TextInputType.text,
@@ -53,8 +53,8 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Mobile Number',
-                    hint: 'Enter number of contact person',
+                    title: 'Mobil Nummer',
+                    hint: 'Skriv in ditt mobil nummer',
                     icon: Icons.phone,
                     initialValue: user.mobile,
                     textInputType: TextInputType.phone,
@@ -62,16 +62,16 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericDropdownField(
-                    title: 'Category',
-                    hint: 'Select category',
+                    title: 'Kategori',
+                    hint: 'Välj kategori',
                     icon: Icons.category,
                     options: ['Food', 'Medicine', 'Other'],
                     onChanged: (String val) => setState(() => _category = val),
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Description',
-                    hint: 'Enter a detailed description',
+                    title: 'Beskrivning',
+                    hint: 'Skriv detaljerad beskrivning',
                     height: 100.0,
                     maxLines: 5,
                     icon: Icons.comment,
@@ -80,8 +80,8 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Shopping List',
-                    hint: 'Enter a detailed shopping list with name and quantity',
+                    title: 'Inköpslista',
+                    hint: 'Skriv detaljerad inköpslista',
                     height: 100.0,
                     maxLines: 5,
                     icon: Icons.add_shopping_cart,
@@ -90,8 +90,8 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericGoogleMapField(
-                    title: 'Location',
-                    hint: 'Select location',
+                    title: 'Plats',
+                    hint: 'Välj plats',
                     onSelected: (Address adress) {
                       _address = adress;
                     },
@@ -99,7 +99,7 @@ class _CreateFeedState extends State<CreateFeed> {
                   Builder(
                     builder: (BuildContext context) {
                       return ActionButton(
-                        title: 'Create',
+                        title: 'SKAPA',
                         onPressed: () async {
                           if (_address == null) {
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Please select valid address')));

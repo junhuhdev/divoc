@@ -23,8 +23,8 @@ class _FeedDetailsState extends State<FeedDetails> {
   var formatter = new DateFormat('EEE d MMM h:mm a');
 
   List<Tab> tabs = [
-    Tab(text: 'Info'),
-    Tab(text: 'Comments'),
+    Tab(text: 'Information'),
+    Tab(text: 'Kommentarer'),
   ];
 
   @override
@@ -152,24 +152,24 @@ class FeedInfo extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20.0),
-        GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
+        GenericTextContainer(title: 'Namn', content: feed.name, icon: Icons.person),
         GenericTextContainer(
-          title: 'Location',
+          title: 'Plats',
           content: '${feed.state}, ${feed.city}',
           icon: Icons.place,
           contentPadding: EdgeInsets.symmetric(vertical: 30.0),
         ),
         GenericTextContainer(
-          title: 'Description',
+          title: 'Beskrivning',
           content: '${feed.description}',
           contentPadding: EdgeInsets.all(30.0),
         ),
         GenericTextContainer(
-          title: 'Shopping Info',
+          title: 'Inköpslista',
           content: '${feed.shoppingInfo}',
           contentPadding: EdgeInsets.all(30.0),
         ),
-        GenericTextContainer(title: 'Created', content: formatter.format(feed.created), icon: Icons.calendar_today),
+        GenericTextContainer(title: 'Skapad', content: formatter.format(feed.created), icon: Icons.calendar_today),
       ],
     );
   }
