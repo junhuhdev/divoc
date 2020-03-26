@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
               }
             },
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: 30.0),
           SocialButton(
             onTap: () async {
               setState(() {
