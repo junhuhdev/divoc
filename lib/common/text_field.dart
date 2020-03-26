@@ -8,7 +8,7 @@ class SocialLoginText extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(
-          '- OR -',
+          '- ELLER -',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w400,
@@ -16,7 +16,7 @@ class SocialLoginText extends StatelessWidget {
         ),
         SizedBox(height: 20.0),
         Text(
-          'Sign in with',
+          'Logga in med',
           style: kLabelStyle,
         ),
       ],

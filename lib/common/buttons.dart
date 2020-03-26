@@ -15,7 +15,7 @@ class RedirectRegisterButton extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Don\'t have an Account? ',
+              text: 'Har inte ett Konto? ',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
@@ -23,7 +23,7 @@ class RedirectRegisterButton extends StatelessWidget {
               ),
             ),
             TextSpan(
-              text: 'Sign Up',
+              text: 'Registrera Dig',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
@@ -50,7 +50,7 @@ class RedirectLoginButton extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Have an account? ',
+              text: 'Har du ett konto? ',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
@@ -58,7 +58,7 @@ class RedirectLoginButton extends StatelessWidget {
               ),
             ),
             TextSpan(
-              text: 'Sign In',
+              text: 'Logga in',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
@@ -81,7 +81,7 @@ class ForgottenPasswordButton extends StatelessWidget {
         onPressed: () => print('Forgot Password Button Pressed'),
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
-          'Forgot Password?',
+          'Glömt Lösenord?',
           style: kLabelStyle,
         ),
       ),
