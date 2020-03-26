@@ -248,15 +248,12 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
               if (!snapshot.hasData) {
                 return LoadingScreen();
               } else {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) => buildComment(snapshot.data[index]),
-                    itemCount: snapshot.data.length,
-                    reverse: true,
-                  ),
+                return ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(10.0),
+                  itemBuilder: (context, index) => buildComment(snapshot.data[index]),
+                  itemCount: snapshot.data.length,
+                  reverse: true,
                 );
               }
             },
