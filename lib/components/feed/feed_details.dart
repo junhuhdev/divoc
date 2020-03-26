@@ -45,7 +45,7 @@ class _FeedDetailsState extends State<FeedDetails> {
         body: TabBarView(
           children: <Widget>[
             FeedInfo(feed: widget.feed),
-            FeedComments(),
+            FeedCommentScreen(),
           ],
         ),
         floatingActionButton: AssistButton(feedService: feedService, feed: widget.feed),
@@ -176,12 +176,12 @@ class FeedInfo extends StatelessWidget {
   }
 }
 
-class FeedComments extends StatefulWidget {
+class FeedCommentScreen extends StatefulWidget {
   @override
-  _FeedCommentsState createState() => _FeedCommentsState();
+  _FeedCommentScreenState createState() => _FeedCommentScreenState();
 }
 
-class _FeedCommentsState extends State<FeedComments> {
+class _FeedCommentScreenState extends State<FeedCommentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
