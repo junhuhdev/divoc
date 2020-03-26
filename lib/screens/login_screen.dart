@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Builder(
         builder: (BuildContext context) {
           return ActionButton(
-            title: _codeSent ? 'Verify' : 'Send Code',
+            title: _codeSent ? 'Verifiera' : 'Skicka Sms Kod',
             onPressed: () async {
               FocusScope.of(context).unfocus();
               if (!_codeSent) {
@@ -225,13 +225,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         RedirectRegisterButton(onTap: () => setState(() => _formType = FormType.register)),
                       ],
                       if (_formType == FormType.register) ...[
-                        Text('Register', style: kLoginStyle),
+                        Text('Registrera', style: kLoginStyle),
                         SizedBox(height: 30.0),
                         EmailField(callback: (String val) => setState(() => _email = val)),
                         SizedBox(height: 30.0),
                         PasswordField(callback: (String val) => setState(() => _password = val)),
                         ActionButton(
-                          title: 'Register',
+                          title: 'Registrera',
                           onPressed: () async {
                             setState(() {
                               _isLoading = true;
@@ -255,19 +255,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         RedirectLoginButton(onTap: () => setState(() => _formType = FormType.login)),
                       ],
                       if (_formType == FormType.collect_information) ...[
-                        Text('Complete Registration', style: kLoginStyle),
+                        Text('Slutför Registrering', style: kLoginStyle),
                         SizedBox(height: 30.0),
                         GenericTextField(
-                          title: 'Name',
-                          hint: 'Enter Your Full Name',
+                          title: 'Namn',
+                          hint: 'Skriv in ditt förnamn och efternamn',
                           icon: Icons.person,
                           textInputType: TextInputType.text,
                           onChanged: (String val) => setState(() => _name = val),
                         ),
                         SizedBox(height: 30.0),
                         GenericDateField(
-                          title: 'Birthdate',
-                          hint: 'Select Your Birth Date',
+                          title: 'Födelsedatum',
+                          hint: 'Välj ditt födelsedatum',
                           onChanged: (DateTime val) {
                             setState(() {
                               _birthDate = val;
@@ -276,14 +276,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 30.0),
                         GenericDropdownField(
-                          title: 'Gender',
-                          hint: 'Select Your Gender',
+                          title: 'Kön',
+                          hint: 'Välj ditt kön',
                           icon: Icons.sentiment_satisfied,
-                          options: ['MALE', 'FEMALE'],
+                          options: ['Man', 'Kvinna', 'Okänd'],
                           onChanged: (String val) => setState(() => _gender = val),
                         ),
                         ActionButton(
-                          title: 'Complete',
+                          title: 'Slutför',
                           onPressed: () {
                             setState(() {
                               _formType = FormType.phone_verification;
@@ -292,7 +292,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                       if (_formType == FormType.phone_verification) ...[
-                        Text('Phone Verification', style: kLoginStyle),
+                        Text('Mobil Verifiering', style: kLoginStyle),
                         SizedBox(height: 30.0),
                         PhoneNumberField(callback: (String val) => setState(() => _phoneNumber = val)),
                         SizedBox(height: 30.0),
