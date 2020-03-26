@@ -72,7 +72,7 @@ final kEmailInputDecoration = InputDecoration(
     Icons.email,
     color: Colors.white,
   ),
-  hintText: 'Enter your Email',
+  hintText: 'Skriv in din e-postadress',
   hintStyle: kHintTextStyle,
 );
 
@@ -83,7 +83,7 @@ final kPhoneInputDecoration = InputDecoration(
     Icons.phone,
     color: Colors.white,
   ),
-  hintText: 'Enter your Phone number',
+  hintText: 'Skriv in ditt telefonnummer',
   hintStyle: kHintTextStyle,
 );
 
@@ -94,7 +94,7 @@ final kSmsCodeInputDecoration = InputDecoration(
     Icons.sms,
     color: Colors.white,
   ),
-  hintText: 'Enter your Code',
+  hintText: 'Skriv in ditt sms kod',
   hintStyle: kHintTextStyle,
 );
 
@@ -105,7 +105,7 @@ final kPasswordInputDecoration = InputDecoration(
     Icons.lock,
     color: Colors.white,
   ),
-  hintText: 'Enter your Password',
+  hintText: 'Skriv in ditt lösenord',
   hintStyle: kHintTextStyle,
 );
 

@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       if (_formType == FormType.login) ...[
-                        Text('Sign In', style: kLoginStyle),
+                        Text('Logga in', style: kLoginStyle),
                         SizedBox(height: 30.0),
                         EmailField(callback: (String val) => setState(() => _email = val)),
                         SizedBox(height: 30.0),
@@ -204,16 +204,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         Builder(
                           builder: (BuildContext context) {
                             return ActionButton(
-                              title: 'Login',
+                              title: 'Logga in',
                               onPressed: () async {
                                 if (_email == null || _password == null) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Enter Credentials')));
+                                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Skriv in dina inloggningsuppgifter')));
                                 } else {
                                   var user = await authService.signIn(_email, _password);
                                   if (user != null) {
                                     Navigator.pushReplacementNamed(context, HomeScreen.id);
                                   } else {
-                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Invalid Password')));
+                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktigt Lösenord')));
                                   }
                                 }
                               },
