@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:divoc/components/feed/feed_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
 import 'constants.dart';
@@ -124,6 +126,27 @@ class ContributorCard extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: RatingBar(
+                    itemSize: 15.0,
+                    initialRating: 3,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+//                    itemPadding: EdgeInsets.all(30.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    },
+                  ),
+                ),
+              )
             ],
           ),
           isThreeLine: true,
@@ -131,13 +154,28 @@ class ContributorCard extends StatelessWidget {
             direction: Axis.vertical,
             alignment: WrapAlignment.spaceBetween,
             children: <Widget>[
-              Text("$city", style: TextStyle(color: Colors.white, fontSize: 12.0)),
+              Text("${getSwedishGender()}, $age", style: TextStyle(color: Colors.white, fontSize: 12.0)),
               SizedBox(height: 3),
+              Text("$city", style: TextStyle(color: Colors.white, fontSize: 12.0)),
             ],
           ),
           onTap: () => onTap(),
         ),
       ),
     );
+  }
+
+  String getSwedishGender() {
+    if (gender =='MALE') {
+      return "Man";
+    }
+    return "Kvinna";
+  }
+
+  Icon getGenderIcon() {
+    if (gender == 'MALE') {
+      return const Icon(CommunityMaterialIcons.gender_male, size: 13.0);
+    }
+    return const Icon(CommunityMaterialIcons.gender_female, size: 13.0);
   }
 }
