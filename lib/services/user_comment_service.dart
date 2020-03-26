@@ -9,7 +9,8 @@ class UserCommentService {
           ({
             'feedId': userComment.feedId,
             'userId': userComment.userId,
-            'name': userComment.name,
+            'userName': userComment.userName,
+            'userImage': userComment.userImage,
             'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
             'content': userComment.content,
           }),

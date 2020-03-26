@@ -2,7 +2,8 @@ class UserComment {
   final String id;
   final String feedId;
   final String userId;
-  final String name;
+  final String userName;
+  final String userImage;
   final String timestamp;
   final String content;
 
@@ -10,7 +11,8 @@ class UserComment {
     this.id,
     this.feedId,
     this.userId,
-    this.name,
+    this.userName,
+    this.userImage,
     this.timestamp,
     this.content,
   });
@@ -20,7 +22,8 @@ class UserComment {
       id: data['id'] ?? '',
       feedId: data['feedId'] ?? '',
       userId: data['userId'] ?? '',
-      name: data['name'] ?? '',
+      userName: data['userName'] ?? '',
+      userImage: data['userImage'] ?? '',
       timestamp: data['timestamp'] ?? '',
       content: data['content'] ?? '',
     );

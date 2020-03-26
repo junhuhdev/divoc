@@ -6,7 +6,9 @@ import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/user.dart';
+import 'package:divoc/models/user_comment.dart';
 import 'package:divoc/services/feed_service.dart';
+import 'package:divoc/services/user_comment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +48,7 @@ class _FeedDetailsState extends State<FeedDetails> {
         body: TabBarView(
           children: <Widget>[
             FeedInfo(feed: widget.feed),
-            FeedCommentScreen(),
+            FeedCommentScreen(feed: widget.feed),
           ],
         ),
         floatingActionButton: AssistButton(feedService: feedService, feed: widget.feed),
@@ -178,12 +180,17 @@ class FeedInfo extends StatelessWidget {
 }
 
 class FeedCommentScreen extends StatefulWidget {
+  final Feed feed;
+
+  const FeedCommentScreen({this.feed});
+
   @override
   _FeedCommentScreenState createState() => _FeedCommentScreenState();
 }
 
 class _FeedCommentScreenState extends State<FeedCommentScreen> {
   String _comment;
+  final UserCommentService userCommentService = new UserCommentService();
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +225,17 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
                             return ActionButton(
                               title: 'SKICKA',
                               onPressed: () async {
-
+                                if (_comment != null) {
+                                  userCommentService.insertComment(
+                                    UserComment(
+                                      feedId: widget.feed.id,
+                                      userId: user.id,
+                                      userName: user.name,
+                                      userImage: user.photo,
+                                      content: _comment,
+                                    ),
+                                  );
+                                }
                                 Navigator.pop(context);
                               },
                             );
