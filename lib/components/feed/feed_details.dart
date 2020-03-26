@@ -26,12 +26,22 @@ class FeedDetails extends StatefulWidget {
 
 class _FeedDetailsState extends State<FeedDetails> {
   final FeedService feedService = FeedService();
+  final UserCommentService userCommentService = new UserCommentService();
+  Stream<List<UserComment>> _comments;
+
   var formatter = new DateFormat('EEE d MMM h:mm a');
 
   List<Tab> tabs = [
     Tab(text: 'Information'),
     Tab(text: 'Kommentarer'),
   ];
+
+  @override
+  void initState() {
+    print("new feed details view");
+    super.initState();
+    _comments = userCommentService.streamComments(widget.feed.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +60,7 @@ class _FeedDetailsState extends State<FeedDetails> {
         body: TabBarView(
           children: <Widget>[
             FeedInfo(feed: widget.feed),
-            FeedCommentScreen(feed: widget.feed),
+            FeedCommentScreen(feed: widget.feed, comments: _comments),
           ],
         ),
         floatingActionButton: AssistButton(feedService: feedService, feed: widget.feed),
@@ -184,8 +194,9 @@ class FeedInfo extends StatelessWidget {
 
 class FeedCommentScreen extends StatefulWidget {
   final Feed feed;
+  final Stream<List<UserComment>> comments;
 
-  const FeedCommentScreen({this.feed});
+  const FeedCommentScreen({Key key, this.feed, this.comments}) : super(key: key);
 
   @override
   _FeedCommentScreenState createState() => _FeedCommentScreenState();
@@ -194,12 +205,11 @@ class FeedCommentScreen extends StatefulWidget {
 class _FeedCommentScreenState extends State<FeedCommentScreen> {
   final UserCommentService userCommentService = new UserCommentService();
   String _comment;
-  Stream<List<UserComment>> _comments;
 
   @override
   void initState() {
+    print("new comment view");
     super.initState();
-    _comments = userCommentService.streamComments(widget.feed.id);
   }
 
   Widget buildComment(UserComment userComment) {
@@ -244,7 +254,7 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
         return Scaffold(
           backgroundColor: kBackgroundColor,
           body: StreamBuilder(
-            stream: _comments,
+            stream: widget.comments,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return LoadingScreen();
