@@ -77,6 +77,7 @@ class AssistButton extends StatelessWidget {
           return Container();
         }
         return FloatingActionButton(
+          heroTag: 'assist-button',
           child: Icon(Icons.local_hospital),
           onPressed: () {
             showModalBottomSheet(
@@ -259,6 +260,7 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
             },
           ),
           floatingActionButton: FloatingActionButton(
+            heroTag: 'create new comment',
             child: Icon(Icons.add),
             onPressed: () {
               showModalBottomSheet(
