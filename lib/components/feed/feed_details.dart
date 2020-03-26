@@ -82,7 +82,7 @@ class AssistButton extends StatelessWidget {
                     children: <Widget>[
                       ListTile(
                         leading: Icon(Icons.thumb_up),
-                        title: Text('Assist'),
+                        title: Text('Assistera'),
                         onTap: () async {
                           await feedService.updateRequestedUser(feed.id, currentUser, feed);
                           Navigator.pop(context);
@@ -90,7 +90,7 @@ class AssistButton extends StatelessWidget {
                       ),
                       ListTile(
                         leading: Icon(Icons.share),
-                        title: Text('Share'),
+                        title: Text('Dela'),
                         onTap: () {
                           Navigator.pop(context);
                         },
