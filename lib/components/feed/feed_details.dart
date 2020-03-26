@@ -10,6 +10,7 @@ import 'package:divoc/models/user.dart';
 import 'package:divoc/models/user_comment.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:divoc/services/user_comment_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -200,16 +201,34 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
     _comments = userCommentService.streamComments(widget.feed.id);
   }
 
-  Widget buildItem(UserComment userComment) {
+  Widget buildComment(UserComment userComment) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
-          child: Text(
-            userComment.content,
-            style: TextStyle(color: Colors.white),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                DateFormat('dd MMM kk:mm')
+                    .format(DateTime.fromMillisecondsSinceEpoch(int.parse(userComment.timestamp))),
+                textAlign: TextAlign.right,
+                style: TextStyle(color: Colors.white, fontSize: 12.0, fontStyle: FontStyle.italic),
+              ),
+              Text(
+                userComment.userName,
+                style: TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                userComment.content,
+                softWrap: true,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
           padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-          width: 200.0,
+          width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(color: Colors.red[400], borderRadius: BorderRadius.circular(8.0)),
           margin: EdgeInsets.only(bottom: 10.0, right: 10.0),
         ),
@@ -223,24 +242,24 @@ class _FeedCommentScreenState extends State<FeedCommentScreen> {
       builder: (context, user, child) {
         return Scaffold(
           backgroundColor: kBackgroundColor,
-          body: Stack(
-            children: <Widget>[
-              StreamBuilder(
-              stream: _comments,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return LoadingScreen();
-                  } else {
-                    return ListView.builder(
-                      padding: EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) => buildItem(snapshot.data[index]),
-                      itemCount: snapshot.data.length,
-                      reverse: true,
-                    );
-                  }
-                },
-              ),
-            ],
+          body: StreamBuilder(
+            stream: _comments,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return LoadingScreen();
+              } else {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(10.0),
+                    itemBuilder: (context, index) => buildComment(snapshot.data[index]),
+                    itemCount: snapshot.data.length,
+                    reverse: true,
+                  ),
+                );
+              }
+            },
           ),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
