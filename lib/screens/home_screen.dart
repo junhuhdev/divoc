@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  String _appBarTitle = "Feed";
+  String _appBarTitle = "Flöde";
 
   void _onItemTapped(int index) {
     if (index == 0) {
