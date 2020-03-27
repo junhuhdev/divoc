@@ -208,7 +208,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               title: 'Logga in',
                               onPressed: () async {
                                 if (_email == null || _password == null) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Skriv in dina inloggningsuppgifter')));
+                                  Scaffold.of(context)
+                                      .showSnackBar(SnackBar(content: Text('Skriv in dina inloggningsuppgifter')));
                                 } else {
                                   var user = await authService.signIn(_email, _password);
                                   if (user != null) {

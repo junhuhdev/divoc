@@ -176,7 +176,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
         childButtons: <UnicornButton>[
           UnicornButton(
             hasLabel: true,
-            labelText: "Upload Recipe",
+            labelText: "Ladda upp kvitto",
             currentButton: FloatingActionButton(
               heroTag: "upload-recipe",
               backgroundColor: Colors.white,
@@ -187,7 +187,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
           ),
           UnicornButton(
             hasLabel: true,
-            labelText: "Upload Delivery",
+            labelText: "Ladda upp leverans",
             currentButton: FloatingActionButton(
               heroTag: "upload-delivery",
               backgroundColor: Colors.white,
@@ -198,7 +198,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
           ),
           UnicornButton(
             hasLabel: true,
-            labelText: "Delivered",
+            labelText: "Levererad",
             currentButton: FloatingActionButton(
               heroTag: "delivery",
               backgroundColor: Colors.white,
