@@ -283,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: 'Kön',
                           hint: 'Välj ditt kön',
                           icon: CommunityMaterialIcons.gender_male_female,
-                          options: ['Man', 'Kvinna', 'Okänd'],
+                          options: ['Man', 'Kvinna', 'Annat'],
                           onChanged: (String val) => setState(() => _gender = val),
                         ),
                         ActionButton(

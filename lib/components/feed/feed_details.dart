@@ -33,15 +33,8 @@ class _FeedDetailsState extends State<FeedDetails> {
 
   List<Tab> tabs = [
     Tab(text: 'Information'),
-    Tab(text: 'Kommentarer'),
   ];
 
-  @override
-  void initState() {
-    print("new feed details view");
-    super.initState();
-    _comments = userCommentService.streamComments(widget.feed.id);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +53,6 @@ class _FeedDetailsState extends State<FeedDetails> {
         body: TabBarView(
           children: <Widget>[
             FeedInfo(feed: widget.feed),
-            FeedCommentScreen(feed: widget.feed, comments: _comments),
           ],
         ),
         floatingActionButton: AssistButton(feedService: feedService, feed: widget.feed),

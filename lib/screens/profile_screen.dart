@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _gender;
   DateTime _birthdate = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
   ImageService imageService = new ImageService();
-  var _genderOptions = ['Man', 'Kvinna', 'Okänd'];
+  var _genderOptions = ['Man', 'Kvinna', 'Annat'];
 
   Future selectDate(BuildContext context) async {
     setState(() {
