@@ -85,7 +85,6 @@ class UnicornContainer extends StatefulWidget {
 
   /// AnimationControllers
   final AnimationController animationController;
-  final AnimationController parentController;
 
   UnicornContainer(
       {this.parentButton,
@@ -101,7 +100,6 @@ class UnicornContainer extends StatefulWidget {
       this.mainAnimationDuration = 200,
       this.childPadding = 4.0,
       this.animationController,
-      this.parentController,
       this.hasNotch = false})
       : assert(parentButton != null);
 
@@ -109,7 +107,21 @@ class UnicornContainer extends StatefulWidget {
 }
 
 class _UnicornContainer extends State<UnicornContainer> with TickerProviderStateMixin {
+  AnimationController _parentController;
   bool isOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    this._parentController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: widget.mainAnimationDuration));
+  }
+
+  @override
+  void dispose() {
+    this._parentController.dispose();
+    super.dispose();
+  }
 
   void actionButtonOnPressed() {
     if (widget.animationController.isDismissed) {
@@ -135,27 +147,27 @@ class _UnicornContainer extends State<UnicornContainer> with TickerProviderState
 
     var hasChildButtons = widget.childButtons != null && widget.childButtons.length > 0;
 
-    if (!widget.parentController.isAnimating) {
-      if (widget.parentController.isCompleted) {
-        widget.parentController.forward().then((s) {
-          widget.parentController.reverse().then((e) {
-            widget.parentController.forward();
+    if (!_parentController.isAnimating) {
+      if (_parentController.isCompleted) {
+        _parentController.forward().then((s) {
+          _parentController.reverse().then((e) {
+            _parentController.forward();
           });
         });
       }
-      if (widget.parentController.isDismissed) {
-        widget.parentController.reverse().then((s) {
-          widget.parentController.forward();
+      if (_parentController.isDismissed) {
+        _parentController.reverse().then((s) {
+          _parentController.forward();
         });
       }
     }
 
     var mainFAB = AnimatedBuilder(
-        animation: widget.parentController,
+        animation: _parentController,
         builder: (BuildContext context, Widget child) {
           return Transform(
               transform: new Matrix4.diagonal3(vector.Vector3(
-                  widget.parentController.value, widget.parentController.value, widget.parentController.value)),
+                  _parentController.value, _parentController.value, _parentController.value)),
               alignment: FractionalOffset.center,
               child: FloatingActionButton(
                   isExtended: false,

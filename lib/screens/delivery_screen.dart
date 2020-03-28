@@ -91,13 +91,11 @@ class DeliveryDetails extends StatefulWidget {
 
 class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderStateMixin {
   Future<Feed> _feed;
-  AnimationController parentController;
   AnimationController animationController;
 
   @override
   void initState() {
     animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 180));
-    parentController = AnimationController(vsync: this, duration: Duration(milliseconds: 200));
     _feed = Document<Feed>(path: 'feeds/${widget.feedRequest.feedId}').getData();
     super.initState();
   }
@@ -105,7 +103,6 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
   @override
   dispose() {
     animationController.dispose();
-    parentController.dispose();
     super.dispose();
   }
 
@@ -168,7 +165,6 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
       ),
       floatingActionButton: UnicornContainer(
         animationController: animationController,
-        parentController: parentController,
         backgroundColor: Colors.black54,
         parentButtonBackground: Colors.white,
         orientation: UnicornOrientation.VERTICAL,
