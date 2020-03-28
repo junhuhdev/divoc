@@ -148,6 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
               if (_loginResult != null && _loginResult.authType == AuthType.COLLECT_INFORMATION) {
                 setState(() {
                   _isLoading = false;
+                  _name = _loginResult.user.displayName;
                   _formType = FormType.collect_information;
                 });
               } else if (_loginResult != null) {
@@ -262,6 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         GenericTextField(
                           title: 'Namn',
                           hint: 'Förnamn och efternamn',
+                          initialValue: _loginResult.user.displayName,
                           icon: Icons.person,
                           textInputType: TextInputType.text,
                           onChanged: (String val) => setState(() => _name = val),

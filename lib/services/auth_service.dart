@@ -6,6 +6,8 @@ import 'package:divoc/models/user.dart';
 import 'package:divoc/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import 'globals.dart';
 
@@ -42,7 +44,12 @@ class AuthService {
       );
       FirebaseUser user = result.user;
       AuthType authType = await refresh(user);
-      return LoginResult(user, authType, EmailAuthProvider.getCredential(email: email, password: password), LoginProvider.email);
+      return LoginResult(
+        user: user,
+        authType: authType,
+        credential: EmailAuthProvider.getCredential(email: email, password: password),
+        provider: LoginProvider.email,
+      );
     } catch (error) {
       print("Failed to create user $error");
       return null;
@@ -111,26 +118,36 @@ class AuthService {
 
   Future<LoginResult> facebookSignIn() async {
     AuthCredential facebookCredentials;
+    String token;
     try {
       final FacebookLoginResult loginResult = await _facebookAuth.logIn(['email', 'public_profile']);
       AuthResult authResult;
       switch (loginResult.status) {
         case FacebookLoginStatus.loggedIn:
-          final token = loginResult.accessToken.token;
+          token = loginResult.accessToken.token;
           print("Login successfull $token");
           facebookCredentials = FacebookAuthProvider.getCredential(accessToken: token);
           authResult = await _auth.signInWithCredential(facebookCredentials);
           break;
         case FacebookLoginStatus.cancelledByUser:
           print("Facebook sign in cancelled by user");
-          break;
+          return null;
         case FacebookLoginStatus.error:
           print("Facebook sign in failed");
-          break;
+          return null;
       }
+      final graphResponse = await http.get(
+          'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.width(800).height(800)&access_token=${token}');
+      final profile = convert.jsonDecode(graphResponse.body);
       FirebaseUser user = authResult.user;
       AuthType authType = await refresh(user);
-      return LoginResult(user, authType, facebookCredentials, LoginProvider.facebook);
+      return LoginResult(
+        user: user,
+        authType: authType,
+        credential: facebookCredentials,
+        provider: LoginProvider.facebook,
+        photo: profile['picture']['data']['url'],
+      );
     } catch (error) {
       print("Facebook login error $error");
       return null;
@@ -188,8 +205,8 @@ class AuthService {
           'name': user.name,
           'birthdate': user.birthdate,
           'age': _userService.calculateAge(user.birthdate),
-          'gender': user.gender ?? 'Okänd',
-          'photo': firebaseUser.photoUrl,
+          'gender': user.gender ?? 'Annat',
+          'photo': loginResult.photo ?? firebaseUser.photoUrl,
           'id': firebaseUser.uid,
           'email': firebaseUser.email,
           'mobile': user.mobile,
@@ -235,8 +252,15 @@ class LoginResult {
   final AuthType authType;
   final AuthCredential credential;
   final String provider;
+  final String photo;
 
-  LoginResult(this.user, this.authType, this.credential, this.provider);
+  LoginResult({
+    this.user,
+    this.authType,
+    this.credential,
+    this.provider,
+    this.photo,
+  });
 }
 
 class LoginProvider {

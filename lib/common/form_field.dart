@@ -296,7 +296,6 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
-          height: 62.0,
           child: DropdownButtonFormField(
             value: _val,
             items: widget.options
@@ -305,7 +304,6 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
                 .toList(),
             decoration: InputDecoration(
               border: InputBorder.none,
-//              contentPadding: EdgeInsets.only(top: 5.0),
               prefixIcon: Icon(
                 widget.icon,
                 color: Colors.white,
