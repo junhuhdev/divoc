@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/images.dart';
 import 'package:divoc/common/loader.dart';
@@ -169,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         decoration: InputDecoration(
                           labelStyle: TextStyle(color: Colors.white),
-                          icon: Icon(Icons.sentiment_satisfied, color: Colors.white),
+                          icon: Icon(CommunityMaterialIcons.gender_male_female, color: Colors.white),
                           labelText: 'Kön',
                           hintText: 'Välj ditt kön',
                         ),
