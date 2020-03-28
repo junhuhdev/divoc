@@ -5,6 +5,7 @@ import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/loader.dart';
+import 'package:divoc/components/unicorn_fab/unicorn_button.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/models/user_comment.dart';
@@ -14,8 +15,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../unicorn_fab/unicorn_button.dart';
 
 
 
