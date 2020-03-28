@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../common/form_container.dart';
+import '../../services/feed_service.dart';
 import '../unicorn_fab/unicorn_button.dart';
 import '../unicorn_fab/unicorn_button.dart';
 import '../unicorn_fab/unicorn_button.dart';
@@ -95,11 +97,71 @@ class _FeedDetailsState extends State<FeedDetails> with TickerProviderStateMixin
               backgroundColor: Colors.white,
               mini: true,
               child: Icon(Icons.favorite, color: Colors.redAccent),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AssistScreen(feed: widget.feed),
+                  ),
+                );
+              },
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class AssistScreen extends StatefulWidget {
+  final Feed feed;
+
+  const AssistScreen({this.feed});
+
+  @override
+  _AssistScreenState createState() => _AssistScreenState();
+}
+
+class _AssistScreenState extends State<AssistScreen> {
+  String _comment;
+  final FeedService feedService = FeedService();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<User>(
+      builder: (context, currentUser, child) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text(widget.feed.name),
+            centerTitle: true,
+          ),
+          body: FormContainer(
+            children: <Widget>[
+              GenericTextField(
+                title: 'Kommentar',
+                hint: 'Fyll i valfri kommentar',
+                height: 100.0,
+                maxLines: 5,
+                icon: Icons.comment,
+                textInputType: TextInputType.multiline,
+                onChanged: (String val) => setState(() => _comment = val),
+              ),
+              Builder(
+                builder: (BuildContext context) {
+                  return ActionButton(
+                    title: 'Skicka förfrågan',
+                    onPressed: () async {
+                      await feedService.updateRequestedUser(currentUser, widget.feed, _comment);
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -136,7 +198,7 @@ class AssistButton extends StatelessWidget {
                         leading: Icon(Icons.thumb_up),
                         title: Text('Assistera'),
                         onTap: () async {
-                          await feedService.updateRequestedUser(feed.id, currentUser, feed);
+//                          await feedService.updateRequestedUser(feed.id, currentUser, feed);
                           Navigator.pop(context);
                         },
                       ),

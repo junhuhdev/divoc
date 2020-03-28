@@ -4,6 +4,7 @@ class FeedRequest {
   final String feedId;
   final String userId;
   final String name;
+  final String comment;
   final String ownerName;
   final String city;
   final String state;
@@ -18,6 +19,7 @@ class FeedRequest {
     this.feedId,
     this.userId,
     this.name,
+    this.comment,
     this.ownerName,
     this.city,
     this.state,
@@ -32,6 +34,7 @@ class FeedRequest {
       feedId: data['feedId'] ?? '',
       userId: data['userId'] ?? '',
       name: data['name'] ?? '',
+      comment: data['comment'] ?? '',
       ownerName: data['ownerName'] ?? '',
       city: data['city'] ?? '',
       state: data['state'] ?? '',
