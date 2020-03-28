@@ -114,7 +114,7 @@ class ActivityCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ActivityDetails(feed: feed),
+                builder: (context) => ActivityShowPending(feed: feed),
               ),
             );
           },
@@ -138,7 +138,7 @@ class SettingsMenu extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ActivityShowPending(feed: feed),
+              builder: (context) => ActivityDetails(feed: feed),
             ),
           );
         }
