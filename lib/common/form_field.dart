@@ -1,7 +1,7 @@
 import 'package:divoc/components/maps/google_map_location.dart';
 import 'package:divoc/models/address.dart';
 import 'package:flutter/material.dart';
-
+import 'package:divoc/services/utils.dart';
 import 'constants.dart';
 
 class GenericTextContainer extends StatelessWidget {
@@ -125,9 +125,15 @@ class GenericTextField extends StatelessWidget {
 class GenericGoogleMapField extends StatefulWidget {
   final String title;
   final String hint;
+  final String initialValue;
   final Function(Address) onSelected;
 
-  const GenericGoogleMapField({this.title, this.hint, this.onSelected});
+  const GenericGoogleMapField({
+    this.title,
+    this.hint,
+    this.initialValue,
+    this.onSelected,
+  });
 
   @override
   _GenericGoogleMapFieldState createState() => _GenericGoogleMapFieldState();
@@ -171,8 +177,11 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
                   child: Icon(Icons.map, color: Colors.white),
                 ),
                 SizedBox(width: 12.0),
-                if (_address == null) ...[
+                if (widget.initialValue.isNullOrEmpty && _address.isNull) ...[
                   Text(widget.hint, style: kHintTextStyle),
+                ],
+                if (!widget.initialValue.isNullOrEmpty && _address.isNull) ...[
+                  Expanded(child: Text(widget.initialValue, style: kTextStyle)),
                 ],
                 if (_address != null) ...[
                   Expanded(child: Text(_address.formatted, style: kTextStyle)),

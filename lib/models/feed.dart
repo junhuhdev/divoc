@@ -45,6 +45,10 @@ class Feed {
     this.created,
   });
 
+  String get formattedAddress {
+    return street + ', ' + postalCode + ', ' + state + ', ' + city;
+  }
+
   factory Feed.fromMap(Map data, String id) {
     return Feed(
       id: id ?? '',

@@ -176,7 +176,7 @@ class SettingsMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
         const PopupMenuItem<String>(
           value: 'pending',
-          child: Text('Visa förfrågningar'),
+          child: Text('Ändra'),
         ),
         const PopupMenuItem<String>(
           value: 'delete',
@@ -210,14 +210,14 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Activity Details'),
+        title: Text('Förfrågan detaljer'),
         centerTitle: true,
       ),
       body: FormContainer(
         children: <Widget>[
           GenericTextField(
-            title: 'Name',
-            hint: 'Enter name of person involved',
+            title: 'Namn',
+            hint: 'Skriv in ditt namn',
             icon: Icons.person,
             initialValue: widget.feed.name,
             textInputType: TextInputType.text,
@@ -225,26 +225,17 @@ class _ActivityDetailsState extends State<ActivityDetails> {
           ),
           SizedBox(height: 30.0),
           GenericTextField(
-            title: 'Mobile Number',
-            hint: 'Enter number of contact person',
+            title: 'Mobil Nummer',
+            hint: 'Skriv in ditt mobil nummer',
             icon: Icons.phone,
             initialValue: widget.feed.mobile,
             textInputType: TextInputType.phone,
             onChanged: (String val) => setState(() => _mobile = val),
           ),
           SizedBox(height: 30.0),
-          GenericDropdownField(
-            title: 'Category',
-            hint: 'Select category',
-            icon: Icons.category,
-            initialValue: widget.feed.category,
-            options: ['Food', 'Medicine', 'Other'],
-            onChanged: (String val) => setState(() => _category = val),
-          ),
-          SizedBox(height: 30.0),
           GenericTextField(
-            title: 'Description',
-            hint: 'Enter a detailed description',
+            title: 'Beskrivning och inköpslista',
+            hint: 'Skriv in detaljerad beskrivning och inköpslista',
             height: 100.0,
             maxLines: 5,
             icon: Icons.comment,
@@ -254,8 +245,8 @@ class _ActivityDetailsState extends State<ActivityDetails> {
           ),
           SizedBox(height: 30.0),
           GenericTextField(
-            title: 'Shopping List',
-            hint: 'Enter a detailed shopping list with name and quantity',
+            title: 'Leverans information',
+            hint: 'Skriv in detaljerad leverans information som portkod och våning',
             height: 100.0,
             maxLines: 5,
             icon: Icons.add_shopping_cart,
@@ -265,10 +256,11 @@ class _ActivityDetailsState extends State<ActivityDetails> {
           ),
           SizedBox(height: 30.0),
           GenericGoogleMapField(
-            title: 'Location',
-            hint: 'Select location',
-            onSelected: (Address adress) {
-              _address = adress;
+            title: 'Plats',
+            hint: 'Välj plats',
+            initialValue: widget.feed.formattedAddress,
+            onSelected: (Address address) {
+              _address = address;
             },
           ),
           ActionButton(
