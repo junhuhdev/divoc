@@ -201,7 +201,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
   String _mobile;
   String _category;
   String _description;
-  String _shoppingInfo;
+  String _deliveryInfo;
   Address _address;
   final FeedService feedService = FeedService();
 
@@ -249,10 +249,10 @@ class _ActivityDetailsState extends State<ActivityDetails> {
             hint: 'Skriv in detaljerad leverans information som portkod och våning',
             height: 100.0,
             maxLines: 5,
-            icon: Icons.add_shopping_cart,
-            initialValue: widget.feed.shoppingInfo,
+            icon: Icons.local_shipping,
+            initialValue: widget.feed.deliveryInfo,
             textInputType: TextInputType.multiline,
-            onChanged: (String val) => setState(() => _shoppingInfo = val),
+            onChanged: (String val) => setState(() => _deliveryInfo = val),
           ),
           SizedBox(height: 30.0),
           GenericGoogleMapField(
@@ -273,7 +273,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                   mobile: _mobile.isNullOrEmpty ? widget.feed.mobile : _mobile,
                   category: _category.isNullOrEmpty ? widget.feed.category : _category,
                   description: _description.isNullOrEmpty ? widget.feed.description : _description,
-                  shoppingInfo: _shoppingInfo.isNullOrEmpty ? widget.feed.shoppingInfo : _shoppingInfo,
+                  deliveryInfo: _deliveryInfo.isNullOrEmpty ? widget.feed.deliveryInfo : _deliveryInfo,
                   city: _address != null ? _address.city : '',
                   state: _address != null ? _address.state : '',
                   street: _address != null ? _address.street : '',

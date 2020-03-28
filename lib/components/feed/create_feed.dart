@@ -17,9 +17,8 @@ class CreateFeed extends StatefulWidget {
 class _CreateFeedState extends State<CreateFeed> {
   String _name;
   String _mobile;
-  String _category = "Food";
   String _description;
-  String _shoppingInfo;
+  String _deliveryInfo;
   Address _address;
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
@@ -34,7 +33,7 @@ class _CreateFeedState extends State<CreateFeed> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
-            title: Text('Skapa nytt event'),
+            title: Text('Skapa ny förfrågan'),
             centerTitle: true,
           ),
           body: Form(
@@ -61,17 +60,9 @@ class _CreateFeedState extends State<CreateFeed> {
                     onChanged: (String val) => setState(() => _mobile = val),
                   ),
                   SizedBox(height: 30.0),
-                  GenericDropdownField(
-                    title: 'Kategori',
-                    hint: 'Välj kategori',
-                    icon: Icons.category,
-                    options: ['Food', 'Medicine', 'Other'],
-                    onChanged: (String val) => setState(() => _category = val),
-                  ),
-                  SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Beskrivning',
-                    hint: 'Skriv detaljerad beskrivning',
+                    title: 'Beskrivning och inköpslista',
+                    hint: 'Skriv in detaljerad beskrivning och inköpslista',
                     height: 100.0,
                     maxLines: 5,
                     icon: Icons.comment,
@@ -80,20 +71,20 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Inköpslista',
-                    hint: 'Skriv detaljerad inköpslista',
+                    title: 'Leverans information',
+                    hint: 'Skriv in detaljerad leverans information som portkod och våning',
                     height: 100.0,
                     maxLines: 5,
-                    icon: Icons.add_shopping_cart,
+                    icon: Icons.local_shipping,
                     textInputType: TextInputType.multiline,
-                    onChanged: (String val) => setState(() => _shoppingInfo = val),
+                    onChanged: (String val) => setState(() => _deliveryInfo = val),
                   ),
                   SizedBox(height: 30.0),
                   GenericGoogleMapField(
                     title: 'Plats',
                     hint: 'Välj plats',
-                    onSelected: (Address adress) {
-                      _address = adress;
+                    onSelected: (Address address) {
+                      _address = address;
                     },
                   ),
                   Builder(
@@ -102,7 +93,7 @@ class _CreateFeedState extends State<CreateFeed> {
                         title: 'SKAPA',
                         onPressed: () async {
                           if (_address == null) {
-                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Please select valid address')));
+                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Välj en giltig address')));
                           } else if (_formKey.currentState.validate()) {
                             await Global.feedCollection.insert(
                               ({
@@ -112,9 +103,8 @@ class _CreateFeedState extends State<CreateFeed> {
                                 'gender': user.gender,
                                 'age': user.age,
                                 'image': user.photo,
-                                'category': _category,
                                 'description': _description,
-                                'shoppingInfo': _shoppingInfo,
+                                'deliveryInfo': _deliveryInfo,
                                 'city': _address.city,
                                 'state': _address.state,
                                 'street': _address.street,

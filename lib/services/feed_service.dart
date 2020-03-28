@@ -54,7 +54,7 @@ class FeedService {
             'mobile': feed.mobile,
             'category': feed.category,
             'description': feed.description,
-            'shoppingInfo': feed.shoppingInfo,
+            'deliveryInfo': feed.deliveryInfo,
             'city': feed.city,
             'state': feed.state,
             'street': feed.street,

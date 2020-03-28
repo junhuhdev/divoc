@@ -183,7 +183,7 @@ class FeedInfo extends StatelessWidget {
         ),
         GenericTextContainer(
           title: 'Inköpslista',
-          content: '${feed.shoppingInfo}',
+          content: '${feed.deliveryInfo}',
           contentPadding: EdgeInsets.all(30.0),
         ),
         GenericTextContainer(title: 'Skapad', content: formatter.format(feed.created), icon: Icons.calendar_today),

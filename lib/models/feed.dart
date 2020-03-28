@@ -5,7 +5,7 @@ class Feed {
   final String ownerId;
   final String name;
   final String description;
-  final String shoppingInfo;
+  final String deliveryInfo;
   final String mobile;
   final int age;
   final String gender;
@@ -28,7 +28,7 @@ class Feed {
     this.ownerId,
     this.name,
     this.description,
-    this.shoppingInfo,
+    this.deliveryInfo,
     this.mobile,
     this.age,
     this.gender,
@@ -55,7 +55,7 @@ class Feed {
       ownerId: data['ownerId'] ?? '',
       name: data['name'] ?? '',
       description: data['description'] ?? '',
-      shoppingInfo: data['shoppingInfo'] ?? '',
+      deliveryInfo: data['deliveryInfo'] ?? '',
       mobile: data['mobile'] ?? '',
       age: data['age'] ?? 0,
       gender: data['gender'] ?? '',

@@ -120,7 +120,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Delivery Details'),
+        title: Text('Leverans detaljer'),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -143,21 +143,21 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                   address: Address.fromFeed(feed),
                 ),
                 GenericTextContainer(
-                  title: 'Location',
+                  title: 'Plats',
                   content: '${feed.street}, ${feed.postalCode}, ${feed.state}, ${feed.city}',
                   icon: Icons.place,
                   contentPadding: EdgeInsets.symmetric(vertical: 30.0),
                 ),
-                GenericTextContainer(title: 'Name', content: feed.name, icon: Icons.person),
-                GenericTextContainer(title: 'Phone Number', content: feed.mobile, icon: Icons.phone),
+                GenericTextContainer(title: 'Namn', content: feed.name, icon: Icons.person),
+                GenericTextContainer(title: 'Mobil nummer', content: feed.mobile, icon: Icons.phone),
                 GenericTextContainer(
-                  title: 'Description',
+                  title: 'Beskrivning och inköpslista',
                   content: '${feed.description}',
                   contentPadding: EdgeInsets.all(30.0),
                 ),
                 GenericTextContainer(
-                  title: 'Shopping Info',
-                  content: '${feed.shoppingInfo}',
+                  title: 'Leverans information',
+                  content: '${feed.deliveryInfo}',
                   contentPadding: EdgeInsets.all(30.0),
                 ),
                 SizedBox(height: 80.0),
