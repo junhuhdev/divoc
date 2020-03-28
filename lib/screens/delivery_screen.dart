@@ -91,24 +91,24 @@ class DeliveryDetails extends StatefulWidget {
 
 class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderStateMixin {
   Future<Feed> _feed;
-  AnimationController animationController;
+  AnimationController _animationController;
 
   @override
   void initState() {
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 180));
-    _feed = Document<Feed>(path: 'feeds/${widget.feedRequest.feedId}').getData();
     super.initState();
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 180));
+    _feed = Document<Feed>(path: 'feeds/${widget.feedRequest.feedId}').getData();
   }
 
   @override
   dispose() {
-    animationController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
   void closeFloatingButton() {
-    if (!animationController.isDismissed) {
-      animationController.reverse();
+    if (!_animationController.isDismissed) {
+      _animationController.reverse();
     }
   }
 
@@ -164,7 +164,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
         },
       ),
       floatingActionButton: UnicornContainer(
-        animationController: animationController,
+        animationController: _animationController,
         backgroundColor: Colors.black54,
         parentButtonBackground: Colors.white,
         orientation: UnicornOrientation.VERTICAL,

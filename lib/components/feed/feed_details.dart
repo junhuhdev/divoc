@@ -15,6 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../unicorn_fab/unicorn_button.dart';
+import '../unicorn_fab/unicorn_button.dart';
+import '../unicorn_fab/unicorn_button.dart';
+
 class FeedDetails extends StatefulWidget {
   final Feed feed;
 
@@ -24,10 +28,10 @@ class FeedDetails extends StatefulWidget {
   _FeedDetailsState createState() => _FeedDetailsState();
 }
 
-class _FeedDetailsState extends State<FeedDetails> {
+class _FeedDetailsState extends State<FeedDetails> with TickerProviderStateMixin {
   final FeedService feedService = FeedService();
   final UserCommentService userCommentService = new UserCommentService();
-  Stream<List<UserComment>> _comments;
+  AnimationController _animationController;
 
   var formatter = new DateFormat('EEE d MMM h:mm a');
 
@@ -35,27 +39,55 @@ class _FeedDetailsState extends State<FeedDetails> {
     Tab(text: 'Information'),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 180));
+  }
+
+  @override
+  dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void closeFloatingButton() {
+    if (!_animationController.isDismissed) {
+      _animationController.reverse();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: tabs.length,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text(widget.feed.name),
-          centerTitle: true,
-          bottom: TabBar(
-            isScrollable: true,
-            tabs: tabs,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(widget.feed.name),
+        centerTitle: true,
+      ),
+      body: FeedInfo(
+        feed: widget.feed,
+        onTap: closeFloatingButton,
+      ),
+      floatingActionButton: UnicornContainer(
+        animationController: _animationController,
+        backgroundColor: Colors.black54,
+        parentButtonBackground: Colors.white,
+        orientation: UnicornOrientation.VERTICAL,
+        parentButton: Icon(Icons.local_hospital, color: Theme.of(context).primaryColor, size: 30.0),
+        childButtons: <UnicornButton>[
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Ladda upp kvitto",
+            currentButton: FloatingActionButton(
+              heroTag: "upload-recipe",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+              onPressed: () {},
+            ),
           ),
-        ),
-        body: TabBarView(
-          children: <Widget>[
-            FeedInfo(feed: widget.feed),
-          ],
-        ),
-        floatingActionButton: AssistButton(feedService: feedService, feed: widget.feed),
+        ],
       ),
     );
   }
@@ -118,14 +150,16 @@ class AssistButton extends StatelessWidget {
 
 class FeedInfo extends StatelessWidget {
   final Feed feed;
+  final VoidCallback onTap;
 
-  const FeedInfo({Key key, this.feed}) : super(key: key);
+  const FeedInfo({Key key, this.feed, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final formatter = new DateFormat('EEE d MMM h:mm a');
 
     return FormContainer(
+      onTap: () => onTap(),
       horizontal: 0.0,
       vertical: 30.0,
       children: <Widget>[
