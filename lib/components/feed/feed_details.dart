@@ -15,11 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../common/form_container.dart';
-import '../../services/feed_service.dart';
 import '../unicorn_fab/unicorn_button.dart';
-import '../unicorn_fab/unicorn_button.dart';
-import '../unicorn_fab/unicorn_button.dart';
+
+
 
 class FeedDetails extends StatefulWidget {
   final Feed feed;
@@ -36,10 +34,6 @@ class _FeedDetailsState extends State<FeedDetails> with TickerProviderStateMixin
   AnimationController _animationController;
 
   var formatter = new DateFormat('EEE d MMM h:mm a');
-
-  List<Tab> tabs = [
-    Tab(text: 'Information'),
-  ];
 
   @override
   void initState() {
@@ -71,43 +65,54 @@ class _FeedDetailsState extends State<FeedDetails> with TickerProviderStateMixin
         feed: widget.feed,
         onTap: closeFloatingButton,
       ),
-      floatingActionButton: UnicornContainer(
-        animationController: _animationController,
-        backgroundColor: Colors.black54,
-        parentButtonBackground: Colors.white,
-        orientation: UnicornOrientation.VERTICAL,
-        parentButton: Icon(Icons.local_hospital, color: Theme.of(context).primaryColor, size: 30.0),
-        childButtons: <UnicornButton>[
-          UnicornButton(
-            hasLabel: true,
-            labelText: "Se Profil",
-            currentButton: FloatingActionButton(
-              heroTag: "upload-recipe",
-              backgroundColor: Colors.white,
-              mini: true,
-              child: Icon(Icons.remove_red_eye, color: Colors.blueGrey),
-              onPressed: () {},
-            ),
-          ),
-          UnicornButton(
-            hasLabel: true,
-            labelText: "Hjälpa",
-            currentButton: FloatingActionButton(
-              heroTag: "upload-delivery",
-              backgroundColor: Colors.white,
-              mini: true,
-              child: Icon(Icons.favorite, color: Colors.redAccent),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AssistScreen(feed: widget.feed),
+      floatingActionButton: Consumer<User>(
+        builder: (context, currentUser, child) {
+          if (currentUser == null) {
+            return Container();
+          }
+          return UnicornContainer(
+            animationController: _animationController,
+            backgroundColor: Colors.black54,
+            parentButtonBackground: Colors.white,
+            orientation: UnicornOrientation.VERTICAL,
+            parentButton: Icon(Icons.local_hospital, color: Theme.of(context).primaryColor, size: 30.0),
+            childButtons: <UnicornButton>[
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Se Profil",
+                currentButton: FloatingActionButton(
+                  heroTag: "upload-recipe",
+                  backgroundColor: Colors.white,
+                  mini: true,
+                  child: Icon(Icons.remove_red_eye, color: Colors.blueGrey),
+                  onPressed: () {},
+                ),
+              ),
+
+              /// Check if user already has requested or if its created
+              if (!widget.feed.requestedUsers.containsKey(currentUser.id) && widget.feed.status == 'created') ...[
+                UnicornButton(
+                  hasLabel: true,
+                  labelText: "Hjälpa",
+                  currentButton: FloatingActionButton(
+                    heroTag: "upload-delivery",
+                    backgroundColor: Colors.white,
+                    mini: true,
+                    child: Icon(Icons.favorite, color: Colors.redAccent),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AssistScreen(feed: widget.feed),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ],
+            ],
+          );
+        },
       ),
     );
   }
