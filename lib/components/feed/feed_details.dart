@@ -78,12 +78,23 @@ class _FeedDetailsState extends State<FeedDetails> with TickerProviderStateMixin
         childButtons: <UnicornButton>[
           UnicornButton(
             hasLabel: true,
-            labelText: "Ladda upp kvitto",
+            labelText: "Se Profil",
             currentButton: FloatingActionButton(
               heroTag: "upload-recipe",
               backgroundColor: Colors.white,
               mini: true,
-              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+              child: Icon(Icons.remove_red_eye, color: Colors.blueGrey),
+              onPressed: () {},
+            ),
+          ),
+          UnicornButton(
+            hasLabel: true,
+            labelText: "Hjälpa",
+            currentButton: FloatingActionButton(
+              heroTag: "upload-delivery",
+              backgroundColor: Colors.white,
+              mini: true,
+              child: Icon(Icons.favorite, color: Colors.redAccent),
               onPressed: () {},
             ),
           ),
