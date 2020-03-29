@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:divoc/common/constants.dart';
+import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/images.dart';
 import 'package:divoc/common/loader.dart';
+import 'package:divoc/models/address.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:divoc/services/image_service.dart';
@@ -26,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   DateTime _birthdate = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
   ImageService imageService = new ImageService();
   var _genderOptions = ['Man', 'Kvinna', 'Annat'];
+  Address _address;
 
   Future selectDate(BuildContext context) async {
     setState(() {
@@ -106,45 +109,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                      TextFormField(
-                        style: TextStyle(color: Colors.white),
+                      GenericTextField(
+                        title: 'Namn',
+                        hint: 'Skriv in ditt namn',
+                        icon: Icons.person,
                         initialValue: user.name,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.white),
-                          icon: Icon(Icons.person, color: Colors.white),
-                          labelText: 'Namn',
-                          hintText: 'Förnamn och efternamn',
-                        ),
-                        onChanged: (val) {
-                          _name = val;
-                        },
+                        textInputType: TextInputType.text,
+                        onChanged: (String val) => setState(() => _name = val),
                       ),
-                      TextFormField(
-                        style: TextStyle(color: Colors.white),
+                      SizedBox(height: 20.0),
+                      GenericTextField(
+                        title: 'Email adress',
+                        hint: 'Skriv in email adress',
+                        icon: Icons.email,
                         initialValue: user.email,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.white),
-                          icon: Icon(Icons.email, color: Colors.white),
-                          labelText: 'Email address',
-                          hintText: 'example@gmail.com',
-                        ),
-                        onChanged: (val) {
-                          _email = val;
-                        },
+                        textInputType: TextInputType.text,
+                        onChanged: (String val) => setState(() => _email = val),
                       ),
-                      TextFormField(
-                        style: TextStyle(color: Colors.white),
+                      SizedBox(height: 20.0),
+                      GenericTextField(
+                        title: 'Mobil Nummer',
+                        hint: 'Skriv in ditt mobil nummer (inkl +46)',
+                        icon: Icons.phone,
                         initialValue: user.mobile,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.white),
-                          icon: Icon(Icons.phone, color: Colors.white),
-                          labelText: 'Mobil nummer (inkl +46)',
-                          hintText: '+46...',
-                        ),
-                        onChanged: (val) {
-                          _mobile = val;
-                        },
+                        textInputType: TextInputType.phone,
+                        onChanged: (String val) => setState(() => _mobile = val),
                       ),
+                      SizedBox(height: 20.0),
+                      GenericDropdownField(
+                        title: 'Kön',
+                        hint: 'Välj ditt kön',
+                        icon: CommunityMaterialIcons.gender_male_female,
+                        options: ['Man', 'Kvinna', 'Annat'],
+                        onChanged: (String val) => setState(() => _gender = val),
+                      ),
+
                       TextFormField(
                         style: TextStyle(color: Colors.white),
                         initialValue: '${user.birthdate.toLocal()}'.split(' ')[0],
@@ -189,6 +188,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           });
                         },
                       ),
+                      GenericGoogleMapField(
+                        title: 'Plats',
+                        hint: 'Välj plats',
+                        initialValue: user.formattedAddress,
+                        onSelected: (Address address) {
+                          _address = address;
+                        },
+                      ),
+
                       SizedBox(height: 40.0),
                       RaisedButton(
                         color: Theme.of(context).primaryColor,

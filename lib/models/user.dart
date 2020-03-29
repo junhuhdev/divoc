@@ -1,9 +1,13 @@
+import 'package:divoc/services/utils.dart';
+
 class User {
   final String id;
   final String photo;
   final String name;
   final String email;
   final String city;
+  final String street;
+  final String postalCode;
   final String state;
   final int age;
   final DateTime birthdate;
@@ -17,6 +21,8 @@ class User {
     this.name,
     this.email,
     this.city,
+    this.street,
+    this.postalCode,
     this.state,
     this.age,
     this.birthdate,
@@ -32,12 +38,21 @@ class User {
       name: data['name'] ?? '',
       email: data['email'] ?? '',
       city: data['city'] ?? '',
+      street: data['street'] ?? '',
+      postalCode: data['postalCode'] ?? '',
       state: data['state'] ?? '',
       age: data['birthdate'] == null ? 0 : calculateAge(data['birthdate'].toDate()),
       birthdate: data['birthdate'] == null ? DateTime.now() : data['birthdate'].toDate(),
       mobile: data['mobile'] ?? '',
       gender: data['gender'] ?? '',
     );
+  }
+
+  String get formattedAddress {
+    if (street.isNullOrEmpty || postalCode.isNullOrEmpty) {
+      return "";
+    }
+    return street + ', ' + postalCode + ', ' + state + ', ' + city;
   }
 
   int get getAge {
