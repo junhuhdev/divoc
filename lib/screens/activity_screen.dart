@@ -313,78 +313,101 @@ class ActivityDetails extends StatefulWidget {
 }
 
 class _ActivityDetailsState extends State<ActivityDetails> {
+  final FeedService feedService = FeedService();
+  Stream<FeedRequest> _feedRequest;
+
+  @override
+  void initState() {
+    super.initState();
+    _feedRequest = Document<FeedRequest>(path: 'feeds/${widget.feed.id}/requests/${widget.feed.deliveryUserId}').streamData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: widget.feed.status == "pending" ? Text('Pågående leverans') : Text('Slutförd leverans'),
-        centerTitle: true,
-      ),
-      body: FormContainer(
-        horizontal: 0.0,
-        vertical: 0.0,
-        children: <Widget>[
-          StaticGoogleMap(
-            apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
-            address: Address.fromFeed(widget.feed),
-          ),
-          GenericTextContainer(
-            title: 'Plats',
-            content: '${widget.feed.street}, ${widget.feed.postalCode}, ${widget.feed.state}, ${widget.feed.city}',
-            icon: Icons.place,
-            contentPadding: EdgeInsets.symmetric(vertical: 30.0),
-          ),
-          GenericTextContainer(
-            title: 'Beskrivning och inköpslista',
-            content: '${widget.feed.description}',
-            contentPadding: EdgeInsets.all(30.0),
-          ),
-          GenericTextContainer(
-            title: 'Leverans information',
-            content: '${widget.feed.deliveryInfo}',
-            contentPadding: EdgeInsets.all(30.0),
-          ),
-          if (widget.feed.totalCost != 0) ...[
-            GenericTextContainer(
-              title: 'Total kostnad',
-              content: '${widget.feed.totalCost.round()} kr',
-              icon: Icons.attach_money,
-              contentPadding: EdgeInsets.all(30.0),
-            ),
-          ],
-          if (!widget.feed.deliveredComment.isNullOrEmpty) ...[
-            GenericTextContainer(
-              title: 'Leverantör kommentar',
-              content: '${widget.feed.deliveredComment}',
-              icon: Icons.comment,
-              contentPadding: EdgeInsets.all(30.0),
-            ),
-          ],
-          if (!widget.feed.recipeImage.isNullOrEmpty) ...[
-            GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: widget.feed.recipeImage),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Kvitto', style: kLabelStyle),
-                    SizedBox(height: 10.0),
-                    UploadedImage(image: widget.feed.recipeImage),
-                  ],
-                ),
-              ),
-            ),
-          ],
+    return StreamBuilder<FeedRequest>(
+      stream: _feedRequest,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          if (snapshot.hasError) {
+            print("Error: ${snapshot.error}");
+          }
+          return LoadingScreen();
+        }
+        final FeedRequest feedRequest = snapshot.data;
 
-        ],
-      ),
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: widget.feed.status == "pending" ? Text('Pågående leverans') : Text('Slutförd leverans'),
+            centerTitle: true,
+          ),
+          body: FormContainer(
+            horizontal: 0.0,
+            vertical: 0.0,
+            children: <Widget>[
+              StaticGoogleMap(
+                apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
+                address: Address.fromFeed(widget.feed),
+              ),
+              GenericTextContainer(
+                title: 'Levereras till',
+                content: '${widget.feed.street}, ${widget.feed.postalCode}, ${widget.feed.state}, ${widget.feed.city}',
+                icon: Icons.place,
+                contentPadding: EdgeInsets.symmetric(vertical: 30.0),
+              ),
+              GenericTextContainer(title: 'Leverantör namn', content: feedRequest.name, icon: Icons.person),
+              GenericTextContainer(title: 'Leverantör mobil nummer', content: feedRequest.mobile, icon: Icons.phone),
+              GenericTextContainer(
+                title: 'Beskrivning och inköpslista',
+                content: '${widget.feed.description}',
+                contentPadding: EdgeInsets.all(30.0),
+              ),
+              GenericTextContainer(
+                title: 'Leverans information',
+                content: '${widget.feed.deliveryInfo}',
+                contentPadding: EdgeInsets.all(30.0),
+              ),
+              if (widget.feed.totalCost != 0) ...[
+                GenericTextContainer(
+                  title: 'Total kostnad',
+                  content: '${widget.feed.totalCost.round()} kr',
+                  icon: Icons.attach_money,
+                  contentPadding: EdgeInsets.all(30.0),
+                ),
+              ],
+              if (!widget.feed.deliveredComment.isNullOrEmpty) ...[
+                GenericTextContainer(
+                  title: 'Leverantör kommentar',
+                  content: '${widget.feed.deliveredComment}',
+                  icon: Icons.comment,
+                  contentPadding: EdgeInsets.all(30.0),
+                ),
+              ],
+              if (!widget.feed.recipeImage.isNullOrEmpty) ...[
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: widget.feed.recipeImage),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Kvitto', style: kLabelStyle),
+                        SizedBox(height: 10.0),
+                        UploadedImage(image: widget.feed.recipeImage),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        );
+      }
     );
   }
 }
@@ -482,7 +505,7 @@ class ActivityShowPendingCard extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     if (!feedRequest.comment.isNullOrEmpty) ...[
-                      Text(feedRequest.comment.substring(0, 100) + '...',
+                      Text(feedRequest.comment.length > 101 ? feedRequest.comment.substring(0, 100) + '...' : feedRequest.comment,
                           style: TextStyle(color: Colors.white, fontSize: 12.0)),
                     ],
                   ],

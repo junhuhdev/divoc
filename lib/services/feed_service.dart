@@ -23,6 +23,10 @@ class FeedService {
         .map((list) => list.documents.map((doc) => FeedRequest.fromMap(doc.data, doc.documentID)).toList());
   }
 
+//  Stream<FeedRequest> streamFeedRequest(String feedId) {
+//    var ref = _db.collection('feeds').document(feedId).collection('requests').document('');
+//  }
+
   Future<void> deliveryCompleted(Feed feed, User currentUser, String totalCost, String comment) async {
     await _db.collection('feeds').document(feed.id).updateData(
       {
@@ -40,7 +44,12 @@ class FeedService {
 
   /// When user accepts help from another user
   Future<void> acceptUserRequest(String feedId, String helperUserId) async {
-    await _db.collection('feeds').document(feedId).updateData({'status': 'pending'});
+    await _db.collection('feeds').document(feedId).updateData(
+      {
+        'deliveryUserId': helperUserId,
+        'status': 'pending',
+      },
+    );
     await _db.collection('feeds').document(feedId).collection('requests').document(helperUserId).updateData(
           ({
             'status': 'pending',
