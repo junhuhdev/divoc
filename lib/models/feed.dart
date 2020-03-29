@@ -6,6 +6,8 @@ class Feed {
   final String name;
   final String description;
   final String deliveryInfo;
+  final String deliveredComment;
+  final double totalCost;
   final String mobile;
   final int age;
   final String gender;
@@ -30,6 +32,8 @@ class Feed {
     this.name,
     this.description,
     this.deliveryInfo,
+    this.deliveredComment,
+    this.totalCost,
     this.mobile,
     this.age,
     this.gender,
@@ -58,6 +62,8 @@ class Feed {
       name: data['name'] ?? '',
       description: data['description'] ?? '',
       deliveryInfo: data['deliveryInfo'] ?? '',
+      deliveredComment: data['deliveredComment'] ?? '',
+      totalCost: data['totalCost'] ?? 0,
       mobile: data['mobile'] ?? '',
       age: data['age'] ?? 0,
       gender: data['gender'] ?? '',
