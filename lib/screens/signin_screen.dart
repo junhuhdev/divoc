@@ -283,6 +283,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           title: 'Namn',
                           hint: 'Förnamn och efternamn',
                           icon: Icons.person,
+                          initialValue: _name,
                           textInputType: TextInputType.text,
                           onChanged: (String val) => setState(() => _name = val),
                         ),
