@@ -50,6 +50,15 @@ class _SigninScreenState extends State<SigninScreen> {
     _isLoading = false;
   }
 
+  void redirectIfAuthenticated() {
+    securityService.getCurrentUser.then((user) {
+      if (user != null) {
+        _isLoading = false;
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
+      }
+    });
+  }
+
   Widget _smsVerifyButton() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -91,34 +100,43 @@ class _SigninScreenState extends State<SigninScreen> {
               }
               if (_codeSent) {
                 /// (2) Verify sms code
-                FirebaseUser user = await securityService.verifySmsCode(_verificationId, _smsCode, _socialResult);
-                if (user == null) {
+                AuthCredential mobileCredential = await securityService.verifySmsCode(_verificationId, _smsCode);
+                if (mobileCredential == null) {
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktig kod')));
                 } else {
-                  if (_provierType == ProvierType.email) {
-                    User newUser = User(
-                      name: _name,
-                      birthdate: _birthDate,
-                      mobile: _mobile,
-                      gender: _gender,
-                    );
-                    FirebaseUser createdUser = await securityService.register(_email, _password, newUser);
-                    if (createdUser == null) {
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
-                    }
-                    Navigator.pushReplacementNamed(context, HomeScreen.id);
-                  }
                   User newUser = User(
                     name: _name,
                     birthdate: _birthDate,
                     mobile: _mobile,
                     gender: _gender,
                   );
-                  FirebaseUser createdUser = await securityService.registerSocial(_socialResult, newUser);
-                  if (createdUser == null) {
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
+                  try {
+                    if (_provierType == ProvierType.email) {
+                      FirebaseUser createdUser = await securityService.register(_email, _password, newUser);
+                      if (createdUser == null) {
+                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
+                      } else {
+                        redirectIfAuthenticated();
+                      }
+                    } else {
+                      FirebaseUser createdUser = await securityService.registerSocial(_socialResult, newUser);
+                      if (createdUser == null) {
+                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
+                      } else {
+                        redirectIfAuthenticated();
+                      }
+                    }
+                  } on PlatformException catch (e) {
+                    if (e.code == "ERROR_EMAIL_ALREADY_IN_USE") {
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Email addressen är redan upptaget')));
+                    }
+                    if (e.code == "ERROR_INVALID_EMAIL") {
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Email addressen är inte giltig')));
+                    }
+                    if (e.code == "ERROR_WEAK_PASSWORD") {
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Lösenordet är för svagt')));
+                    }
                   }
-                  Navigator.pushReplacementNamed(context, HomeScreen.id);
                 }
               }
             },
@@ -141,7 +159,7 @@ class _SigninScreenState extends State<SigninScreen> {
               onPressed: () async {
                 FirebaseUser user = await securityService.loginApple();
                 if (user != null) {
-                  Navigator.pushReplacementNamed(context, HomeScreen.id);
+                  redirectIfAuthenticated();
                 }
               },
             ),
@@ -168,7 +186,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 setState(() {
                   _isLoading = false;
                 });
-                Navigator.pushReplacementNamed(context, HomeScreen.id);
+                redirectIfAuthenticated();
               }
             },
             logo: AssetImage(
@@ -226,7 +244,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                 } else {
                                   var user = await securityService.login(_email, _password);
                                   if (user != null) {
-                                    Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                    redirectIfAuthenticated();
                                   } else {
                                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktigt Lösenord')));
                                   }

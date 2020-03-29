@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "1066662127701-1nvkc8tpmatba8ltdrg18ea9do0ichb9.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.huhenterprises.divoc",
-            "certificate_hash": "7612cfdcaaf95d004fa58595128921119dbf46c7"
-          }
-        },
-        {
           "client_id": "1066662127701-un6npkv67tfed57g8umovu8u7ntd6igl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -46,13 +38,6 @@
             {
               "client_id": "1066662127701-7trqesedfp4qelpoph23g8l38od8be0v.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "1066662127701-s23g8j4vu7rvhmabfhjdb42cplpmba9b.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.huhenterprises.divoc"
-              }
             }
           ]
         }

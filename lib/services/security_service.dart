@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,8 +24,13 @@ class SecurityService {
         email: email,
         password: password,
       );
-      FirebaseUser firebaseUser = result.user;
-      await _db.collection('users').document(user.id).setData(
+      final FirebaseUser firebaseUser = result.user;
+      final FirebaseUser currentUser = await _auth.currentUser();
+      if (firebaseUser.uid != currentUser.uid) {
+        print("current user invalid");
+        throw PlatformException(code: "ERROR_INVALID_EMAIL");
+      }
+      await _db.collection('users').document(firebaseUser.uid).setData(
         {
           'id': firebaseUser.uid,
           'email': email,
@@ -39,6 +45,8 @@ class SecurityService {
         },
       );
       return firebaseUser;
+    } on PlatformException catch (e) {
+      throw e;
     } catch (error) {
       print("Failed to create user $error");
       return null;
@@ -46,13 +54,10 @@ class SecurityService {
   }
 
   Future<FirebaseUser> registerSocial(SocialResult socialResult, User user) async {
-    await _auth.signInWithCredential(socialResult.credential);
-    final FirebaseUser firebaseUser = socialResult.user;
-    final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
-    final List<DocumentSnapshot> documents = result.documents;
-    if (documents.length == 0) {
-      // (1) Create new user
-      _db.collection('users').document(firebaseUser.uid).setData(
+    try {
+      AuthResult authResult = await _auth.signInWithCredential(socialResult.credential);
+      final FirebaseUser firebaseUser = socialResult.user;
+      await _db.collection('users').document(firebaseUser.uid).setData(
         {
           'id': firebaseUser.uid,
           'email': firebaseUser.email,
@@ -66,15 +71,26 @@ class SecurityService {
           'createdAt': DateTime.now(),
         },
       );
-    } else {
-      // (2) Update existing user
-      Global.userDoc.upsert(
-        ({
-          'lastLogin': DateTime.now().toIso8601String(),
-        }),
-      );
+      return authResult.user;
+    } catch (error) {
+      print("Failed to register social $error");
+      return null;
     }
-    return firebaseUser;
+  }
+
+  Future<AuthCredential> verifySmsCode(String verificationId, String smsCode) async {
+    try {
+      AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+      // (1) Verify sms
+      var authResult = await _auth.signInWithCredential(authCreds);
+      // (2) Sign out since firebase creates another user
+      await _auth.signOut();
+      print("Successfully verified sms ${authResult.user}");
+      return authCreds;
+    } catch (error) {
+      print("Failed to verify sms $error");
+      return null;
+    }
   }
 
   Future<FirebaseUser> login(String email, String password) async {
@@ -190,23 +206,6 @@ class SecurityService {
     }
   }
 
-  Future<FirebaseUser> verifySmsCode(String verificationId, String smsCode, SocialResult loginResult) async {
-    try {
-      AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
-      // (1) Verify sms
-      var authResult = await _auth.signInWithCredential(authCreds);
-      // (2) Sign out since firebase creates another user
-      await _auth.signOut();
-      // (3) Sign back in with previous authenticated method
-      authResult = await _auth.signInWithCredential(loginResult.credential);
-      print("Successfully verified sms ${authResult.user}");
-      return authResult.user;
-    } catch (error) {
-      print("Failed to verify sms $error");
-      return null;
-    }
-  }
-
   Future<bool> isNewUser(FirebaseUser user) async {
     final QuerySnapshot result = await _db.collection('users').where('id', isEqualTo: user.uid).getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
@@ -240,6 +239,7 @@ class SocialResult {
   final FirebaseUser user;
   final AuthType authType;
   final AuthCredential credential;
+  final AuthCredential mobileCredential;
   final String provider;
   final String photo;
 
@@ -247,6 +247,7 @@ class SocialResult {
     this.user,
     this.authType,
     this.credential,
+    this.mobileCredential,
     this.provider,
     this.photo,
   });
