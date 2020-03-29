@@ -68,7 +68,6 @@ class FeedService {
             'mobile': mobile,
             'status': 'requested',
             'comment': comment,
-            'ownerName': feed.name,
             'feedId': feed.id,
             'image': feed.image,
             'city': feed.city,

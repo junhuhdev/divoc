@@ -142,12 +142,13 @@ class _AssistScreenState extends State<AssistScreen> {
           body: FormContainer(
             children: <Widget>[
               GenericTextField(
-                title: 'Mobil nummer',
+                title: 'Mobil nummer (inkl +46)',
                 hint: 'Skriv in ditt mobil nummer',
                 icon: Icons.phone,
                 initialValue: currentUser.mobile,
                 onChanged: (String val) => setState(() => _mobile = val),
               ),
+              SizedBox(height: 30.0),
               GenericTextField(
                 title: 'Kommentar',
                 hint: 'Fyll i valfri kommentar',
