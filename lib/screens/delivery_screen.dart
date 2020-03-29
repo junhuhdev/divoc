@@ -10,6 +10,7 @@ import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
 import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
+import 'package:divoc/services/image_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -90,14 +91,15 @@ class DeliveryDetails extends StatefulWidget {
 }
 
 class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderStateMixin {
-  Future<Feed> _feed;
+  Stream<Feed> _feed;
   AnimationController _animationController;
+  ImageService imageService = ImageService();
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 180));
-    _feed = Document<Feed>(path: 'feeds/${widget.feedRequest.feedId}').getData();
+    _feed = Document<Feed>(path: 'feeds/${widget.feedRequest.feedId}').streamData();
   }
 
   @override
@@ -114,104 +116,105 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Leverans detaljer'),
-        centerTitle: true,
-      ),
-      body: FutureBuilder(
-        future: _feed,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            if (snapshot.hasError) {
-              print("Error: ${snapshot.error}");
-            }
-            return LoadingScreen();
-          } else {
-            final Feed feed = snapshot.data;
-            return FormContainer(
-              onTap: () => this.closeFloatingButton(),
-              horizontal: 0.0,
-              vertical: 0.0,
-              children: <Widget>[
-                StaticGoogleMap(
-                  apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
-                  address: Address.fromFeed(feed),
-                ),
-                GenericTextContainer(
-                  title: 'Plats',
-                  content: '${feed.street}, ${feed.postalCode}, ${feed.state}, ${feed.city}',
-                  icon: Icons.place,
-                  contentPadding: EdgeInsets.symmetric(vertical: 30.0),
-                ),
-                GenericTextContainer(title: 'Namn', content: feed.name, icon: Icons.person),
-                GenericTextContainer(title: 'Mobil nummer', content: feed.mobile, icon: Icons.phone),
-                GenericTextContainer(
-                  title: 'Beskrivning och inköpslista',
-                  content: '${feed.description}',
-                  contentPadding: EdgeInsets.all(30.0),
-                ),
-                GenericTextContainer(
-                  title: 'Leverans information',
-                  content: '${feed.deliveryInfo}',
-                  contentPadding: EdgeInsets.all(30.0),
-                ),
-                SizedBox(height: 80.0),
-              ],
-            );
+    return StreamBuilder(
+      stream: _feed,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          if (snapshot.hasError) {
+            print("Error: ${snapshot.error}");
           }
-        },
-      ),
-      floatingActionButton: UnicornContainer(
-        animationController: _animationController,
-        backgroundColor: Colors.black54,
-        parentButtonBackground: Colors.white,
-        orientation: UnicornOrientation.VERTICAL,
-        parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
-        childButtons: <UnicornButton>[
-          UnicornButton(
-            hasLabel: true,
-            labelText: "Ladda upp kvitto",
-            currentButton: FloatingActionButton(
-              heroTag: "upload-recipe",
-              backgroundColor: Colors.white,
-              mini: true,
-              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
-              onPressed: () {},
-            ),
+          return LoadingScreen();
+        }
+        final Feed feed = snapshot.data;
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text('Leverans detaljer'),
+            centerTitle: true,
           ),
-          UnicornButton(
-            hasLabel: true,
-            labelText: "Ladda upp leverans",
-            currentButton: FloatingActionButton(
-              heroTag: "upload-delivery",
-              backgroundColor: Colors.white,
-              mini: true,
-              child: Icon(Icons.camera_alt, color: Colors.deepPurple),
-              onPressed: () {},
-            ),
+          body: FormContainer(
+            onTap: () => this.closeFloatingButton(),
+            horizontal: 0.0,
+            vertical: 0.0,
+            children: <Widget>[
+              StaticGoogleMap(
+                apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
+                address: Address.fromFeed(feed),
+              ),
+              GenericTextContainer(
+                title: 'Plats',
+                content: '${feed.street}, ${feed.postalCode}, ${feed.state}, ${feed.city}',
+                icon: Icons.place,
+                contentPadding: EdgeInsets.symmetric(vertical: 30.0),
+              ),
+              GenericTextContainer(title: 'Namn', content: feed.name, icon: Icons.person),
+              GenericTextContainer(title: 'Mobil nummer', content: feed.mobile, icon: Icons.phone),
+              GenericTextContainer(
+                title: 'Beskrivning och inköpslista',
+                content: '${feed.description}',
+                contentPadding: EdgeInsets.all(30.0),
+              ),
+              GenericTextContainer(
+                title: 'Leverans information',
+                content: '${feed.deliveryInfo}',
+                contentPadding: EdgeInsets.all(30.0),
+              ),
+              SizedBox(height: 80.0),
+            ],
           ),
-          UnicornButton(
-            hasLabel: true,
-            labelText: "Levererad",
-            currentButton: FloatingActionButton(
-              heroTag: "delivery",
-              backgroundColor: Colors.white,
-              mini: true,
-              child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateFeed(),
-                    ));
-                print("delivered");
-              },
-            ),
+          floatingActionButton: UnicornContainer(
+            animationController: _animationController,
+            backgroundColor: Colors.black54,
+            parentButtonBackground: Colors.white,
+            orientation: UnicornOrientation.VERTICAL,
+            parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
+            childButtons: <UnicornButton>[
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Ladda upp kvitto",
+                currentButton: FloatingActionButton(
+                  heroTag: "upload-recipe",
+                  backgroundColor: Colors.white,
+                  mini: true,
+                  child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+                  onPressed: () async {
+                    await imageService.uploadRecipeImage(feed.id);
+                  },
+                ),
+              ),
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Ladda upp leverans",
+                currentButton: FloatingActionButton(
+                  heroTag: "upload-delivery",
+                  backgroundColor: Colors.white,
+                  mini: true,
+                  child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+                  onPressed: () {},
+                ),
+              ),
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Levererad",
+                currentButton: FloatingActionButton(
+                  heroTag: "delivery",
+                  backgroundColor: Colors.white,
+                  mini: true,
+                  child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateFeed(),
+                        ));
+                    print("delivered");
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

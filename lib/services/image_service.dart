@@ -8,6 +8,26 @@ class ImageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final Firestore _db = Firestore.instance;
 
+  Future<void> uploadRecipeImage(String feedId) async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    StorageReference reference = _storage.ref().child('feeds').child(feedId);
+    StorageUploadTask uploadTask = reference.putFile(image);
+
+    uploadTask.onComplete.then((value) {
+      if (value.error == null) {
+        StorageTaskSnapshot storageTaskSnapshot = value;
+        storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
+          _db.collection('feeds').document(feedId).updateData(({
+            'recipeImage': downloadUrl,
+          }));
+        });
+      } else {}
+    }, onError: (err) {
+      print("Failed to upload image $err");
+    });
+  }
+
+
   Future<void> uploadImage(String userId) async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     StorageReference reference = _storage.ref().child('user_images').child(userId);
