@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = false;
   String _name;
   String _email;
-  String _phoneNumber;
+  String _mobile;
   String _gender;
   DateTime _birthdate = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
   ImageService imageService = new ImageService();
@@ -141,7 +141,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           labelText: 'Mobil nummer (inkl +46)',
                           hintText: '+46...',
                         ),
-                        onChanged: (val) {},
+                        onChanged: (val) {
+                          _mobile = val;
+                        },
                       ),
                       TextFormField(
                         style: TextStyle(color: Colors.white),
@@ -203,6 +205,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ({
                               'name': _name ?? user.name,
                               'email': _email ?? user.email,
+                              'mobile': _mobile ?? user.mobile,
+                              'gender': _gender ?? user.gender,
                             }),
                           );
                         },
