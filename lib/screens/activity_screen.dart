@@ -112,12 +112,16 @@ class ActivityCard extends StatelessWidget {
             ],
           ),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ActivityShowPending(feed: feed),
-              ),
-            );
+            if (feed.status == "completed" || feed.status == "pending") {
+              
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ActivityShowPending(feed: feed),
+                ),
+              );
+            }
           },
         ),
       ),
@@ -139,7 +143,7 @@ class SettingsMenu extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ActivityDetails(feed: feed),
+              builder: (context) => UpdateActivityDetails(feed: feed),
             ),
           );
         }
@@ -188,16 +192,16 @@ class SettingsMenu extends StatelessWidget {
   }
 }
 
-class ActivityDetails extends StatefulWidget {
+class UpdateActivityDetails extends StatefulWidget {
   final Feed feed;
 
-  const ActivityDetails({this.feed});
+  const UpdateActivityDetails({this.feed});
 
   @override
-  _ActivityDetailsState createState() => _ActivityDetailsState();
+  _UpdateActivityDetailsState createState() => _UpdateActivityDetailsState();
 }
 
-class _ActivityDetailsState extends State<ActivityDetails> {
+class _UpdateActivityDetailsState extends State<UpdateActivityDetails> {
   String _name;
   String _mobile;
   String _category;
