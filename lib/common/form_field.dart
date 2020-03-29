@@ -195,6 +195,19 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
   }
 }
 
+class GenericImageField extends StatefulWidget {
+  @override
+  _GenericImageFieldState createState() => _GenericImageFieldState();
+}
+
+class _GenericImageFieldState extends State<GenericImageField> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
 class GenericDateField extends StatefulWidget {
   final String title;
   final String hint;

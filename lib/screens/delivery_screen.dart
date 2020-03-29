@@ -1,6 +1,8 @@
 import 'package:divoc/common/cards.dart';
+import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
+import 'package:divoc/common/images.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
 import 'package:divoc/components/maps/static_google_map.dart';
@@ -158,6 +160,25 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                 title: 'Leverans information',
                 content: '${feed.deliveryInfo}',
                 contentPadding: EdgeInsets.all(30.0),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RecipeImageFullScreen(image: feed.recipeImage),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Kvitto', style: kLabelStyle),
+                      SizedBox(height: 10.0),
+                      RecipeImage(image: feed.recipeImage),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(height: 80.0),
             ],

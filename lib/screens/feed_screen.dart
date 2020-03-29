@@ -65,7 +65,8 @@ class _FeedScreenState extends State<FeedScreen> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
+              backgroundColor: Colors.white,
+              child: Icon(Icons.add, color: Colors.blueGrey),
               onPressed: () {
                 Navigator.push(
                   context,

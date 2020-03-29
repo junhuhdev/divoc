@@ -2,6 +2,75 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';
 
+class RecipeImageFullScreen extends StatelessWidget {
+  final String image;
+
+  const RecipeImageFullScreen({this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Kvitto'),
+        centerTitle: true,
+      ),
+      body: Container(
+        child: CachedNetworkImage(
+          imageUrl: image,
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              borderRadius: new BorderRadius.circular(0),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) {
+            return Container();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class RecipeImage extends StatelessWidget {
+  final String image;
+
+  const RecipeImage({this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    if (image.isNullEmptyOrWhitespace) {
+      return Container();
+    } else {
+      return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.90,
+        height: MediaQuery.of(context).size.width * 0.90,
+        child: CachedNetworkImage(
+          imageUrl: image,
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              borderRadius: new BorderRadius.circular(5),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) {
+            return Container();
+          },
+        ),
+      );
+    }
+  }
+}
+
 class UserProfileImage extends StatelessWidget {
   final String image;
 
