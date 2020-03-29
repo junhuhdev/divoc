@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/constants.dart';
@@ -347,6 +348,7 @@ class _ActivityShowPendingState extends State<ActivityShowPending> {
 class ActivityDetailsCard extends StatelessWidget {
   final Feed feed;
   final FeedRequest feedRequest;
+  final formattertime = new DateFormat('EEE d MMM h:mm a');
 
   ActivityDetailsCard({this.feed, this.feedRequest});
 
@@ -361,24 +363,65 @@ class ActivityDetailsCard extends StatelessWidget {
         decoration: BoxDecoration(color: kCardColor),
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-          subtitle: FeedListTileColumn(feed: Feed(name: feedRequest.name, created: feedRequest.created)),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
+          leading: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            decoration: new BoxDecoration(border: new Border(right: new BorderSide(width: 1.0, color: Colors.white24))),
+            child: CircleAvatar(
+              backgroundImage:
+                  feedRequest.image == null ? Icon(Icons.person) : CachedNetworkImageProvider(feedRequest.image),
+              radius: 30.0,
+            ),
+          ),
+          title: Row(
             children: <Widget>[
-              IconButton(
-                color: Colors.white,
-                icon: Icon(Icons.cancel, color: Colors.red),
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
+              Expanded(
+                flex: 4,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      feedRequest.name,
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    if (!feedRequest.comment.isNullOrEmpty) ...[
+                      Text(feedRequest.comment.substring(0, 100) + '...',
+                          style: TextStyle(color: Colors.white, fontSize: 12.0)),
+                    ],
+                  ],
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.check_circle, color: Colors.green),
-                onPressed: () async {
-                  await feedService.acceptUserRequest(feed.id, feedRequest.userId);
-                  Navigator.pop(context);
-                },
+              Expanded(
+                flex: 1,
+                child: IconButton(
+                  color: Colors.white,
+                  icon: Icon(Icons.cancel, color: Colors.red),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Icon(Icons.check_circle, color: Colors.green),
+                  onPressed: () async {
+                    await feedService.acceptUserRequest(feed.id, feedRequest.userId);
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+          isThreeLine: true,
+          subtitle: Wrap(
+            direction: Axis.vertical,
+            alignment: WrapAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(height: 3),
+              Text("${feedRequest.state}, ${feedRequest.city}", style: TextStyle(color: Colors.white, fontSize: 12.0)),
+              SizedBox(height: 3),
+              Text(formattertime.format(feedRequest.created), style: TextStyle(color: Colors.white70, fontSize: 12.0)),
             ],
           ),
           onTap: () {
