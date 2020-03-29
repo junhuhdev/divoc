@@ -114,3 +114,46 @@ class UserProfileImage extends StatelessWidget {
     }
   }
 }
+
+class UserProfileSmallImage extends StatelessWidget {
+  final String image;
+
+  const UserProfileSmallImage({this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.30;
+    if (image.isNullEmptyOrWhitespace) {
+      return SizedBox(
+        width: size,
+        height: size,
+        child: Icon(Icons.account_circle, color: Colors.white, size: size),
+      );
+    } else {
+      return SizedBox(
+        width: size,
+        height: size,
+        child: CachedNetworkImage(
+          imageUrl: image,
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              borderRadius: new BorderRadius.circular(140.0),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) {
+            return SizedBox(
+              width: size,
+              height: size,
+              child: Icon(Icons.account_circle, color: Colors.white, size: 300.0),
+            );
+          },
+        ),
+      );
+    }
+  }
+}

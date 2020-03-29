@@ -345,27 +345,26 @@ class _ActivityDetailsState extends State<ActivityDetails> {
             horizontal: 0.0,
             vertical: 0.0,
             children: <Widget>[
-              StaticGoogleMap(
-                apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
-                address: Address.fromFeed(widget.feed),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: UserProfileSmallImage(
+                    image: widget.feed.image,
+                  ),
+                ),
               ),
+              GenericTextContainer(title: 'Leverantör namn', content: feedRequest.name, icon: Icons.person),
+              GenericTextContainer(title: 'Leverantör mobil nummer', content: feedRequest.mobile, icon: Icons.phone),
               GenericTextContainer(
                 title: 'Levereras till',
                 content: '${widget.feed.street}, ${widget.feed.postalCode}, ${widget.feed.state}, ${widget.feed.city}',
                 icon: Icons.place,
                 contentPadding: EdgeInsets.symmetric(vertical: 30.0),
               ),
-              GenericTextContainer(title: 'Leverantör namn', content: feedRequest.name, icon: Icons.person),
-              GenericTextContainer(title: 'Leverantör mobil nummer', content: feedRequest.mobile, icon: Icons.phone),
-              GenericTextContainer(
-                title: 'Beskrivning och inköpslista',
-                content: '${widget.feed.description}',
-                contentPadding: EdgeInsets.all(30.0),
-              ),
-              GenericTextContainer(
-                title: 'Leverans information',
-                content: '${widget.feed.deliveryInfo}',
-                contentPadding: EdgeInsets.all(30.0),
+              StaticGoogleMap(
+                apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
+                address: Address.fromFeed(widget.feed),
               ),
               if (widget.feed.totalCost != 0) ...[
                 GenericTextContainer(
