@@ -1,3 +1,4 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/images.dart';
@@ -47,6 +48,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               children: <Widget>[
                 UserProfileImage(image: user.photo),
                 GenericTextContainer(title: 'Namn', content: user.name, icon: Icons.person),
+                GenericTextContainer(title: 'Kön', content: user.gender, icon: CommunityMaterialIcons.gender_male_female),
+                GenericTextContainer(title: 'Ålder', content: user.getAge.toString(), icon: Icons.person),
                 GenericTextContainer(
                   title: 'Plats',
                   content: '${user.state}, ${user.city}',

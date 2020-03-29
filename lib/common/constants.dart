@@ -83,7 +83,7 @@ final kPhoneInputDecoration = InputDecoration(
     Icons.phone,
     color: Colors.white,
   ),
-  hintText: 'Skriv in ditt telefonnummer',
+  hintText: 'Skriv in ditt telefonnummer (inkl +46)',
   hintStyle: kHintTextStyle,
 );
 
