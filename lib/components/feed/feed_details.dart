@@ -16,8 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-
-
 class FeedDetails extends StatefulWidget {
   final Feed feed;
 
@@ -164,61 +162,6 @@ class _AssistScreenState extends State<AssistScreen> {
               ),
             ],
           ),
-        );
-      },
-    );
-  }
-}
-
-class AssistButton extends StatelessWidget {
-  const AssistButton({
-    Key key,
-    @required this.feedService,
-    @required this.feed,
-  }) : super(key: key);
-
-  final FeedService feedService;
-  final Feed feed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<User>(
-      builder: (context, currentUser, child) {
-        if (currentUser != null && feed.requestedUsers.containsKey(currentUser.id) || feed.status != 'created') {
-          return Container();
-        }
-        return FloatingActionButton(
-          heroTag: 'assist-button',
-          child: Icon(Icons.local_hospital),
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.thumb_up),
-                        title: Text('Assistera'),
-                        onTap: () async {
-//                          await feedService.updateRequestedUser(feed.id, currentUser, feed);
-                          Navigator.pop(context);
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.share),
-                        title: Text('Dela'),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
-                  ),
-                );
-              },
-            );
-          },
         );
       },
     );

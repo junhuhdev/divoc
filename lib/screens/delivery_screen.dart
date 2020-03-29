@@ -1,3 +1,4 @@
+import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/cards.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
@@ -10,6 +11,7 @@ import 'package:divoc/components/unicorn_fab/unicorn_button.dart';
 import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
+import 'package:divoc/models/user.dart';
 import 'package:divoc/services/db.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:divoc/services/image_service.dart';
@@ -235,7 +237,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CreateFeed(),
+                                builder: (context) => DeliveryCompleted(feed: feed),
                               ));
                         }
                         print("delivered");
@@ -245,6 +247,60 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                 ],
               );
             },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DeliveryCompleted extends StatefulWidget {
+  final Feed feed;
+
+  const DeliveryCompleted({this.feed});
+
+  @override
+  _DeliveryCompletedState createState() => _DeliveryCompletedState();
+}
+
+class _DeliveryCompletedState extends State<DeliveryCompleted> {
+  String _comment;
+  double _amount;
+  FeedService feedService = FeedService();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<User>(
+      builder: (context, currentUser, child) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text('Slutför leverans'),
+            centerTitle: true,
+          ),
+          body: FormContainer(
+            children: <Widget>[
+              GenericTextField(
+                title: 'Kommentar',
+                hint: 'Fyll i valfri kommentar',
+                height: 100.0,
+                maxLines: 5,
+                icon: Icons.comment,
+                textInputType: TextInputType.multiline,
+                onChanged: (String val) => setState(() => _comment = val),
+              ),
+              Builder(
+                builder: (BuildContext context) {
+                  return ActionButton(
+                    title: 'Slutför leverans',
+                    onPressed: () async {
+                      await feedService.updateRequestedUser(currentUser, widget.feed, _comment);
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ],
           ),
         );
       },

@@ -19,7 +19,7 @@ class Feed {
   final GeoPoint geolocation;
   final int severity;
 
-  /// created, pending, complete
+  /// created, pending, completed
   final String status;
   final Map requestedUsers;
   final DateTime created;
