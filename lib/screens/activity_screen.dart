@@ -4,8 +4,10 @@ import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
+import 'package:divoc/common/images.dart';
 import 'package:divoc/common/list_tile.dart';
 import 'package:divoc/common/loader.dart';
+import 'package:divoc/components/maps/static_google_map.dart';
 import 'package:divoc/models/address.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/feed_request.dart';
@@ -113,7 +115,12 @@ class ActivityCard extends StatelessWidget {
           ),
           onTap: () {
             if (feed.status == "completed" || feed.status == "pending") {
-              
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ActivityDetails(feed: feed),
+                ),
+              );
             } else {
               Navigator.push(
                 context,
@@ -296,6 +303,92 @@ class _UpdateActivityDetailsState extends State<UpdateActivityDetails> {
   }
 }
 
+class ActivityDetails extends StatefulWidget {
+  final Feed feed;
+
+  const ActivityDetails({this.feed});
+
+  @override
+  _ActivityDetailsState createState() => _ActivityDetailsState();
+}
+
+class _ActivityDetailsState extends State<ActivityDetails> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: widget.feed.status == "pending" ? Text('Pågående leverans') : Text('Slutförd leverans'),
+        centerTitle: true,
+      ),
+      body: FormContainer(
+        horizontal: 0.0,
+        vertical: 0.0,
+        children: <Widget>[
+          StaticGoogleMap(
+            apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
+            address: Address.fromFeed(widget.feed),
+          ),
+          GenericTextContainer(
+            title: 'Plats',
+            content: '${widget.feed.street}, ${widget.feed.postalCode}, ${widget.feed.state}, ${widget.feed.city}',
+            icon: Icons.place,
+            contentPadding: EdgeInsets.symmetric(vertical: 30.0),
+          ),
+          GenericTextContainer(
+            title: 'Beskrivning och inköpslista',
+            content: '${widget.feed.description}',
+            contentPadding: EdgeInsets.all(30.0),
+          ),
+          GenericTextContainer(
+            title: 'Leverans information',
+            content: '${widget.feed.deliveryInfo}',
+            contentPadding: EdgeInsets.all(30.0),
+          ),
+          if (widget.feed.totalCost.isNullOrEmpty) ...[
+            GenericTextContainer(
+              title: 'Total kostnad',
+              content: '${widget.feed.totalCost} kr',
+              icon: Icons.attach_money,
+              contentPadding: EdgeInsets.all(30.0),
+            ),
+          ],
+          if (!widget.feed.deliveredComment.isNullOrEmpty) ...[
+            GenericTextContainer(
+              title: 'Leverantör kommentar',
+              content: '${widget.feed.deliveredComment}',
+              icon: Icons.comment,
+              contentPadding: EdgeInsets.all(30.0),
+            ),
+          ],
+          if (!widget.feed.recipeImage.isNullOrEmpty) ...[
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: widget.feed.recipeImage),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Kvitto', style: kLabelStyle),
+                    SizedBox(height: 10.0),
+                    UploadedImage(image: widget.feed.recipeImage),
+                  ],
+                ),
+              ),
+            ),
+          ],
+
+        ],
+      ),
+    );
+  }
+}
+
 class ActivityShowPending extends StatefulWidget {
   final Feed feed;
 
@@ -337,7 +430,7 @@ class _ActivityShowPendingState extends State<ActivityShowPending> {
               child: ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return ActivityDetailsCard(feed: widget.feed, feedRequest: snapshot.data[index]);
+                  return ActivityShowPendingCard(feed: widget.feed, feedRequest: snapshot.data[index]);
                 },
               ),
             );
@@ -349,12 +442,12 @@ class _ActivityShowPendingState extends State<ActivityShowPending> {
 }
 
 /// Accept or cancel pending requests
-class ActivityDetailsCard extends StatelessWidget {
+class ActivityShowPendingCard extends StatelessWidget {
   final Feed feed;
   final FeedRequest feedRequest;
   final formattertime = new DateFormat('EEE d MMM h:mm a');
 
-  ActivityDetailsCard({this.feed, this.feedRequest});
+  ActivityShowPendingCard({this.feed, this.feedRequest});
 
   final FeedService feedService = new FeedService();
 
