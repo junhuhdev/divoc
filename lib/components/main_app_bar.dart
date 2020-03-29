@@ -1,4 +1,4 @@
-import 'package:divoc/services/auth_service.dart';
+import 'package:divoc/services/security_service.dart';
 import 'package:flutter/material.dart';
 
 class MainAppBar extends StatefulWidget {
@@ -11,7 +11,7 @@ class MainAppBar extends StatefulWidget {
 }
 
 class _MainAppBarState extends State<MainAppBar> {
-  AuthService authService = AuthService();
+  SecurityService securityService = SecurityService();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _MainAppBarState extends State<MainAppBar> {
           child: new IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () async {
-              await authService.signOut();
+              await securityService.logout();
               Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
             },
           ),

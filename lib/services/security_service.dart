@@ -1,18 +1,17 @@
+import 'dart:convert' as convert;
+
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
-import 'package:divoc/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 class SecurityService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FacebookLogin _facebookAuth = FacebookLogin();
   final Firestore _db = Firestore.instance;
-  final UserService _userService = UserService();
 
   Future<FirebaseUser> get getCurrentUser => _auth.currentUser();
 
@@ -33,8 +32,8 @@ class SecurityService {
           'birthdate': user.birthdate,
           'age': user.getAge,
           'gender': user.gender ?? 'Annat',
-          'photo': user.photo,
-          'mobile': user.mobile ?? firebaseUser.photoUrl,
+          'photo': user.photo ?? firebaseUser.photoUrl,
+          'mobile': user.mobile,
           'provider': LoginProvider.email,
           'createdAt': DateTime.now(),
         },
@@ -227,16 +226,6 @@ class SecurityService {
 
   Future<void> logout() async {
     await _auth.signOut();
-  }
-
-  Future<void> sendEmailVerification() async {
-    FirebaseUser user = await _auth.currentUser();
-    return user.sendEmailVerification();
-  }
-
-  Future<bool> isEmailVerified() async {
-    FirebaseUser user = await _auth.currentUser();
-    return user.isEmailVerified;
   }
 }
 

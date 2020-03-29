@@ -1,10 +1,10 @@
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
-import 'package:divoc/services/auth_service.dart';
+import 'package:divoc/screens/signin_screen.dart';
 import 'package:divoc/services/globals.dart';
+import 'package:divoc/services/security_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 import 'common/constants.dart';
@@ -16,11 +16,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        StreamProvider<FirebaseUser>.value(value: AuthService().user),
+        StreamProvider<FirebaseUser>.value(value: SecurityService().user),
         StreamProvider<User>.value(value: Global.userDoc.documentStream),
       ],
       child: MaterialApp(
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
 //              bodyText2: TextStyle(color: Colors.white),
 //              bodyText1: TextStyle(color: Colors.white),
                 )),
-        home: LoginScreen(),
+        home: SigninScreen(),
       ),
     );
   }

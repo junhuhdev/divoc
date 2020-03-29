@@ -8,7 +8,6 @@ import 'package:divoc/common/text_field.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/services/security_service.dart';
-import 'package:divoc/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,14 +30,12 @@ class _SigninScreenState extends State<SigninScreen> {
   String _smsCode;
   String _name;
   DateTime _birthDate;
-  String _gender = "Man";
+  String _gender;
   ProvierType _provierType;
-
   bool _codeSent = false;
   SocialResult _socialResult;
   FormType _formType = FormType.login;
   SecurityService securityService = SecurityService();
-  UserService userService = UserService();
 
   @override
   void initState() {
