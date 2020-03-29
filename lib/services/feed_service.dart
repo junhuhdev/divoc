@@ -23,14 +23,19 @@ class FeedService {
         .map((list) => list.documents.map((doc) => FeedRequest.fromMap(doc.data, doc.documentID)).toList());
   }
 
-  Future<void> deliveryCompleted(Feed feed, User currentUser) async {
-    await _db.collection('feeds').document(feed.id).updateData({'status': 'completed'});
-    await _db.collection('feeds').document(feed.id).collection('requests').document(currentUser.id).updateData(
-      ({
+  Future<void> deliveryCompleted(Feed feed, User currentUser, String totalCost, String comment) async {
+    await _db.collection('feeds').document(feed.id).updateData(
+      {
+        'deliveredComment': comment,
+        'totalCost': double.parse(totalCost),
         'status': 'completed',
-      }),
+      },
     );
-
+    await _db.collection('feeds').document(feed.id).collection('requests').document(currentUser.id).updateData(
+          ({
+            'status': 'completed',
+          }),
+        );
   }
 
   /// When user accepts help from another user

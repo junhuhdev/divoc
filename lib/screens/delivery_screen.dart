@@ -265,7 +265,7 @@ class DeliveryCompleted extends StatefulWidget {
 
 class _DeliveryCompletedState extends State<DeliveryCompleted> {
   String _comment;
-  double _amount;
+  String _totalCost;
   FeedService feedService = FeedService();
 
   @override
@@ -281,6 +281,14 @@ class _DeliveryCompletedState extends State<DeliveryCompleted> {
           body: FormContainer(
             children: <Widget>[
               GenericTextField(
+                title: 'Kostnad i SEK',
+                hint: 'Fyll i totala kostnaden',
+                icon: Icons.attach_money,
+                textInputType: TextInputType.number,
+                onChanged: (String val) => setState(() => _totalCost = val),
+              ),
+              SizedBox(height: 30.0),
+              GenericTextField(
                 title: 'Kommentar',
                 hint: 'Fyll i valfri kommentar',
                 height: 100.0,
@@ -294,7 +302,7 @@ class _DeliveryCompletedState extends State<DeliveryCompleted> {
                   return ActionButton(
                     title: 'Slutför leverans',
                     onPressed: () async {
-                      await feedService.updateRequestedUser(currentUser, widget.feed, _comment);
+                      await feedService.deliveryCompleted(widget.feed, currentUser, _totalCost, _comment);
                       Navigator.pop(context);
                     },
                   );
