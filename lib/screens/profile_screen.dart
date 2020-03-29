@@ -181,6 +181,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               'email': _email ?? user.email,
                               'mobile': _mobile ?? user.mobile,
                               'gender': _gender ?? user.gender,
+                              'birthdate': _birthdate ?? user.birthdate,
+                              'city': _address.city,
+                              'state': _address.state,
+                              'postalCode': _address.postalCode,
+                              'street': _address.street,
                             }),
                           );
                         },
