@@ -10,10 +10,11 @@ class UserProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (image.isNullEmptyOrWhitespace) {
+      double size = MediaQuery.of(context).size.width * 0.60;
       return SizedBox(
-        width: 200.0,
-        height: 200.0,
-        child: Icon(Icons.account_circle, color: Colors.white, size: 300.0),
+        width: size,
+        height: size,
+        child: Icon(Icons.account_circle, color: Colors.white, size: size),
       );
     } else {
       return SizedBox(
