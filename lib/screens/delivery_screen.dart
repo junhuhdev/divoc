@@ -16,6 +16,7 @@ import 'package:divoc/services/image_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:divoc/services/utils.dart';
 
 class DeliveryScreen extends StatefulWidget {
   static const title = "Leverans";
@@ -161,78 +162,89 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                 content: '${feed.deliveryInfo}',
                 contentPadding: EdgeInsets.all(30.0),
               ),
-              GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: feed.recipeImage),
+              if (!feed.recipeImage.isNullOrEmpty) ...[
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: feed.recipeImage),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Kvitto', style: kLabelStyle),
+                        SizedBox(height: 10.0),
+                        UploadedImage(image: feed.recipeImage),
+                      ],
+                    ),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Kvitto', style: kLabelStyle),
-                      SizedBox(height: 10.0),
-                      UploadedImage(image: feed.recipeImage),
-                    ],
-                  ),
-                ),
-              ),
+              ],
               SizedBox(height: 80.0),
             ],
           ),
-          floatingActionButton: UnicornContainer(
-            animationController: _animationController,
-            backgroundColor: Colors.black54,
-            parentButtonBackground: Colors.white,
-            orientation: UnicornOrientation.VERTICAL,
-            parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
-            childButtons: <UnicornButton>[
-              UnicornButton(
-                hasLabel: true,
-                labelText: "Ladda upp kvitto",
-                currentButton: FloatingActionButton(
-                  heroTag: "upload-recipe",
-                  backgroundColor: Colors.white,
-                  mini: true,
-                  child: Icon(Icons.camera_alt, color: Colors.deepPurple),
-                  onPressed: () async {
-                    await imageService.uploadRecipeImage(feed.id);
-                  },
-                ),
-              ),
-              UnicornButton(
-                hasLabel: true,
-                labelText: "Ladda upp leverans",
-                currentButton: FloatingActionButton(
-                  heroTag: "upload-delivery",
-                  backgroundColor: Colors.white,
-                  mini: true,
-                  child: Icon(Icons.camera_alt, color: Colors.deepPurple),
-                  onPressed: () {},
-                ),
-              ),
-              UnicornButton(
-                hasLabel: true,
-                labelText: "Levererad",
-                currentButton: FloatingActionButton(
-                  heroTag: "delivery",
-                  backgroundColor: Colors.white,
-                  mini: true,
-                  child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateFeed(),
-                        ));
-                    print("delivered");
-                  },
-                ),
-              ),
-            ],
+          floatingActionButton: Builder(
+            builder: (BuildContext context) {
+              return UnicornContainer(
+                animationController: _animationController,
+                backgroundColor: Colors.black54,
+                parentButtonBackground: Colors.white,
+                orientation: UnicornOrientation.VERTICAL,
+                parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
+                childButtons: <UnicornButton>[
+                  UnicornButton(
+                    hasLabel: true,
+                    labelText: "Ladda upp kvitto",
+                    currentButton: FloatingActionButton(
+                      heroTag: "upload-recipe",
+                      backgroundColor: Colors.white,
+                      mini: true,
+                      child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+                      onPressed: () async {
+                        await imageService.uploadRecipeImage(feed.id);
+                      },
+                    ),
+                  ),
+                  UnicornButton(
+                    hasLabel: true,
+                    labelText: "Ladda upp leverans",
+                    currentButton: FloatingActionButton(
+                      heroTag: "upload-delivery",
+                      backgroundColor: Colors.white,
+                      mini: true,
+                      child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+                      onPressed: () {},
+                    ),
+                  ),
+                  UnicornButton(
+                    hasLabel: true,
+                    labelText: "Levererad",
+                    currentButton: FloatingActionButton(
+                      heroTag: "delivery",
+                      backgroundColor: Colors.white,
+                      mini: true,
+                      child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
+                      onPressed: () {
+                        if (feed.recipeImage.isNullOrEmpty) {
+                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Ladda upp kvittot först')));
+                          return;
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CreateFeed(),
+                              ));
+                        }
+                        print("delivered");
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         );
       },
