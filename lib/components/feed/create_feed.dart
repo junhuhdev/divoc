@@ -53,7 +53,7 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Mobil nummer (syns endast för leverantören)',
+                    title: 'Mobil nummer (syns endast för leverantör)',
                     hint: 'Skriv in ditt mobil nummer',
                     icon: Icons.phone,
                     initialValue: user.mobile,
@@ -82,7 +82,7 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericGoogleMapField(
-                    title: 'Plats (syns endast för leverantören)',
+                    title: 'Plats (syns endast för leverantör)',
                     hint: 'Välj plats',
                     onSelected: (Address address) {
                       _address = address;

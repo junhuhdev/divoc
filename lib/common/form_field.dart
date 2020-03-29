@@ -422,7 +422,7 @@ class PhoneNumberField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Phone number',
+          'Mobil nummer (inkl +46)',
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
