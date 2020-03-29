@@ -337,6 +337,15 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           child: DropdownButtonFormField(
+            style: TextStyle(color: Colors.black),
+            selectedItemBuilder: (BuildContext context) {
+              return widget.options.map((String value) {
+                return Text(
+                  _val,
+                  style: TextStyle(color: Colors.white),
+                );
+              }).toList();
+            },
             value: _val,
             items: widget.options
                 .map((val) => DropdownMenuItem<String>(
