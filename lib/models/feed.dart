@@ -20,10 +20,10 @@ class Feed {
   final String postalCode;
   final String category;
   final GeoPoint geolocation;
-  final int severity;
 
   /// created, pending, completed
   final String status;
+  final bool finalized;
   final Map requestedUsers;
   final DateTime created;
 
@@ -47,8 +47,8 @@ class Feed {
     this.postalCode,
     this.category,
     this.geolocation,
-    this.severity,
     this.status,
+    this.finalized,
     this.requestedUsers,
     this.created,
   });
@@ -78,8 +78,8 @@ class Feed {
       postalCode: data['postalCode'] ?? '',
       category: data['category'] ?? '',
       geolocation: data['geolocation'] ?? null,
-      severity: data['severity'] ?? 0,
       status: data['status'] ?? '',
+      finalized: data['finalized'] ?? false,
       requestedUsers: data['requestedUsers'] ?? new Map(),
       created: data['created'] == null ? DateTime.now() : data['created'].toDate(),
     );

@@ -105,6 +105,7 @@ class _CreateFeedState extends State<CreateFeed> {
                                 'image': user.photo,
                                 'description': _description,
                                 'deliveryInfo': _deliveryInfo,
+                                'finalized': false,
                                 'city': _address.city,
                                 'state': _address.state,
                                 'street': _address.street,
