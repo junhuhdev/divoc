@@ -9,6 +9,7 @@ class User {
   final DateTime birthdate;
   final String mobile;
   final String gender;
+  final String provider;
 
   User({
     this.id,
@@ -21,6 +22,7 @@ class User {
     this.birthdate,
     this.mobile,
     this.gender,
+    this.provider,
   });
 
   factory User.fromMap(Map data, String id) {
@@ -36,6 +38,10 @@ class User {
       mobile: data['mobile'] ?? '',
       gender: data['gender'] ?? '',
     );
+  }
+
+  int get getAge {
+    return calculateAge(this.birthdate);
   }
 
   static int calculateAge(DateTime birthDate) {
