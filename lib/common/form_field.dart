@@ -229,9 +229,10 @@ class GenericImageField extends StatelessWidget {
 class GenericDateField extends StatefulWidget {
   final String title;
   final String hint;
+  final String initialValue;
   final Function(DateTime) onChanged;
 
-  const GenericDateField({this.title, this.hint, this.onChanged});
+  const GenericDateField({this.title, this.hint, this.onChanged, this.initialValue});
 
   @override
   _GenericDateFieldState createState() => _GenericDateFieldState();
@@ -278,8 +279,11 @@ class _GenericDateFieldState extends State<GenericDateField> {
                   child: Icon(Icons.calendar_today, color: Colors.white),
                 ),
                 SizedBox(width: 12.0),
-                if (_date == null) ...[
+                if (widget.initialValue.isNullOrEmpty && _date == null) ...[
                   Text(widget.hint, style: kHintTextStyle),
+                ],
+                if (!widget.initialValue.isNullOrEmpty && _date == null) ...[
+                  Text(widget.initialValue, style: kTextStyle),
                 ],
                 if (_date != null) ...[
                   Text(_date.toLocal().toString().split(' ')[0], style: kTextStyle),

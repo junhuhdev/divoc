@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       GenericTextField(
                         title: 'Namn',
-                        hint: 'Skriv in ditt namn',
+                        hint: 'Fyll i namn',
                         icon: Icons.person,
                         initialValue: user.name,
                         textInputType: TextInputType.text,
@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(height: 20.0),
                       GenericTextField(
                         title: 'Email adress',
-                        hint: 'Skriv in email adress',
+                        hint: 'Fyll i email adress',
                         icon: Icons.email,
                         initialValue: user.email,
                         textInputType: TextInputType.text,
@@ -129,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(height: 20.0),
                       GenericTextField(
                         title: 'Mobil Nummer',
-                        hint: 'Skriv in ditt mobil nummer (inkl +46)',
+                        hint: 'Fyll i mobil nummer (inkl +46)',
                         icon: Icons.phone,
                         initialValue: user.mobile,
                         textInputType: TextInputType.phone,
@@ -143,51 +143,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         options: ['Man', 'Kvinna', 'Annat'],
                         onChanged: (String val) => setState(() => _gender = val),
                       ),
-
-                      TextFormField(
-                        style: TextStyle(color: Colors.white),
+                      SizedBox(height: 20.0),
+                      GenericDateField(
+                        title: 'Födelsedatum',
+                        hint: 'Välj födelsedatum',
                         initialValue: '${user.birthdate.toLocal()}'.split(' ')[0],
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.white),
-                          icon: Icon(Icons.calendar_today, color: Colors.white),
-                          labelText: 'Födelsedatum',
-                          hintText: '1991-01-05',
-                        ),
-                        onTap: () {
-                          selectDate(context);
-                        },
-                      ),
-                      DropdownButtonFormField(
-                        style: TextStyle(color: Colors.black),
-                        selectedItemBuilder: (BuildContext context) {
-                          return _genderOptions.map((String value) {
-                            return Text(
-                              _gender == null ? user.gender : _gender,
-                              style: TextStyle(color: Colors.white),
-                            );
-                          }).toList();
-                        },
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.white),
-                          icon: Icon(CommunityMaterialIcons.gender_male_female, color: Colors.white),
-                          labelText: 'Kön',
-                          hintText: 'Välj ditt kön',
-                        ),
-                        value: _gender ?? user.gender,
-                        isExpanded: true,
-                        isDense: true,
-                        items: _genderOptions.map((val) {
-                          return DropdownMenuItem<String>(
-                            value: val,
-                            child: Text(val),
-                          );
-                        }).toList(),
-                        onChanged: (val) {
+                        onChanged: (DateTime val) {
                           setState(() {
-                            _gender = val;
+                            _birthdate = val;
                           });
                         },
                       ),
+                      SizedBox(height: 20.0),
                       GenericGoogleMapField(
                         title: 'Plats',
                         hint: 'Välj plats',
@@ -196,7 +163,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           _address = address;
                         },
                       ),
-
                       SizedBox(height: 40.0),
                       RaisedButton(
                         color: Theme.of(context).primaryColor,
