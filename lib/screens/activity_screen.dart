@@ -159,7 +159,7 @@ class SettingsMenu extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Are you sure you want to delete?'),
+                title: Text('Är du säker på att du vill radera?'),
                 actions: <Widget>[
                   FlatButton(
                     child: Text('Cancel'),
