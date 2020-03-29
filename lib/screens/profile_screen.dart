@@ -134,13 +134,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextFormField(
                         style: TextStyle(color: Colors.white),
-                        enabled: false,
                         initialValue: user.mobile,
-                        readOnly: true,
                         decoration: InputDecoration(
                           labelStyle: TextStyle(color: Colors.white),
                           icon: Icon(Icons.phone, color: Colors.white),
-                          labelText: 'Mobil nummer',
+                          labelText: 'Mobil nummer (inkl +46)',
                           hintText: '+46...',
                         ),
                         onChanged: (val) {},
