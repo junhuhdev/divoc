@@ -126,6 +126,7 @@ class AssistScreen extends StatefulWidget {
 
 class _AssistScreenState extends State<AssistScreen> {
   String _comment;
+  String _mobile;
   final FeedService feedService = FeedService();
 
   @override
@@ -141,6 +142,13 @@ class _AssistScreenState extends State<AssistScreen> {
           body: FormContainer(
             children: <Widget>[
               GenericTextField(
+                title: 'Mobil nummer',
+                hint: 'Skriv in ditt mobil nummer',
+                icon: Icons.phone,
+                initialValue: currentUser.mobile,
+                onChanged: (String val) => setState(() => _mobile = val),
+              ),
+              GenericTextField(
                 title: 'Kommentar',
                 hint: 'Fyll i valfri kommentar',
                 height: 100.0,
@@ -154,7 +162,8 @@ class _AssistScreenState extends State<AssistScreen> {
                   return ActionButton(
                     title: 'Skicka förfrågan',
                     onPressed: () async {
-                      await feedService.updateRequestedUser(currentUser, widget.feed, _comment);
+                      String mobile = _mobile ?? currentUser.mobile;
+                      await feedService.updateRequestedUser(currentUser, widget.feed, _comment, mobile);
                       Navigator.pop(context);
                     },
                   );
@@ -246,6 +255,7 @@ class FeedCommentScreen extends StatefulWidget {
 class _FeedCommentScreenState extends State<FeedCommentScreen> {
   final UserCommentService userCommentService = new UserCommentService();
   String _comment;
+  String _mobile;
 
   @override
   void initState() {
