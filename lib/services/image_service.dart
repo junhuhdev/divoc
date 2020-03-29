@@ -10,7 +10,7 @@ class ImageService {
 
   Future<void> uploadRecipeImage(String feedId) async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    StorageReference reference = _storage.ref().child('feeds').child(feedId);
+    StorageReference reference = _storage.ref().child('feeds').child(feedId).child(feedId);
     StorageUploadTask uploadTask = reference.putFile(image);
 
     uploadTask.onComplete.then((value) {

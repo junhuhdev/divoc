@@ -10,6 +10,7 @@ class Feed {
   final int age;
   final String gender;
   final String image;
+  final String recipeImage;
   final String city;
   final String state;
   final String street;
@@ -33,6 +34,7 @@ class Feed {
     this.age,
     this.gender,
     this.image,
+    this.recipeImage,
     this.city,
     this.state,
     this.street,
@@ -60,6 +62,7 @@ class Feed {
       age: data['age'] ?? 0,
       gender: data['gender'] ?? '',
       image: data['image'] ?? '',
+      recipeImage: data['recipeImage'] ?? '',
       city: data['city'] ?? '',
       state: data['state'] ?? '',
       street: data['street'] ?? '',
