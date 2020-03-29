@@ -345,10 +345,10 @@ class _ActivityDetailsState extends State<ActivityDetails> {
             content: '${widget.feed.deliveryInfo}',
             contentPadding: EdgeInsets.all(30.0),
           ),
-          if (widget.feed.totalCost.isNullOrEmpty) ...[
+          if (widget.feed.totalCost != 0) ...[
             GenericTextContainer(
               title: 'Total kostnad',
-              content: '${widget.feed.totalCost} kr',
+              content: '${widget.feed.totalCost.round()} kr',
               icon: Icons.attach_money,
               contentPadding: EdgeInsets.all(30.0),
             ),
