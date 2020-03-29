@@ -8,6 +8,7 @@ import 'package:divoc/models/user.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:divoc/services/utils.dart';
 
 class CreateFeed extends StatefulWidget {
   @override
@@ -52,7 +53,7 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Mobil Nummer',
+                    title: 'Mobil nummer (syns endast för leverantören)',
                     hint: 'Skriv in ditt mobil nummer',
                     icon: Icons.phone,
                     initialValue: user.mobile,
@@ -71,7 +72,7 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Leverans information',
+                    title: 'Leverans uppgifter',
                     hint: 'Skriv in detaljerad leverans information som portkod och våning',
                     height: 100.0,
                     maxLines: 5,
@@ -81,7 +82,7 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericGoogleMapField(
-                    title: 'Plats',
+                    title: 'Plats (syns endast för leverantören)',
                     hint: 'Välj plats',
                     onSelected: (Address address) {
                       _address = address;
@@ -94,6 +95,10 @@ class _CreateFeedState extends State<CreateFeed> {
                         onPressed: () async {
                           if (_address == null) {
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Välj en giltig address')));
+                          } else if (_description.isNullOrEmpty) {
+                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i beskrivning')));
+                          } else if (_mobile.isNullOrEmpty) {
+                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i mobil nummer')));
                           } else if (_formKey.currentState.validate()) {
                             await Global.feedCollection.insert(
                               ({
