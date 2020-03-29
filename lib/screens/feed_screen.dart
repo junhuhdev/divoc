@@ -4,6 +4,7 @@ import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
 import 'package:divoc/components/feed/feed_details.dart';
 import 'package:divoc/models/feed.dart';
+import 'package:divoc/services/feed_service.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +18,12 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   Stream<List<Feed>> _feeds;
+  FeedService feedService = FeedService();
 
   @override
   void initState() {
     super.initState();
-    _feeds = Global.feedCollection.streamData();
+    _feeds = feedService.streamFeeds();
   }
 
   @override
