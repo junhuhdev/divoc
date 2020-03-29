@@ -97,7 +97,7 @@ class _CreateFeedState extends State<CreateFeed> {
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Välj en giltig address')));
                           } else if (_description.isNullOrEmpty) {
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i beskrivning')));
-                          } else if (_mobile.isNullOrEmpty) {
+                          } else if (_mobile.isNullOrEmpty && user.mobile.isNullOrEmpty) {
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i mobil nummer')));
                           } else if (_formKey.currentState.validate()) {
                             await Global.feedCollection.insert(
