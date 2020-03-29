@@ -1,3 +1,4 @@
+import 'package:divoc/common/images.dart';
 import 'package:divoc/components/maps/google_map_location.dart';
 import 'package:divoc/models/address.dart';
 import 'package:flutter/material.dart';
@@ -195,18 +196,35 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
   }
 }
 
-class GenericImageField extends StatefulWidget {
-  @override
-  _GenericImageFieldState createState() => _GenericImageFieldState();
-}
+class GenericImageField extends StatelessWidget {
+  final String title;
+  final String image;
 
-class _GenericImageFieldState extends State<GenericImageField> {
+  const GenericImageField({this.title, this.image});
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UploadedImageFullScreen(title: title, image: image),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Kvitto', style: kLabelStyle),
+            SizedBox(height: 10.0),
+            UploadedImage(image: title),
+          ],
+        ),
+      ),
+    );
   }
 }
-
 
 class GenericDateField extends StatefulWidget {
   final String title;

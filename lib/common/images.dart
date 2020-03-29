@@ -2,17 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';
 
-class RecipeImageFullScreen extends StatelessWidget {
+class UploadedImageFullScreen extends StatelessWidget {
+  final String title;
   final String image;
 
-  const RecipeImageFullScreen({this.image});
+  const UploadedImageFullScreen({this.image, this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Kvitto'),
+        title: Text(title),
         centerTitle: true,
       ),
       body: Container(
@@ -37,10 +38,10 @@ class RecipeImageFullScreen extends StatelessWidget {
   }
 }
 
-class RecipeImage extends StatelessWidget {
+class UploadedImage extends StatelessWidget {
   final String image;
 
-  const RecipeImage({this.image});
+  const UploadedImage({this.image});
 
   @override
   Widget build(BuildContext context) {

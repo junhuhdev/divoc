@@ -165,7 +165,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RecipeImageFullScreen(image: feed.recipeImage),
+                    builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: feed.recipeImage),
                   ),
                 ),
                 child: Padding(
@@ -175,7 +175,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                     children: <Widget>[
                       Text('Kvitto', style: kLabelStyle),
                       SizedBox(height: 10.0),
-                      RecipeImage(image: feed.recipeImage),
+                      UploadedImage(image: feed.recipeImage),
                     ],
                   ),
                 ),
