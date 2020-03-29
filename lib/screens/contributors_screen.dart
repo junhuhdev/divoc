@@ -2,6 +2,7 @@ import 'package:divoc/common/cards.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/models/user.dart';
+import 'package:divoc/screens/user_profile_screen.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:divoc/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,12 @@ class _ContributorsScreenState extends State<ContributorsScreen> {
                     city: user.city,
                     gender: user.gender,
                     age: user.age,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserProfileScreen(userId: user.id),
+                      ),
+                    ),
                   );
                 },
               ),
