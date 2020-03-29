@@ -9,6 +9,7 @@ import 'package:divoc/components/unicorn_fab/unicorn_button.dart';
 import 'package:divoc/models/feed.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/models/user_comment.dart';
+import 'package:divoc/screens/user_profile_screen.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:divoc/services/user_comment_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,7 +83,14 @@ class _FeedDetailsState extends State<FeedDetails> with TickerProviderStateMixin
                   backgroundColor: Colors.white,
                   mini: true,
                   child: Icon(Icons.remove_red_eye, color: Colors.blueGrey),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserProfileScreen(userId: widget.feed.ownerId),
+                      ),
+                    );
+                  },
                 ),
               ),
 
