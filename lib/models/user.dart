@@ -13,6 +13,9 @@ class User {
   final DateTime birthdate;
   final String mobile;
   final String gender;
+
+  /// giver | receiver
+  final String role;
   final String provider;
 
   User({
@@ -28,6 +31,7 @@ class User {
     this.birthdate,
     this.mobile,
     this.gender,
+    this.role,
     this.provider,
   });
 
@@ -45,8 +49,31 @@ class User {
       birthdate: data['birthdate'] == null ? DateTime.now() : data['birthdate'].toDate(),
       mobile: data['mobile'] ?? '',
       gender: data['gender'] ?? '',
+      role: data['role'] ?? '',
     );
   }
+
+  bool get isHelper {
+    return !role.isNullOrEmpty  && role == 'giver';
+  }
+
+  String get fromRole {
+    if (!role.isNullOrEmpty && role == "giver") {
+      return "Vill hjälpa";
+    } else {
+      return "Behöver hjälp";
+    }
+  }
+
+  static String toRole(String val) {
+    if (!val.isNullOrEmpty && val == 'Vill hjälpa') {
+      return "giver";
+    } else {
+      return "receiver";
+    }
+  }
+
+  static const USER_ROLES = ['Vill hjälpa', 'Behöver hjälp'];
 
   String get formattedAddress {
     if (street.isNullOrEmpty || postalCode.isNullOrEmpty) {

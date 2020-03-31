@@ -25,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _email;
   String _mobile;
   String _gender;
+  String _role;
   DateTime _birthdate;
   ImageService imageService = new ImageService();
   Address _address;
@@ -116,8 +117,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 20.0),
                       GenericDropdownField(
+                        title: 'Roll',
+                        hint: 'Välj roll',
+                        initialValue: user.fromRole,
+                        icon: CommunityMaterialIcons.hospital,
+                        options: User.USER_ROLES,
+                        onChanged: (String val) => setState(() => _role = val),
+                      ),
+                      SizedBox(height: 20.0),
+                      GenericDropdownField(
                         title: 'Kön',
-                        hint: 'Välj ditt kön',
+                        hint: 'Välj kön',
                         initialValue: user.gender,
                         icon: CommunityMaterialIcons.gender_male_female,
                         options: ['Man', 'Kvinna', 'Annat'],
@@ -155,11 +165,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
+                          String selectedRole = User.toRole(_role);
                           await Global.userDoc.upsert(
                             ({
                               'name': _name ?? user.name,
                               'email': _email ?? user.email,
                               'mobile': _mobile ?? user.mobile,
+                              'role': selectedRole,
                               'gender': _gender ?? user.gender,
                               'birthdate': _birthdate ?? user.birthdate,
                               'city': _address != null && !_address.city.isNullOrEmpty ? _address.city : user.city,

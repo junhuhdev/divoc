@@ -4,10 +4,12 @@ import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/feed/create_feed.dart';
 import 'package:divoc/components/feed/feed_details.dart';
 import 'package:divoc/models/feed.dart';
+import 'package:divoc/models/user.dart';
 import 'package:divoc/services/feed_service.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FeedScreen extends StatefulWidget {
   static const title = "Flöde";
@@ -66,16 +68,29 @@ class _FeedScreenState extends State<FeedScreen> {
                 ),
               ),
             ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.white,
-              child: Icon(Icons.add, color: Colors.blueGrey),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateFeed(),
-                  ),
-                );
+            floatingActionButton: Consumer<User>(
+              builder: (context, user, child) {
+                if (user == null) {
+                  return LoadingScreen();
+                } else {
+                  bool isHelper = user.isHelper;
+                  if (isHelper) {
+                    return Container();
+                  } else {
+                    return FloatingActionButton(
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.add, color: Colors.blueGrey),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateFeed(),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }
               },
             ),
           );
