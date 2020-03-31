@@ -59,21 +59,21 @@ class User {
 
   String get fromRole {
     if (!role.isNullOrEmpty && role == "giver") {
-      return "Vill hjälpa";
+      return "Medhjälpare";
     } else {
-      return "Behöver hjälp";
+      return "Mottagare";
     }
   }
 
   static String toRole(String val) {
-    if (!val.isNullOrEmpty && val == 'Vill hjälpa') {
+    if (!val.isNullOrEmpty && val == 'Medhjälpare') {
       return "giver";
     } else {
       return "receiver";
     }
   }
 
-  static const USER_ROLES = ['Vill hjälpa', 'Behöver hjälp'];
+  static const USER_ROLES = ['Medhjälpare', 'Mottagare'];
 
   String get formattedAddress {
     if (street.isNullOrEmpty || postalCode.isNullOrEmpty) {
