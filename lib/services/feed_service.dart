@@ -7,7 +7,9 @@ class FeedService {
   final Firestore _db = Firestore.instance;
 
   Stream<List<Feed>> streamFeeds() {
-    var ref = _db.collection('feeds').orderBy('created', descending: true).limit(100);
+    var ref = _db.collection('feeds')
+        .where('status', isEqualTo: 'created')
+        .orderBy('created', descending: true).limit(100);
     return ref.snapshots().map((list) => list.documents.map((doc) => Feed.fromMap(doc.data, doc.documentID)).toList());
   }
 
