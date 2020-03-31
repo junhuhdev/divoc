@@ -1,8 +1,9 @@
 import 'package:divoc/screens/home_screen.dart';
-import 'package:divoc/screens/login_screen.dart';
 import 'package:divoc/screens/signin_screen.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:divoc/services/security_service.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  FirebaseAnalytics analytics = FirebaseAnalytics();
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,9 @@ class MyApp extends StatelessWidget {
 //              bodyText1: TextStyle(color: Colors.white),
                 )),
         home: SigninScreen(),
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: analytics),
+        ],
       ),
     );
   }

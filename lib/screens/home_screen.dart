@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/components/main_app_bar.dart';
 import 'package:divoc/components/menu_drawer.dart';
@@ -7,6 +11,9 @@ import 'package:divoc/screens/contributors_screen.dart';
 import 'package:divoc/screens/delivery_screen.dart';
 import 'package:divoc/screens/feed_screen.dart';
 import 'package:divoc/screens/profile_screen.dart';
+import 'package:divoc/services/security_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +29,44 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   String _appBarTitle = "Flöde";
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  final SecurityService securityService = SecurityService();
+
+  StreamSubscription iosSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isIOS) {
+      iosSubscription = _fcm.onIosSettingsRegistered.listen((event) {
+        print(event);
+        _saveDeviceToken();
+      });
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+    } else {
+      _saveDeviceToken();
+    }
+  }
+
+  @override
+  void dispose() {
+    if (iosSubscription != null) iosSubscription.cancel();
+    super.dispose();
+  }
+
+  /// Get the token, save it to the database for current user
+  _saveDeviceToken() async {
+    FirebaseUser user = await securityService.getCurrentUser;
+    String fcmToken = await _fcm.getToken();
+    if (!fcmToken.isNullOrEmpty) {
+      var tokens = _db.collection('users').document(user.uid);
+
+      await tokens.setData({
+        'token': fcmToken,
+      }, merge: true);
+    }
+  }
 
   void _onItemTapped(int index) {
     if (index == 0) {
