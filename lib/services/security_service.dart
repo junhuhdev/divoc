@@ -37,7 +37,7 @@ class SecurityService {
           'name': user.name,
           'birthdate': user.birthdate,
           'age': user.getAge,
-          'gender': user.gender ?? 'Annat',
+          'gender': user.gender ?? 'Man',
           'role': user.role ?? 'giver',
           'photo': user.photo ?? firebaseUser.photoUrl,
           'mobile': user.mobile,
