@@ -350,7 +350,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: UserProfileSmallImage(
-                    image: widget.feed.image,
+                    image: feedRequest.image,
                   ),
                 ),
               ),

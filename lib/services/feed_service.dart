@@ -65,13 +65,13 @@ class FeedService {
           ({
             'userId': currentUser.id,
             'name': currentUser.name,
-            'mobile': mobile,
+            'image': currentUser.photo,
+            'mobile': currentUser.mobile,
+            'city': currentUser.city,
+            'state': currentUser.state,
             'status': 'requested',
             'comment': comment,
             'feedId': feed.id,
-            'image': feed.image,
-            'city': feed.city,
-            'state': feed.state,
             'created': DateTime.now(),
           }),
         );
