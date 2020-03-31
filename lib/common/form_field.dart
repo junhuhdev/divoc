@@ -170,13 +170,11 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
           child: Container(
             alignment: Alignment.centerLeft,
             decoration: kBoxDecorationStyle,
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             height: 60.0,
             child: Row(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(start: 12.0),
-                  child: Icon(Icons.map, color: Colors.white),
-                ),
+                Icon(Icons.map, color: Colors.white),
                 SizedBox(width: 12.0),
                 if (widget.initialValue.isNullOrEmpty && _address.isNull) ...[
                   Text(widget.hint, style: kHintTextStyle),
