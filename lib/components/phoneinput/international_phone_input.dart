@@ -64,7 +64,7 @@ class _InternationalPhoneInputState extends State<InternationalPhoneInput> {
 
   @override
   void initState() {
-    errorText = widget.errorText ?? 'Skriv in ett giltigt mobil nummer';
+    errorText = widget.errorText ?? 'Ogiltigt mobil nummer';
     hintText = widget.hintText ?? 'ex. 0701111119';
     labelText = widget.labelText;
     errorStyle = widget.errorStyle;
@@ -160,9 +160,8 @@ class _InternationalPhoneInputState extends State<InternationalPhoneInput> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
-          height: 60.0,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Flexible(
                 flex: 1,
@@ -179,16 +178,15 @@ class _InternationalPhoneInputState extends State<InternationalPhoneInput> {
                       return DropdownMenuItem<Country>(
                         value: value,
                         child: Container(
-                          padding: const EdgeInsets.only(bottom: 5.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Image.asset(
                                 value.flagUri,
-                                width: 32.0,
+                                width: 25.0,
                               ),
-                              SizedBox(width: 4),
-                              Text(value.dialCode, style: TextStyle(color: Colors.grey),)
+                              SizedBox(width: 4.0),
+                              Text(value.dialCode, style: TextStyle(color: Colors.grey)),
                             ],
                           ),
                         ),
@@ -207,11 +205,13 @@ class _InternationalPhoneInputState extends State<InternationalPhoneInput> {
                   controller: phoneTextController,
                   decoration: InputDecoration(
                     border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(0),
+                    isDense: true,
                     hintStyle: kHintTextStyle,
                     hintText: hintText,
                     labelText: labelText,
                     errorText: hasError ? errorText : null,
-                    errorStyle: errorStyle ?? null,
+                    errorStyle: TextStyle(),
                     labelStyle: labelStyle,
                     errorMaxLines: errorMaxLines ?? 3,
                   ),

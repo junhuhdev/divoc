@@ -33,6 +33,7 @@ class _SigninScreenState extends State<SigninScreen> {
   String _name;
   DateTime _birthDate;
   String _gender;
+  String _role;
   ProvierType _provierType;
   bool _codeSent = false;
   SocialResult _socialResult;
@@ -111,6 +112,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     birthdate: _birthDate,
                     mobile: _mobile,
                     gender: _gender,
+                    role: _role,
                   );
                   try {
                     if (_provierType == ProvierType.email) {
@@ -298,6 +300,15 @@ class _SigninScreenState extends State<SigninScreen> {
                               _birthDate = val;
                             });
                           },
+                        ),
+                        SizedBox(height: 30.0),
+                        GenericDropdownField(
+                          title: 'Roll',
+                          hint: 'Välj roll',
+                          initialValue: User.USER_ROLES.first,
+                          icon: CommunityMaterialIcons.hospital,
+                          options: User.USER_ROLES,
+                          onChanged: (String val) => setState(() => _role = val),
                         ),
                         SizedBox(height: 30.0),
                         GenericDropdownField(

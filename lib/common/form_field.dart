@@ -475,7 +475,6 @@ class SmsCodeField extends StatelessWidget {
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
-          height: 60.0,
           child: TextField(
             keyboardType: TextInputType.phone,
             style: TextStyle(

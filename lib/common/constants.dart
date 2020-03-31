@@ -89,6 +89,7 @@ final kPhoneInputDecoration = InputDecoration(
 
 final kSmsCodeInputDecoration = InputDecoration(
   border: InputBorder.none,
+  isDense: true,
   contentPadding: EdgeInsets.only(top: 14.0),
   prefixIcon: Icon(
     Icons.sms,
