@@ -229,7 +229,7 @@ class GenericImageField extends StatelessWidget {
 class GenericDateField extends StatefulWidget {
   final String title;
   final String hint;
-  final String initialValue;
+  final DateTime initialValue;
   final Function(DateTime) onChanged;
 
   const GenericDateField({this.title, this.hint, this.onChanged, this.initialValue});
@@ -242,9 +242,20 @@ class _GenericDateFieldState extends State<GenericDateField> {
   DateTime _date;
 
   Future<void> selectDate(BuildContext context) async {
+    DateTime initialVal;
+
+    if (_date != null) {
+      initialVal = _date;
+    } else if (widget.initialValue != null) {
+      initialVal = widget.initialValue;
+    } else {
+      initialVal = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
+    }
+
+
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: _date == null ? DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day) : _date,
+      initialDate: initialVal,
       firstDate: DateTime(1940),
       lastDate: DateTime(2030),
     );
@@ -283,7 +294,7 @@ class _GenericDateFieldState extends State<GenericDateField> {
                   Text(widget.hint, style: kHintTextStyle),
                 ],
                 if (!widget.initialValue.isNullOrEmpty && _date == null) ...[
-                  Text(widget.initialValue, style: kTextStyle),
+                  Text(widget.initialValue.toLocal().toString().split(' ')[0], style: kTextStyle),
                 ],
                 if (_date != null) ...[
                   Text(_date.toLocal().toString().split(' ')[0], style: kTextStyle),
@@ -353,7 +364,7 @@ class _GenericDropdownFieldState extends State<GenericDropdownField> {
             value: _val,
             items: widget.options
                 .map((val) => DropdownMenuItem<String>(
-                    value: val, child: Text(val, style: TextStyle(color: Colors.grey, fontFamily: 'OpenSans'))))
+                    value: val, child: Text(val, style: TextStyle(color: Colors.black, fontFamily: 'OpenSans'))))
                 .toList(),
             decoration: InputDecoration(
               border: InputBorder.none,

@@ -27,28 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _gender;
   DateTime _birthdate;
   ImageService imageService = new ImageService();
-  var _genderOptions = ['Man', 'Kvinna', 'Annat'];
   Address _address;
-
-  Future selectDate(BuildContext context) async {
-    setState(() {
-      isLoading = true;
-    });
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: _birthdate,
-      firstDate: DateTime(1950),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != _birthdate) {
-      setState(() {
-        _birthdate = picked;
-      });
-    }
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
@@ -139,6 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       GenericDropdownField(
                         title: 'Kön',
                         hint: 'Välj ditt kön',
+                        initialValue: user.gender,
                         icon: CommunityMaterialIcons.gender_male_female,
                         options: ['Man', 'Kvinna', 'Annat'],
                         onChanged: (String val) => setState(() => _gender = val),
@@ -147,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       GenericDateField(
                         title: 'Födelsedatum',
                         hint: 'Välj födelsedatum',
-                        initialValue: '${user.birthdate.toLocal()}'.split(' ')[0],
+                        initialValue: user.birthdate.isNull ? null : user.birthdate,
                         onChanged: (DateTime val) {
                           setState(() {
                             _birthdate = val;
@@ -203,6 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         onPressed: () {},
                       ),
+                      SizedBox(height: 30.0),
                     ],
                     if (user == null) ...[
                       Container(),
