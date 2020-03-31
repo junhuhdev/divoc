@@ -5,6 +5,7 @@ import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/common/loader.dart';
 import 'package:divoc/common/text_field.dart';
+import 'package:divoc/components/phoneinput/international_phone_input.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/services/security_service.dart';
@@ -26,6 +27,7 @@ class _SigninScreenState extends State<SigninScreen> {
   String _email;
   String _password;
   String _mobile;
+  String _mobileIsoCode = '+46';
   String _verificationId;
   String _smsCode;
   String _name;
@@ -317,8 +319,15 @@ class _SigninScreenState extends State<SigninScreen> {
                       if (_formType == FormType.phone_verification) ...[
                         Text('Mobil Verifiering', style: kLoginStyle),
                         SizedBox(height: 30.0),
-                        PhoneNumberField(callback: (String val) => setState(() => _mobile = val)),
-                        SizedBox(height: 30.0),
+                        InternationalPhoneInput(
+                          onPhoneNumberChange: (String number, String internationalizedPhoneNumber, String isoCode) {
+                            setState(() {
+                              _mobile = internationalizedPhoneNumber;
+                            });
+                          },
+                          initialSelection: _mobileIsoCode,
+                          enabledCountries: ['+46', '+47', '+45', '+358'],
+                        ),
                         _codeSent
                             ? SmsCodeField(callback: (String val) => setState(() => _smsCode = val))
                             : Container(),
@@ -333,5 +342,13 @@ class _SigninScreenState extends State<SigninScreen> {
         ),
       ),
     );
+  }
+
+
+  void onPhoneNumberChange(String number, String internationalizedPhoneNumber, String isoCode) {
+    setState(() {
+      _mobile = number;
+      _mobileIsoCode = isoCode;
+    });
   }
 }

@@ -457,8 +457,9 @@ class SmsCodeField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        SizedBox(height: 30.0),
         Text(
-          'Code',
+          'Kod',
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),

@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _email;
   String _mobile;
   String _gender;
-  DateTime _birthdate = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
+  DateTime _birthdate;
   ImageService imageService = new ImageService();
   var _genderOptions = ['Man', 'Kvinna', 'Annat'];
   Address _address;

@@ -1,0 +1,34 @@
+[
+  {
+    "num_code": "752",
+    "alpha_2_code": "SE",
+    "alpha_3_code": "SWE",
+    "en_short_name": "Sweden",
+    "nationality": "Swedish",
+    "dial_code": "+46"
+  },
+  {
+    "num_code": "578",
+    "alpha_2_code": "NO",
+    "alpha_3_code": "NOR",
+    "en_short_name": "Norway",
+    "nationality": "Norwegian",
+    "dial_code": "+47"
+  },
+  {
+    "num_code": "208",
+    "alpha_2_code": "DK",
+    "alpha_3_code": "DNK",
+    "en_short_name": "Denmark",
+    "nationality": "Danish",
+    "dial_code": "+45"
+  },
+  {
+    "num_code": "246",
+    "alpha_2_code": "FI",
+    "alpha_3_code": "FIN",
+    "en_short_name": "Finland",
+    "nationality": "Finnish",
+    "dial_code": "+358"
+  }
+]

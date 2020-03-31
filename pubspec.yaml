@@ -38,7 +38,7 @@ dependencies:
   apple_sign_in: ^0.1.0
   flutter_rating_bar: ^3.0.1+1
   community_material_icon: 3.5.95
-
+  libphonenumber: ^1.0.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -67,6 +67,11 @@ flutter:
 
   assets:
     - assets/
+    - assets/flags/
+    - assets/flags/se.png
+    - assets/flags/fi.png
+    - assets/flags/dk.png
+    - assets/flags/no.png
     - assets/img/
 
   # To add assets to your application, add an assets section, like this:
