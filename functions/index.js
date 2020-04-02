@@ -21,31 +21,34 @@ exports.newFeedRequest = functions
 
         const feed = snapshot.data();
 
-        const querySnapshot = await db
+        db
             .collection('users')
             .doc(feed.ownerId)
             .get()
-            .data();
+            .then(querySnapShot => {
+                console.log('Found user token', querySnapShot);
 
-        console.log('Found user token', querySnapshot);
+                const payload = {
+                    notification: {
+                        title: `Du har en ny förfrågan från "${feed.name}"`,
+                        body: feed.comment,
+                        badge: '1',
+                        sound: 'default'
+                    }
+                }
 
-        const payload = {
-            notification: {
-                title: `Du har en ny förfrågan från "${feed.name}"`,
-                body: feed.comment,
-                badge: '1',
-                sound: 'default'
-            }
-        }
+                admin
+                    .messaging()
+                    .sendToDevice(querySnapShot.token, payload)
+                    .then(response => {
+                        console.log('Succcessfully sent feed request', response)
+                    })
+                    .catch(error => {
+                        console.log('Error ', error)
+                    })
 
-        admin
-            .messaging()
-            .sendToDevice(querySnapshot.token, payload)
-            .then(response => {
-                console.log('Succcessfully sent feed request', response)
             })
-            .catch(error => {
-                console.log('Error ', error)
-            })
+
+
 
     });
