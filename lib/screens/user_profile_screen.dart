@@ -51,6 +51,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               GenericTextContainer(title: 'Namn', content: user.name, icon: Icons.person),
               GenericTextContainer(title: 'Ålder', content: user.getAge.toString(), icon: Icons.person),
               GenericTextContainer(title: 'Kön', content: user.gender, icon: CommunityMaterialIcons.gender_male_female),
+              if (!user.role.isNullOrEmpty) ...[
+                GenericTextContainer(
+                  title: 'Roll',
+                  content: user.fromRole,
+                  icon: CommunityMaterialIcons.hospital,
+                ),
+              ],
               if (!user.state.isNullOrEmpty && !user.city.isNullOrEmpty) ...[
                 GenericTextContainer(
                   title: 'Plats',

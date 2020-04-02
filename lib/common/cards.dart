@@ -123,18 +123,18 @@ class ContributorCard extends StatelessWidget {
                 flex: 4,
                 child: Text(
                   name,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12.0),
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: Container(
                   child: RatingBar(
                     itemSize: 10.0,
-                    initialRating: 3,
+                    initialRating: 5,
                     minRating: 1,
                     direction: Axis.horizontal,
-                    allowHalfRating: true,
+                    allowHalfRating: false,
                     itemCount: 5,
 //                    itemPadding: EdgeInsets.all(30.0),
                     itemBuilder: (context, _) => Icon(
@@ -154,9 +154,9 @@ class ContributorCard extends StatelessWidget {
             direction: Axis.vertical,
             alignment: WrapAlignment.spaceBetween,
             children: <Widget>[
-              Text("$gender, $age", style: TextStyle(color: Colors.white, fontSize: 12.0)),
+              Text("$gender, $age", style: TextStyle(color: Colors.white, fontSize: 10.0)),
               SizedBox(height: 3),
-              Text("$city", style: TextStyle(color: Colors.white, fontSize: 12.0)),
+              Text("$city", style: TextStyle(color: Colors.white, fontSize: 10.0)),
             ],
           ),
           onTap: () => onTap(),
