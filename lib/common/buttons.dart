@@ -1,3 +1,4 @@
+import 'package:divoc/screens/forgotten_password_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -78,7 +79,12 @@ class ForgottenPasswordButton extends StatelessWidget {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ForgottenPasswordScreen(),
+          ),
+        ),
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Glömt Lösenord?',
