@@ -147,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(height: 20.0),
                       GenericGoogleMapField(
                         title: 'Plats',
-                        hint: 'Välj plats',
+                        hint: 'Välj adress',
                         initialValue: user.formattedAddress,
                         onSelected: (Address address) {
                           _address = address;
