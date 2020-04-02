@@ -168,6 +168,10 @@ class SecurityService {
     }
   }
 
+  Future<SocialResult> loginGoogle() async {
+    
+  }
+
   Future<SocialResult> loginFacebook() async {
     AuthCredential credentials;
     String token;
