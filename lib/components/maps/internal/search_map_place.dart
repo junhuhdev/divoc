@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class SearchMapPlaceWidget extends StatefulWidget {
   SearchMapPlaceWidget({
     @required this.apiKey,
-    this.placeholder = 'Search',
+    this.placeholder = 'Sök på adress',
     this.icon = Icons.search,
     this.iconColor = Colors.blue,
     this.onSelected,

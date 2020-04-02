@@ -112,7 +112,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     birthdate: _birthDate,
                     mobile: _mobile,
                     gender: _gender,
-                    role: _role,
+                    role: User.toRole(_role),
                   );
                   try {
                     if (_provierType == ProvierType.email) {

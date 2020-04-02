@@ -1,8 +1,10 @@
+import 'package:divoc/components/maps/internal/place.dart';
 import 'package:divoc/components/maps/internal/search_map_place.dart';
 import 'package:divoc/models/address.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:divoc/services/utils.dart';
 
 class GoogleMapLocation extends StatefulWidget {
   final Function(Address) onSelected;
@@ -48,7 +50,7 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Enter Location'),
+        title: Text('Skriv in adress'),
         centerTitle: true,
       ),
       resizeToAvoidBottomPadding: false,
@@ -59,6 +61,9 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
             initialCameraPosition: kStartCameraPosition,
             markers: _markers,
             onMapCreated: _onMapCreated,
+            mapToolbarEnabled: true,
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
           ),
           Positioned(
             top: 60,
@@ -68,6 +73,9 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
               location: kStartCameraPosition.target,
               radius: 30000,
               sessionToken: Uuid().v4(),
+              onSearch: (Place place) {
+                print("ON SEARCH $place");
+              },
               onSelected: (place) async {
                 FocusScope.of(context).unfocus();
                 final geolocation = await place.geolocation;
@@ -96,16 +104,16 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: _address != null && !_address.street.isNullOrEmpty ? FloatingActionButton.extended(
         icon: Icon(Icons.place),
-        label: Text('Select'),
+        label: Text('Välj'),
         onPressed: () {
           if (_address != null) {
             widget.onSelected(_address);
             Navigator.pop(context);
           }
         },
-      ),
+      ) : Container(),
     );
   }
 }
