@@ -61,6 +61,7 @@ class FeedService {
     await _db.collection('feeds').document(feed.id).collection('requests').document(currentUser.id).setData(
           ({
             'userId': currentUser.id,
+            'ownerId': feed.ownerId,
             'name': currentUser.name,
             'image': currentUser.photo,
             'mobile': currentUser.mobile,

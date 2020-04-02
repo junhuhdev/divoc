@@ -148,6 +148,7 @@ class SecurityService {
               'name': '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}',
               'email': appleIdCredential.email,
               'gender': 'Annat',
+              'role': 'giver',
               'provider': LoginProvider.apple,
               'createdAt': DateTime.now(),
             },

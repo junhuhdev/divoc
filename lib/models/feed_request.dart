@@ -3,6 +3,7 @@ class FeedRequest {
   final String id;
   final String feedId;
   final String userId;
+  final String ownerId;
   final String name;
   final String mobile;
   final String comment;
@@ -18,6 +19,7 @@ class FeedRequest {
     this.id,
     this.feedId,
     this.userId,
+    this.ownerId,
     this.name,
     this.mobile,
     this.comment,
@@ -33,6 +35,7 @@ class FeedRequest {
       id: id ?? '',
       feedId: data['feedId'] ?? '',
       userId: data['userId'] ?? '',
+      ownerId: data['ownerId'] ?? '',
       name: data['name'] ?? '',
       mobile: data['mobile'] ?? '',
       comment: data['comment'] ?? '',
