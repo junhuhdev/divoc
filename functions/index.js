@@ -17,20 +17,23 @@ exports.newFeedRequest = functions
     .region('europe-west1')
     .firestore
     .document('feeds/{feedId}/requests/{userId}')
-    .onCreate(async snapshot => {
+    .onCreate((snapshot, context) => {
+        console.log('----------------start function--------------------');
 
         const feed = snapshot.data();
+        console.log('found new feed request', feed);
 
-        db
+        admin
+            .firestore()
             .collection('users')
             .doc(feed.ownerId)
             .get()
             .then(querySnapShot => {
-                console.log('Found user token', querySnapShot);
+                console.log('Found user token', querySnapShot.data());
 
                 const payload = {
                     notification: {
-                        title: `Du har en ny förfrågan från "${feed.name}"`,
+                        title: `Du har en ny förfrågan från ${feed.name}`,
                         body: feed.comment,
                         badge: '1',
                         sound: 'default'
@@ -39,7 +42,7 @@ exports.newFeedRequest = functions
 
                 admin
                     .messaging()
-                    .sendToDevice(querySnapShot.token, payload)
+                    .sendToDevice(querySnapShot.data().token, payload)
                     .then(response => {
                         console.log('Succcessfully sent feed request', response)
                     })
@@ -49,6 +52,6 @@ exports.newFeedRequest = functions
 
             })
 
-
+        return null;
 
     });
