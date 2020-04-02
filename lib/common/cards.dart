@@ -127,10 +127,10 @@ class ContributorCard extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Container(
                   child: RatingBar(
-                    itemSize: 15.0,
+                    itemSize: 10.0,
                     initialRating: 3,
                     minRating: 1,
                     direction: Axis.horizontal,
