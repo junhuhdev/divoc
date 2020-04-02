@@ -1,8 +1,10 @@
 import 'package:divoc/common/images.dart';
 import 'package:divoc/components/maps/google_map_location.dart';
 import 'package:divoc/models/address.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'constants.dart';
 
 class GenericTextContainer extends StatelessWidget {
@@ -239,29 +241,13 @@ class GenericDateField extends StatefulWidget {
 class _GenericDateFieldState extends State<GenericDateField> {
   DateTime _date;
 
-  Future<void> selectDate(BuildContext context) async {
-    DateTime initialVal;
-
+  DateTime getInitialVal() {
     if (_date != null) {
-      initialVal = _date;
+      return _date;
     } else if (widget.initialValue != null) {
-      initialVal = widget.initialValue;
+      return widget.initialValue;
     } else {
-      initialVal = DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
-    }
-
-
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: initialVal,
-      firstDate: DateTime(1940),
-      lastDate: DateTime(2030),
-    );
-    if (picked != null && picked != _date) {
-      setState(() {
-        _date = picked;
-      });
-      widget.onChanged(_date);
+      return DateTime(DateTime.now().year - 29, DateTime.now().month, DateTime.now().day);
     }
   }
 
@@ -276,7 +262,25 @@ class _GenericDateFieldState extends State<GenericDateField> {
         ),
         SizedBox(height: 10.0),
         GestureDetector(
-          onTap: () => selectDate(context),
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return CupertinoDatePicker(
+                  minimumYear: 1900,
+                  maximumYear: DateTime.now().year + 1,
+                  mode: CupertinoDatePickerMode.date,
+                  initialDateTime: getInitialVal(),
+                  onDateTimeChanged: (DateTime datetime) {
+                    setState(() {
+                      _date = datetime;
+                    });
+                    widget.onChanged(_date);
+                  },
+                );
+              },
+            );
+          },
           child: Container(
             alignment: Alignment.centerLeft,
             decoration: kBoxDecorationStyle,

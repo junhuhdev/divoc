@@ -5,7 +5,9 @@ import 'package:divoc/services/security_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'common/constants.dart';
@@ -17,8 +19,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
-  FirebaseAnalytics analytics = FirebaseAnalytics();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +33,17 @@ class MyApp extends StatelessWidget {
         routes: {
           HomeScreen.id: (context) => HomeScreen(),
         },
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,  // Add global cupertino localiztions.
+        ],
+        locale: Locale('sv', 'SE'),  // Current locale
+        supportedLocales: [
+          const Locale('sv', 'SE'), // English
+          const Locale('en', 'US'), // English
+        ],
         theme: ThemeData(
 //          brightness: Brightness.dark,
             primaryColor: kBackgroundColor,
@@ -49,7 +60,7 @@ class MyApp extends StatelessWidget {
                 )),
         home: SigninScreen(),
         navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: analytics),
+          FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         ],
       ),
     );
