@@ -79,12 +79,18 @@ class ForgottenPasswordButton extends StatelessWidget {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ForgottenPasswordScreen(),
-          ),
-        ),
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ForgottenPasswordScreen(),
+            ),
+          );
+          Scaffold.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text("$result")));
+
+        },
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Glömt Lösenord?',

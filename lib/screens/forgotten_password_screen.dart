@@ -38,8 +38,7 @@ class _ForgottenPasswordScreenState extends State<ForgottenPasswordScreen> {
                     return;
                   }
                   securityService.sendPasswordResetEmail(_email);
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Skickat återställnings mail')));
-                  Navigator.pop(context);
+                  Navigator.pop(context, 'Skickat återställnings mail');
                 },
               ),
             ],
