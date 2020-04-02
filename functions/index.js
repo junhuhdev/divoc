@@ -24,7 +24,8 @@ exports.newFeedRequest = functions
         const querySnapshot = await db
             .collection('users')
             .doc(feed.ownerId)
-            .get();
+            .get()
+            .data();
 
         console.log('Found user token', querySnapshot);
 
