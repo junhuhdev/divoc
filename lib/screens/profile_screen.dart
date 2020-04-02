@@ -175,10 +175,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               'birthdate': _birthdate ?? user.birthdate,
                               'city': _address != null && !_address.city.isNullOrEmpty ? _address.city : user.city,
                               'state': _address != null && !_address.state.isNullOrEmpty ? _address.state : user.state,
-                              'postalCode': _address != null && !_address.postalCode.isNullOrEmpty ? _address.postalCode : user.postalCode,
-                              'street': _address != null && !_address.street.isNullOrEmpty ? _address.street : user.street,
+                              'postalCode': _address != null && !_address.postalCode.isNullOrEmpty
+                                  ? _address.postalCode
+                                  : user.postalCode,
+                              'street':
+                                  _address != null && !_address.street.isNullOrEmpty ? _address.street : user.street,
                             }),
                           );
+                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Uppdaterat profil')));
                         },
                       ),
                       SizedBox(height: 10.0),
