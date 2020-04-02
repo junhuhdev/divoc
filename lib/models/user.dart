@@ -68,8 +68,10 @@ class User {
   static String toRole(String val) {
     if (!val.isNullOrEmpty && val == 'Medhjälpare') {
       return "giver";
-    } else {
+    } else if (!val.isNullOrEmpty && val == 'Mottagare') {
       return "receiver";
+    } else {
+      return "giver";
     }
   }
 

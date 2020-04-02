@@ -33,7 +33,7 @@ class _SigninScreenState extends State<SigninScreen> {
   String _name;
   DateTime _birthDate;
   String _gender;
-  String _role;
+  String _role = "Medhjälpare";
   ProvierType _provierType;
   bool _codeSent = false;
   SocialResult _socialResult;
@@ -73,12 +73,15 @@ class _SigninScreenState extends State<SigninScreen> {
             onPressed: () async {
               FocusScope.of(context).unfocus();
               if (!_codeSent) {
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Skickat sms-kod var god och vänta...')));
+
                 /// (1) Send sms verification code
                 final PhoneVerificationCompleted verified = (AuthCredential authResult) {
                   FirebaseAuth.instance.signInWithCredential(authResult);
                 };
 
                 final PhoneVerificationFailed verificationfailed = (AuthException authException) {
+                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktig verifierings kod')));
                   print('${authException.message}');
                 };
 
@@ -95,7 +98,7 @@ class _SigninScreenState extends State<SigninScreen> {
 
                 await FirebaseAuth.instance.verifyPhoneNumber(
                     phoneNumber: _mobile,
-                    timeout: const Duration(seconds: 60),
+                    timeout: const Duration(seconds: 120),
                     verificationCompleted: verified,
                     verificationFailed: verificationfailed,
                     codeSent: smsSent,
@@ -305,7 +308,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         GenericDropdownField(
                           title: 'Roll',
                           hint: 'Välj roll',
-                          initialValue: User.USER_ROLES.first,
+                          initialValue: _role,
                           icon: CommunityMaterialIcons.hospital,
                           options: User.USER_ROLES,
                           onChanged: (String val) => setState(() => _role = val),
@@ -336,6 +339,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               _mobile = internationalizedPhoneNumber;
                             });
                           },
+                          initialPhoneNumber: _mobile,
                           initialSelection: _mobileIsoCode,
                           enabledCountries: ['+46', '+47', '+45', '+358'],
                         ),
