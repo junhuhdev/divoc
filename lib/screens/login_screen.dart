@@ -76,32 +76,68 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 30.0),
           ],
-          SocialButton(
-            onTap: () async {
-              setState(() {
-                _isLoading = true;
-              });
-              _socialResult = await securityService.loginFacebook();
-              if (_socialResult == null) {
-                setState(() {
-                  _isLoading = false;
-                });
-              } else if (_socialResult.authType == AuthType.COLLECT_INFORMATION) {
-                setState(() {
-                  _isLoading = false;
-                  _name = _socialResult.user.displayName;
-                  _provierType = ProvierType.facebook;
-                  _formType = FormType.collect_information;
-                });
-              } else {
-                setState(() {
-                  _isLoading = false;
-                });
-                redirectIfAuthenticated();
-              }
-            },
-            logo: AssetImage(
-              'assets/img/facebook.jpg',
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SocialButton(
+                  onTap: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    _socialResult = await securityService.loginFacebook();
+                    if (_socialResult == null) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    } else if (_socialResult.authType == AuthType.COLLECT_INFORMATION) {
+                      setState(() {
+                        _isLoading = false;
+                        _name = _socialResult.user.displayName;
+                        _provierType = ProvierType.facebook;
+                        _formType = FormType.collect_information;
+                      });
+                    } else {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      redirectIfAuthenticated();
+                    }
+                  },
+                  logo: AssetImage(
+                    'assets/img/facebook.jpg',
+                  ),
+                ),
+                SocialButton(
+                  onTap: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    _socialResult = await securityService.loginFacebook();
+                    if (_socialResult == null) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    } else if (_socialResult.authType == AuthType.COLLECT_INFORMATION) {
+                      setState(() {
+                        _isLoading = false;
+                        _name = _socialResult.user.displayName;
+                        _provierType = ProvierType.facebook;
+                        _formType = FormType.collect_information;
+                      });
+                    } else {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      redirectIfAuthenticated();
+                    }
+                  },
+                  logo: AssetImage(
+                    'assets/img/google.jpg',
+                  ),
+                ),
+              ],
             ),
           ),
         ],

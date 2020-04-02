@@ -86,10 +86,11 @@ class ForgottenPasswordButton extends StatelessWidget {
               builder: (context) => ForgottenPasswordScreen(),
             ),
           );
-          Scaffold.of(context)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text("$result")));
-
+          if (result != null) {
+            Scaffold.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(SnackBar(content: Text("$result")));
+          }
         },
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
