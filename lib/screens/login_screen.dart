@@ -107,34 +107,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   'assets/img/facebook.jpg',
                 ),
               ),
-              SocialButton(
-                onTap: () async {
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  _socialResult = await securityService.loginGoogle();
-                  if (_socialResult == null) {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  } else if (_socialResult.authType == AuthType.COLLECT_INFORMATION) {
-                    setState(() {
-                      _isLoading = false;
-                      _name = _socialResult.user.displayName;
-                      _provierType = ProvierType.google;
-                      _formType = FormType.collect_information;
-                    });
-                  } else {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    redirectIfAuthenticated();
-                  }
-                },
-                logo: AssetImage(
-                  'assets/img/google.jpg',
-                ),
-              ),
+//              SocialButton(
+//                onTap: () async {
+//                  setState(() {
+//                    _isLoading = true;
+//                  });
+//                  _socialResult = await securityService.loginGoogle();
+//                  if (_socialResult == null) {
+//                    setState(() {
+//                      _isLoading = false;
+//                    });
+//                  } else if (_socialResult.authType == AuthType.COLLECT_INFORMATION) {
+//                    setState(() {
+//                      _isLoading = false;
+//                      _name = _socialResult.user.displayName;
+//                      _provierType = ProvierType.google;
+//                      _formType = FormType.collect_information;
+//                    });
+//                  } else {
+//                    setState(() {
+//                      _isLoading = false;
+//                    });
+//                    redirectIfAuthenticated();
+//                  }
+//                },
+//                logo: AssetImage(
+//                  'assets/img/google.jpg',
+//                ),
+//              ),
             ],
           ),
         ],
