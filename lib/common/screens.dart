@@ -2,10 +2,12 @@ import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/components/phoneinput/international_phone_input.dart';
+import 'package:divoc/services/globals.dart';
 import 'package:divoc/services/security_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';
+import 'package:flutter/services.dart';
 import 'constants.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -161,9 +163,28 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
                         PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: _smsCode);
                     AuthResult authResult = await user.linkWithCredential(authCreds);
                     if (authResult != null) {
+                      await Global.userDoc.upsert(
+                        ({
+                          'mobile': _mobile,
+                        }),
+                      );
                       widget.onSelected(_mobile);
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifiering lyckades')));
+                      Navigator.pop(context);
                     }
                   }
+                } on PlatformException catch (e) {
+                  if (e.code == "ERROR_INVALID_VERIFICATION_CODE") {
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktig verifierings kod')));
+                    return;
+                  }
+                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+                  FirebaseUser user = await _auth.currentUser();
+                  if (user != null) {
+                    await user.unlinkFromProvider(PhoneAuthProvider.providerId);
+                    return;
+                  }
+                  print("already linked $e");
                 } catch (error) {
                   print("Verification failed $error");
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifieringen gick fel')));
