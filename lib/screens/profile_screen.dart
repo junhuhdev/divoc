@@ -108,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 20.0),
                       GenericTextField(
-                        title: 'Mobil Nummer',
+                        title: 'Mobil nummer',
                         hint: 'Fyll i mobil nummer (inkl +46)',
                         icon: Icons.phone,
                         initialValue: user.mobile,

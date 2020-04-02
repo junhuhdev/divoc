@@ -1,4 +1,5 @@
 import 'package:divoc/screens/home_screen.dart';
+import 'package:divoc/screens/login_screen.dart';
 import 'package:divoc/screens/signin_screen.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:divoc/services/security_service.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
 //              bodyText2: TextStyle(color: Colors.white),
 //              bodyText1: TextStyle(color: Colors.white),
                 )),
-        home: SigninScreen(),
+        home: LoginScreen(),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         ],
