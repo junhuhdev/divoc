@@ -48,7 +48,7 @@ class _ForgottenPasswordScreenState extends State<ForgottenPasswordScreen> {
                     }
                     return;
                   }
-                  Navigator.pop(context, 'Skickat mail till $_email');
+                  Navigator.pop(context, 'Skickat återställnings mail till $_email');
                 },
               ),
             ],
