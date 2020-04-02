@@ -75,6 +75,17 @@ class User {
     }
   }
 
+  static String toRoleOrNull(String val) {
+    if (!val.isNullOrEmpty && val == 'Medhjälpare') {
+      return "giver";
+    } else if (!val.isNullOrEmpty && val == 'Mottagare') {
+      return "receiver";
+    } else {
+      return null;
+    }
+  }
+
+
   static const USER_ROLES = ['Medhjälpare', 'Mottagare'];
 
   String get formattedAddress {

@@ -165,13 +165,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-                          String selectedRole = User.toRole(_role);
+                          String selectedRole = User.toRoleOrNull(_role);
                           await Global.userDoc.upsert(
                             ({
                               'name': _name ?? user.name,
                               'email': _email ?? user.email,
                               'mobile': _mobile ?? user.mobile,
-                              'role': selectedRole,
+                              'role': selectedRole ?? user.role,
                               'gender': _gender ?? user.gender,
                               'birthdate': _birthdate ?? user.birthdate,
                               'city': _address != null && !_address.city.isNullOrEmpty ? _address.city : user.city,
