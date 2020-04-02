@@ -171,13 +171,13 @@ class SecurityService {
   }
 
   Future<SocialResult> loginGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
     try {
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
       final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
       final FirebaseUser currentUser = await _auth.currentUser();
       if (user == null || currentUser == null || currentUser.uid == user.uid) {
