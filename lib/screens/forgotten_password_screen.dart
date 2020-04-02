@@ -5,6 +5,7 @@ import 'package:divoc/common/form_field.dart';
 import 'package:divoc/services/security_service.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';
+import 'package:flutter/services.dart';
 
 class ForgottenPasswordScreen extends StatefulWidget {
   @override
@@ -37,8 +38,17 @@ class _ForgottenPasswordScreenState extends State<ForgottenPasswordScreen> {
                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i e-postadress')));
                     return;
                   }
-                  securityService.sendPasswordResetEmail(_email);
-                  Navigator.pop(context, 'Skickat återställnings mail');
+                  try {
+                    await securityService.sendPasswordResetEmail(_email);
+                  } on PlatformException catch (e) {
+                    if (e.code == 'ERROR_INVALID_EMAIL') {
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktig e-postadress')));
+                    } else if (e.code == 'ERROR_USER_NOT_FOUND') {
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Användaren finns inte')));
+                    }
+                    return;
+                  }
+                  Navigator.pop(context, 'Skickat mail till $_email');
                 },
               ),
             ],
