@@ -22,7 +22,9 @@ class GoogleMapLocation extends StatefulWidget {
 class _GoogleMapLocationState extends State<GoogleMapLocation> {
   GoogleMapController _controller;
   Address _address;
-  Set<Marker> _markers = <Marker>[Marker(markerId: MarkerId("marker_1"), position: _kLocation)].toSet();
+  Set<Marker> _markers = <Marker>[
+    Marker(markerId: MarkerId("marker_1"), position: _kLocation)
+  ].toSet();
   String _placeholder;
   bool _isLoading;
 
@@ -60,13 +62,15 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
     });
     try {
       Position res = await Geolocator().getCurrentPosition();
-      List<Placemark> placemarks = await Geolocator().placemarkFromPosition(res);
+      List<Placemark> placemarks =
+          await Geolocator().placemarkFromPosition(res);
       Placemark placemark = placemarks.first;
       String street = placemark.thoroughfare + ' ' + placemark.subThoroughfare;
       String postalCode = placemark.postalCode;
       String state = placemark.subLocality;
       String city = placemark.administrativeArea;
-      String formatted = street + ', ' + postalCode + ', ' + state + ', ' + city;
+      String formatted =
+          street + ', ' + postalCode + ', ' + state + ', ' + city;
       setState(() {
         _address = Address(
           state: state,
@@ -104,6 +108,9 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return LoadingScreen();
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -114,63 +121,68 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
       body: Builder(builder: (BuildContext context) {
         return Stack(
           children: <Widget>[
-            if (_isLoading) ...[
-              LoadingScreen(),
-            ],
-            if (!_isLoading) ...[
-              GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: _kStartCameraPosition,
-                markers: _markers,
-                onMapCreated: _onMapCreated,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
+            GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: _kStartCameraPosition,
+              markers: _markers,
+              onMapCreated: _onMapCreated,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+            ),
+            Positioned(
+              top: 60,
+              left: MediaQuery.of(context).size.width * 0.05,
+              child: SearchMapPlaceWidget(
+                placeholder: _placeholder,
+                apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
+                location: _kStartCameraPosition.target,
+                radius: 30000,
+                sessionToken: Uuid().v4(),
+                onSelected: (place) async {
+                  FocusScope.of(context).unfocus();
+                  final geolocation = await place.geolocation;
+                  final List<dynamic> types = geolocation.fullJSON["types"];
+                  var found = types
+                      .where((element) => element == 'street_address')
+                      .toList();
+                  if (found.length == 0) {
+                    setState(() {
+                      _address = null;
+                    });
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text('Välj en giltig address')));
+                    return;
+                  }
+
+                  final String streetAddress = geolocation
+                      .fullJSON["address_components"][1]["short_name"];
+                  final String streetNumber = geolocation
+                      .fullJSON["address_components"][0]["short_name"];
+                  final String street = streetAddress + " " + streetNumber;
+                  final String state = geolocation
+                      .fullJSON["address_components"][2]["short_name"];
+                  final String city = geolocation.fullJSON["address_components"]
+                      [4]["short_name"];
+                  final String postalCode = geolocation
+                      .fullJSON["address_components"][6]["short_name"];
+
+                  _address = Address(
+                    street: street,
+                    state: state,
+                    city: city,
+                    geolocation: geolocation.coordinates,
+                    postalCode: postalCode,
+                    formatted: geolocation.fullJSON["formatted_address"],
+                  );
+
+                  await _controller.animateCamera(
+                      CameraUpdate.newLatLng(geolocation.coordinates));
+                  await _controller.animateCamera(
+                      CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+                  _updateMarker(geolocation.coordinates);
+                },
               ),
-              Positioned(
-                top: 60,
-                left: MediaQuery.of(context).size.width * 0.05,
-                child: SearchMapPlaceWidget(
-                  placeholder: _placeholder,
-                  apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
-                  location: _kStartCameraPosition.target,
-                  radius: 30000,
-                  sessionToken: Uuid().v4(),
-                  onSelected: (place) async {
-                    FocusScope.of(context).unfocus();
-                    final geolocation = await place.geolocation;
-                    final List<dynamic> types = geolocation.fullJSON["types"];
-                    var found = types.where((element) => element == 'street_address').toList();
-                    if (found.length == 0) {
-                      setState(() {
-                        _address = null;
-                      });
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Välj en giltig address')));
-                      return;
-                    }
-
-                    final String streetAddress = geolocation.fullJSON["address_components"][1]["short_name"];
-                    final String streetNumber = geolocation.fullJSON["address_components"][0]["short_name"];
-                    final String street = streetAddress + " " + streetNumber;
-                    final String state = geolocation.fullJSON["address_components"][2]["short_name"];
-                    final String city = geolocation.fullJSON["address_components"][4]["short_name"];
-                    final String postalCode = geolocation.fullJSON["address_components"][6]["short_name"];
-
-                    _address = Address(
-                      street: street,
-                      state: state,
-                      city: city,
-                      geolocation: geolocation.coordinates,
-                      postalCode: postalCode,
-                      formatted: geolocation.fullJSON["formatted_address"],
-                    );
-
-                    await _controller.animateCamera(CameraUpdate.newLatLng(geolocation.coordinates));
-                    await _controller.animateCamera(CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
-                    _updateMarker(geolocation.coordinates);
-                  },
-                ),
-              ),
-            ],
+            ),
           ],
         );
       }),

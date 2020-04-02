@@ -56,6 +56,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open to update current user location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background to update current user location.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open and in the background to update current user location.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera to upload user profile image.</string>
 	<key>NSMicrophoneUsageDescription</key>
