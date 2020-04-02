@@ -107,13 +107,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onChanged: (String val) => setState(() => _email = val),
                       ),
                       SizedBox(height: 20.0),
-                      GenericTextField(
+                      GenericVerifyMobileField(
                         title: 'Mobil nummer',
-                        hint: 'Fyll i mobil nummer (inkl +46)',
-                        icon: Icons.phone,
+                        hint: 'Verifiera ditt mobil nummer',
                         initialValue: user.mobile,
-                        textInputType: TextInputType.phone,
-                        onChanged: (String val) => setState(() => _mobile = val),
+                        onSelected: (String mobile) {
+                          _mobile = mobile;
+                        },
                       ),
                       SizedBox(height: 20.0),
                       GenericDropdownField(

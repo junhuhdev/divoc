@@ -1,4 +1,5 @@
 import 'package:divoc/common/images.dart';
+import 'package:divoc/common/screens.dart';
 import 'package:divoc/components/maps/google_map_location.dart';
 import 'package:divoc/models/address.dart';
 import 'package:flutter/cupertino.dart';
@@ -118,6 +119,77 @@ class GenericTextField extends StatelessWidget {
                 onChanged(val);
               }
             },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class GenericVerifyMobileField extends StatefulWidget {
+  final String title;
+  final String hint;
+  final String initialValue;
+  final Function(String) onSelected;
+
+  const GenericVerifyMobileField({
+    this.title,
+    this.hint,
+    this.initialValue,
+    this.onSelected,
+  });
+
+  @override
+  _GenericVerifyMobileFieldState createState() => _GenericVerifyMobileFieldState();
+}
+
+class _GenericVerifyMobileFieldState extends State<GenericVerifyMobileField> {
+  String _mobile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          widget.title,
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MobileVerifyScreen(onSelected: (String mobile) {
+                  setState(() {
+                    _mobile = mobile;
+                  });
+                  widget.onSelected(mobile);
+                }),
+              ),
+            );
+          },
+          child: Container(
+            alignment: Alignment.centerLeft,
+            decoration: kBoxDecorationStyle,
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            height: 60.0,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.phone, color: Colors.white),
+                SizedBox(width: 12.0),
+                if (widget.initialValue.isNullOrEmpty && _mobile.isNullOrEmpty) ...[
+                  Text(widget.hint, style: kHintTextStyle),
+                ],
+                if (!widget.initialValue.isNullOrEmpty && _mobile.isNullOrEmpty) ...[
+                  Expanded(child: Text(widget.initialValue, style: kTextStyle)),
+                ],
+                if (_mobile != null) ...[
+                  Expanded(child: Text(_mobile, style: kTextStyle)),
+                ],
+              ],
+            ),
           ),
         ),
       ],
