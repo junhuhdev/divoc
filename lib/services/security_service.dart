@@ -7,12 +7,14 @@ import 'package:divoc/services/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 class SecurityService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FacebookLogin _facebookAuth = FacebookLogin();
   final Firestore _db = Firestore.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<FirebaseUser> get getCurrentUser => _auth.currentUser();
 
@@ -169,7 +171,29 @@ class SecurityService {
   }
 
   Future<SocialResult> loginGoogle() async {
-    
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    try {
+      final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+      final FirebaseUser currentUser = await _auth.currentUser();
+      if (user == null || currentUser == null || currentUser.uid == user.uid) {
+        return null;
+      }
+      AuthType authType = await verifyStatus(user);
+      return SocialResult(
+        user: user,
+        authType: authType,
+        credential: credential,
+        provider: LoginProvider.google,
+      );
+    } catch (error) {
+      print("Google login error $error");
+      return null;
+    }
   }
 
   Future<SocialResult> loginFacebook() async {

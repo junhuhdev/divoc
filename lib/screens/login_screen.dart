@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     _isLoading = true;
                   });
-                  _socialResult = await securityService.loginFacebook();
+                  _socialResult = await securityService.loginGoogle();
                   if (_socialResult == null) {
                     setState(() {
                       _isLoading = false;
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     setState(() {
                       _isLoading = false;
                       _name = _socialResult.user.displayName;
-                      _provierType = ProvierType.facebook;
+                      _provierType = ProvierType.google;
                       _formType = FormType.collect_information;
                     });
                   } else {
