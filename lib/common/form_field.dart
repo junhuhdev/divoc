@@ -151,9 +151,21 @@ class _GenericVerifyMobileFieldState extends State<GenericVerifyMobileField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          widget.title,
-          style: kLabelStyle,
+        Row(
+          children: <Widget>[
+            Text(
+              widget.title,
+              style: kLabelStyle,
+            ),
+            if (widget.initialValue.isNullOrEmpty) ...[
+              SizedBox(width: 5.0),
+              Icon(Icons.error, color: Colors.red, size: 20.0),
+            ],
+            if (!widget.initialValue.isNullOrEmpty) ...[
+              SizedBox(width: 5.0),
+              Icon(Icons.verified_user, color: Colors.green, size: 20.0),
+            ],
+          ],
         ),
         SizedBox(height: 10.0),
         GestureDetector(

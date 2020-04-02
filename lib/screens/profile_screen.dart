@@ -170,7 +170,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ({
                               'name': _name ?? user.name,
                               'email': _email ?? user.email,
-                              'mobile': _mobile ?? user.mobile,
                               'role': selectedRole ?? user.role,
                               'gender': _gender ?? user.gender,
                               'birthdate': _birthdate ?? user.birthdate,
