@@ -27,7 +27,7 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
   bool _isVerified = false;
   String _verificationId;
   String _smsCode;
-  String _message;
+  String _buttonTitle = 'Skicka Sms Kod';
   AuthCredential _authCredential;
   SecurityService securityService = SecurityService();
 
@@ -69,40 +69,6 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
     );
   }
 
-  void _verifyPhoneNumber() async {
-    setState(() {
-      _message = '';
-    });
-    final PhoneVerificationCompleted verificationCompleted = (AuthCredential phoneAuthCredential) {
-      _auth.signInWithCredential(phoneAuthCredential);
-      setState(() {
-        _message = 'Received phone auth credential: $phoneAuthCredential';
-      });
-    };
-
-    final PhoneVerificationFailed verificationFailed = (AuthException authException) {
-      setState(() {
-        _message = 'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}';
-      });
-    };
-
-    final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
-      _verificationId = verificationId;
-    };
-
-    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
-      _verificationId = verificationId;
-    };
-
-    await _auth.verifyPhoneNumber(
-        phoneNumber: _mobile,
-        timeout: const Duration(seconds: 5),
-        verificationCompleted: verificationCompleted,
-        verificationFailed: verificationFailed,
-        codeSent: codeSent,
-        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
-  }
-
   Widget _smsVerifyButton() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -110,7 +76,7 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
       child: Builder(
         builder: (BuildContext context) {
           return ActionButton(
-            title: _codeSent ? 'Verifiera' : 'Skicka Sms Kod',
+            title: _buttonTitle,
             onPressed: () async {
               FocusScope.of(context).unfocus();
               if (!_codeSent) {
@@ -139,6 +105,7 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text('Skickat sms-kod var god dröj...')));
                   this._verificationId = verId;
                   setState(() {
+                    this._buttonTitle = 'Verifiera';
                     this._codeSent = true;
                   });
                 };
@@ -157,34 +124,14 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
               }
               if (_codeSent && !_verificationId.isNullOrEmpty && !_smsCode.isNullOrEmpty) {
                 try {
-                  FirebaseUser user = await _auth.currentUser();
-                  if (user != null) {
-                    AuthCredential authCreds =
-                        PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: _smsCode);
-                    AuthResult authResult = await user.linkWithCredential(authCreds);
-                    if (authResult != null) {
-                      await Global.userDoc.upsert(
-                        ({
-                          'mobile': _mobile,
-                        }),
-                      );
-                      widget.onSelected(_mobile);
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifiering lyckades')));
-                      Navigator.pop(context);
-                    }
-                  }
+                  await linkUserWithMobile(context);
                 } on PlatformException catch (e) {
-                  if (e.code == "ERROR_INVALID_VERIFICATION_CODE") {
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktig verifierings kod')));
-                    return;
-                  }
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.message)));
                   FirebaseUser user = await _auth.currentUser();
                   if (user != null) {
                     await user.unlinkFromProvider(PhoneAuthProvider.providerId);
+                    await linkUserWithMobile(context);
                     return;
                   }
-                  print("already linked $e");
                 } catch (error) {
                   print("Verification failed $error");
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifieringen gick fel')));
@@ -195,5 +142,32 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
         },
       ),
     );
+  }
+
+  Future<void> linkUserWithMobile(BuildContext context) async {
+    try {
+      FirebaseUser user = await _auth.currentUser();
+      if (user != null) {
+        AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: _smsCode);
+        AuthResult authResult = await user.linkWithCredential(authCreds);
+        if (authResult != null) {
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifiering lyckades')));
+          await Global.userDoc.upsert(
+            ({
+              'mobile': _mobile,
+            }),
+          );
+          widget.onSelected(_mobile);
+          Navigator.pop(context);
+        }
+      }
+    } on PlatformException catch (e) {
+      print("error $e");
+      if (e.code == "ERROR_INVALID_VERIFICATION_CODE") {
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Felaktig verifierings kod')));
+        return;
+      }
+      throw e;
+    }
   }
 }
