@@ -13,7 +13,9 @@ const db = admin.firestore();
 const fcm = admin.messaging();
 
 
-export const newFeedRequest = functions.firestore
+exports.newFeedRequest = functions
+    .region('europe-west1')
+    .firestore
     .document('feeds/{feedId}/requests/{userId}')
     .onCreate(async snapshot => {
 
