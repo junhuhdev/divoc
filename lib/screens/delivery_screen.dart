@@ -1,3 +1,4 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/cards.dart';
 import 'package:divoc/common/constants.dart';
@@ -245,7 +246,6 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                                 builder: (context) => DeliveryCompleted(feed: feed),
                               ));
                         }
-                        print("delivered");
                       },
                     ),
                   ),
@@ -288,7 +288,7 @@ class _DeliveryCompletedState extends State<DeliveryCompleted> {
               GenericTextField(
                 title: 'Kostnad i SEK',
                 hint: 'Fyll i totala kostnaden',
-                icon: Icons.attach_money,
+                icon: CommunityMaterialIcons.cash,
                 textInputType: TextInputType.number,
                 onChanged: (String val) => setState(() => _totalCost = val),
               ),
@@ -307,6 +307,13 @@ class _DeliveryCompletedState extends State<DeliveryCompleted> {
                   return ActionButton(
                     title: 'Slutför leverans',
                     onPressed: () async {
+                      if (_totalCost.isNullOrEmpty) {
+                        Scaffold.of(context)
+                          ..removeCurrentSnackBar()
+                          ..showSnackBar(SnackBar(content: Text("Fyll i totala kostnaden")));
+                        return;
+                      }
+
                       await feedService.deliveryCompleted(widget.feed, currentUser, _totalCost, _comment);
                       Navigator.pop(context);
                     },

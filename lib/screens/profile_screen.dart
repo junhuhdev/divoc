@@ -184,7 +184,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   _address != null && !_address.street.isNullOrEmpty ? _address.street : user.street,
                             }),
                           );
-                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Uppdaterat profil')));
+                          Scaffold.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(content: Text("Uppdaterat profil")));
                         },
                       ),
                       SizedBox(height: 10.0),
