@@ -155,8 +155,13 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
               GenericTextContainer(title: 'Namn', content: feed.name, icon: Icons.person),
               GenericTextContainer(title: 'Mobil nummer', content: feed.mobile, icon: Icons.phone),
               GenericTextContainer(
-                title: 'Beskrivning och inköpslista',
+                title: 'Beskrivning',
                 content: '${feed.description}',
+                contentPadding: EdgeInsets.all(30.0),
+              ),
+              GenericTextContainer(
+                title: 'Inköpslista',
+                content: '${feed.shoppingInfo}',
                 contentPadding: EdgeInsets.all(30.0),
               ),
               GenericTextContainer(
