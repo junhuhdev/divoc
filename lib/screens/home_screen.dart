@@ -116,6 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               preferredSize: const Size.fromHeight(kToolbarHeight),
               child: MainAppBar(title: _appBarTitle),
             ),
+            drawer: MenuDrawer(),
             body: Center(
               child: isHelper ? _helperOptions.elementAt(_selectedIndex) : _widgetOptions.elementAt(_selectedIndex),
             ),
