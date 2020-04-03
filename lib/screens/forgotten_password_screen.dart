@@ -2,7 +2,7 @@ import 'package:divoc/common/buttons.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
-import 'package:divoc/services/security_service.dart';
+import 'package:divoc/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';
 import 'package:flutter/services.dart';

@@ -3,7 +3,7 @@ import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
 import 'package:divoc/components/phoneinput/international_phone_input.dart';
 import 'package:divoc/services/globals.dart';
-import 'package:divoc/services/security_service.dart';
+import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';

@@ -1,4 +1,4 @@
-import 'package:divoc/services/security_service.dart';
+import 'package:divoc/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class MainAppBar extends StatefulWidget {

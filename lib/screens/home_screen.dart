@@ -11,7 +11,7 @@ import 'package:divoc/screens/contributors_screen.dart';
 import 'package:divoc/screens/delivery_screen.dart';
 import 'package:divoc/screens/feed_screen.dart';
 import 'package:divoc/screens/profile_screen.dart';
-import 'package:divoc/services/security_service.dart';
+import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';

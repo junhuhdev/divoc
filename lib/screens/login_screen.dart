@@ -7,7 +7,7 @@ import 'package:divoc/common/loader.dart';
 import 'package:divoc/common/text_field.dart';
 import 'package:divoc/models/user.dart';
 import 'package:divoc/screens/home_screen.dart';
-import 'package:divoc/services/security_service.dart';
+import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +22,7 @@ enum FormType { login, register, phone_verification, collect_information }
 enum ProvierType { email, facebook, apple, google }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _isLoading = true;
+  bool _isLoading = false;
   String _email;
   String _password;
   String _mobile;
@@ -38,14 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _isLoading = true;
     securityService.getCurrentUser.then((user) {
       if (user != null) {
-        _isLoading = false;
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
     });
-    _isLoading = false;
   }
 
   void redirectIfAuthenticated() {

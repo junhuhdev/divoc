@@ -1,7 +1,7 @@
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
 import 'package:divoc/services/globals.dart';
-import 'package:divoc/services/security_service.dart';
+import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         title: 'Divoc',
         debugShowCheckedModeBanner: false,
         routes: {
+          '/': (context) => LoginScreen(),
           HomeScreen.id: (context) => HomeScreen(),
         },
         localizationsDelegates: [
@@ -51,7 +52,6 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.white),
           textTheme: TextTheme(),
         ),
-        home: LoginScreen(),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         ],
