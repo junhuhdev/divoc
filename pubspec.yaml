@@ -74,6 +74,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/onboarding/
     - assets/flags/
     - assets/flags/se.png
     - assets/flags/fi.png

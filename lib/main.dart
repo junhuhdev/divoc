@@ -1,5 +1,6 @@
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
+import 'package:divoc/screens/onboarding_screen.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         title: 'Divoc',
         debugShowCheckedModeBanner: false,
         routes: {
-          '/': (context) => LoginScreen(),
+          '/': (context) => OnboardingScreen(),
           HomeScreen.id: (context) => HomeScreen(),
         },
         localizationsDelegates: [
