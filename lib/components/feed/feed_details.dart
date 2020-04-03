@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:divoc/services/utils.dart';
 
 class FeedDetails extends StatefulWidget {
   final Feed feed;
@@ -172,6 +173,10 @@ class _AssistScreenState extends State<AssistScreen> {
                     title: 'Skicka förfrågan',
                     onPressed: () async {
                       String mobile = _mobile ?? currentUser.mobile;
+                      if (mobile.isNullOrEmpty) {
+                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i mobil nummer.')));
+                        return;
+                      }
                       await feedService.updateRequestedUser(currentUser, widget.feed, _comment, mobile);
                       Navigator.pop(context);
                     },
