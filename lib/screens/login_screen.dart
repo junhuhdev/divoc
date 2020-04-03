@@ -33,12 +33,12 @@ class _LoginScreenState extends State<LoginScreen> {
   ProvierType _provierType;
   SocialResult _socialResult;
   FormType _formType = FormType.login;
-  AuthService securityService = AuthService();
+  AuthService authService = AuthService();
 
   @override
   void initState() {
     super.initState();
-    securityService.getCurrentUser.then((user) {
+    authService.getCurrentUser.then((user) {
       if (user != null) {
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void redirectIfAuthenticated() {
-    securityService.getCurrentUser.then((user) {
+    authService.getCurrentUser.then((user) {
       if (user != null) {
         _isLoading = false;
         Navigator.pushReplacementNamed(context, HomeScreen.id);
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: ButtonStyle.white,
               type: ButtonType.continueButton,
               onPressed: () async {
-                FirebaseUser user = await securityService.loginApple();
+                FirebaseUser user = await authService.loginApple();
                 if (user != null) {
                   redirectIfAuthenticated();
                 }
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     _isLoading = true;
                   });
-                  _socialResult = await securityService.loginFacebook();
+                  _socialResult = await authService.loginFacebook();
                   if (_socialResult == null) {
                     setState(() {
                       _isLoading = false;
@@ -183,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Scaffold.of(context)
                                       .showSnackBar(SnackBar(content: Text('Skriv in dina inloggningsuppgifter')));
                                 } else {
-                                  var user = await securityService.login(_email, _password);
+                                  var user = await authService.login(_email, _password);
                                   if (user != null) {
                                     redirectIfAuthenticated();
                                   } else {
@@ -267,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                             try {
                               if (_provierType == ProvierType.email) {
-                                FirebaseUser createdUser = await securityService.register(_email, _password, newUser);
+                                FirebaseUser createdUser = await authService.register(_email, _password, newUser);
                                 if (createdUser == null) {
                                   Scaffold.of(context)
                                       .showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
@@ -275,7 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   redirectIfAuthenticated();
                                 }
                               } else {
-                                FirebaseUser createdUser = await securityService.registerSocial(_socialResult, newUser);
+                                FirebaseUser createdUser = await authService.registerSocial(_socialResult, newUser);
                                 if (createdUser == null) {
                                   Scaffold.of(context)
                                       .showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
