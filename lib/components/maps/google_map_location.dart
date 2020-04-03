@@ -26,7 +26,7 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
     Marker(markerId: MarkerId("marker_1"), position: _kLocation)
   ].toSet();
   String _placeholder;
-  bool _isLoading;
+  bool _isLoading = false;
 
   /// Current location
   Position _currentPosition;
@@ -100,11 +100,11 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getCurrentLocation();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//    getCurrentLocation();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +126,8 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
               initialCameraPosition: _kStartCameraPosition,
               markers: _markers,
               onMapCreated: _onMapCreated,
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
+//              myLocationButtonEnabled: true,
+//              myLocationEnabled: true,
             ),
             Positioned(
               top: 60,
@@ -150,7 +150,7 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
                       _address = null;
                     });
                     Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('Välj en giltig address')));
+                        SnackBar(content: Text('Välj en giltig address med gatunummer')));
                     return;
                   }
 

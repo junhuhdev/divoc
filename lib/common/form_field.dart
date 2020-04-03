@@ -2,11 +2,14 @@ import 'package:divoc/common/images.dart';
 import 'package:divoc/common/screens.dart';
 import 'package:divoc/components/maps/google_map_location.dart';
 import 'package:divoc/models/address.dart';
+import 'package:divoc/services/google_map_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:divoc/services/utils.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'constants.dart';
+
+final GoogleMapService googleMapService = GoogleMapService();
 
 class GenericCleanTextContainer extends StatelessWidget {
   final String title;
@@ -332,7 +335,15 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
                 Expanded(
                   flex: 1,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      Address address = await googleMapService.getCurrentLocation();
+                      if (address != null) {
+                        widget.onSelected(address);
+                        setState(() {
+                          _address = address;
+                        });
+                      }
+                    },
                     icon: Icon(Icons.my_location, color: Colors.white),
                   ),
                 ),

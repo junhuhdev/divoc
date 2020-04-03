@@ -7,6 +7,7 @@ class Feed {
   final String description;
   final String deliveryUserId;
   final String deliveryInfo;
+  final String shoppingInfo;
   final String deliveredComment;
   final double totalCost;
   final String mobile;
@@ -34,6 +35,7 @@ class Feed {
     this.description,
     this.deliveryUserId,
     this.deliveryInfo,
+    this.shoppingInfo,
     this.deliveredComment,
     this.totalCost,
     this.mobile,
@@ -65,6 +67,7 @@ class Feed {
       description: data['description'] ?? '',
       deliveryUserId: data['deliveryUserId'] ?? '',
       deliveryInfo: data['deliveryInfo'] ?? '',
+      shoppingInfo: data['shoppingInfo'] ?? '',
       deliveredComment: data['deliveredComment'] ?? '',
       totalCost: data['totalCost'] ?? 0,
       mobile: data['mobile'] ?? '',
