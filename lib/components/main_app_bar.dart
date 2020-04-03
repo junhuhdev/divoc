@@ -42,8 +42,29 @@ class _MainAppBarState extends State<MainAppBar> {
           child: new IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () async {
-              await securityService.logout();
-              Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Är du säker på att du vill logga ut?'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Avbryt'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('Bekräfta'),
+                        onPressed: () async {
+                          await securityService.logout();
+                          Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
         )

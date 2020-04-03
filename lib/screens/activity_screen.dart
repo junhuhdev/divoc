@@ -162,13 +162,13 @@ class SettingsMenu extends StatelessWidget {
                 title: Text('Är du säker på att du vill radera?'),
                 actions: <Widget>[
                   FlatButton(
-                    child: Text('Cancel'),
+                    child: Text('Avbryt'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   FlatButton(
-                    child: Text('Confirm'),
+                    child: Text('Bekräfta'),
                     onPressed: () {
                       feedService.deleteFeed(feed.id);
                       Navigator.of(context).pop();
@@ -319,95 +319,96 @@ class _ActivityDetailsState extends State<ActivityDetails> {
   @override
   void initState() {
     super.initState();
-    _feedRequest = Document<FeedRequest>(path: 'feeds/${widget.feed.id}/requests/${widget.feed.deliveryUserId}').streamData();
+    _feedRequest =
+        Document<FeedRequest>(path: 'feeds/${widget.feed.id}/requests/${widget.feed.deliveryUserId}').streamData();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<FeedRequest>(
-      stream: _feedRequest,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          if (snapshot.hasError) {
-            print("Error: ${snapshot.error}");
+        stream: _feedRequest,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            if (snapshot.hasError) {
+              print("Error: ${snapshot.error}");
+            }
+            return LoadingScreen();
           }
-          return LoadingScreen();
-        }
-        final FeedRequest feedRequest = snapshot.data;
+          final FeedRequest feedRequest = snapshot.data;
 
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            title: widget.feed.status == "pending" ? Text('Pågående leverans') : Text('Slutförd leverans'),
-            centerTitle: true,
-          ),
-          body: FormContainer(
-            horizontal: 0.0,
-            vertical: 0.0,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: UserProfileSmallImage(
-                    image: feedRequest.image,
-                  ),
-                ),
-              ),
-              GenericTextContainer(title: 'Leverantör namn', content: feedRequest.name, icon: Icons.person),
-              GenericTextContainer(title: 'Leverantör mobil nummer', content: feedRequest.mobile, icon: Icons.phone),
-              GenericTextContainer(
-                title: 'Levereras till',
-                content: '${widget.feed.street}, ${widget.feed.postalCode}, ${widget.feed.state}, ${widget.feed.city}',
-                icon: Icons.place,
-                contentPadding: EdgeInsets.symmetric(vertical: 30.0),
-              ),
-              StaticGoogleMap(
-                apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
-                address: Address.fromFeed(widget.feed),
-              ),
-              if (widget.feed.totalCost != 0) ...[
-                GenericTextContainer(
-                  title: 'Total kostnad',
-                  content: '${widget.feed.totalCost.round()} kr',
-                  icon: Icons.attach_money,
-                  contentPadding: EdgeInsets.all(30.0),
-                ),
-              ],
-              if (!widget.feed.deliveredComment.isNullOrEmpty) ...[
-                GenericTextContainer(
-                  title: 'Leverantör kommentar',
-                  content: '${widget.feed.deliveredComment}',
-                  icon: Icons.comment,
-                  contentPadding: EdgeInsets.all(30.0),
-                ),
-              ],
-              if (!widget.feed.recipeImage.isNullOrEmpty) ...[
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: widget.feed.recipeImage),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text('Kvitto', style: kLabelStyle),
-                        SizedBox(height: 10.0),
-                        UploadedImage(image: widget.feed.recipeImage),
-                      ],
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              title: widget.feed.status == "pending" ? Text('Pågående leverans') : Text('Slutförd leverans'),
+              centerTitle: true,
+            ),
+            body: FormContainer(
+              horizontal: 0.0,
+              vertical: 0.0,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: UserProfileSmallImage(
+                      image: feedRequest.image,
                     ),
                   ),
                 ),
+                GenericTextContainer(title: 'Leverantör namn', content: feedRequest.name, icon: Icons.person),
+                GenericTextContainer(title: 'Leverantör mobil nummer', content: feedRequest.mobile, icon: Icons.phone),
+                GenericTextContainer(
+                  title: 'Levereras till',
+                  content:
+                      '${widget.feed.street}, ${widget.feed.postalCode}, ${widget.feed.state}, ${widget.feed.city}',
+                  icon: Icons.place,
+                  contentPadding: EdgeInsets.symmetric(vertical: 30.0),
+                ),
+                StaticGoogleMap(
+                  apiKey: "AIzaSyCbr_dJZ6aQorm5JC2l31lzC2QnRNuMzWA",
+                  address: Address.fromFeed(widget.feed),
+                ),
+                if (widget.feed.totalCost != 0) ...[
+                  GenericTextContainer(
+                    title: 'Total kostnad',
+                    content: '${widget.feed.totalCost.round()} kr',
+                    icon: Icons.attach_money,
+                    contentPadding: EdgeInsets.all(30.0),
+                  ),
+                ],
+                if (!widget.feed.deliveredComment.isNullOrEmpty) ...[
+                  GenericTextContainer(
+                    title: 'Leverantör kommentar',
+                    content: '${widget.feed.deliveredComment}',
+                    icon: Icons.comment,
+                    contentPadding: EdgeInsets.all(30.0),
+                  ),
+                ],
+                if (!widget.feed.recipeImage.isNullOrEmpty) ...[
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UploadedImageFullScreen(title: 'Kvitto', image: widget.feed.recipeImage),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Kvitto', style: kLabelStyle),
+                          SizedBox(height: 10.0),
+                          UploadedImage(image: widget.feed.recipeImage),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ],
-            ],
-          ),
-        );
-      }
-    );
+            ),
+          );
+        });
   }
 }
 
@@ -504,7 +505,10 @@ class ActivityShowPendingCard extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     if (!feedRequest.comment.isNullOrEmpty) ...[
-                      Text(feedRequest.comment.length > 101 ? feedRequest.comment.substring(0, 100) + '...' : feedRequest.comment,
+                      Text(
+                          feedRequest.comment.length > 101
+                              ? feedRequest.comment.substring(0, 100) + '...'
+                              : feedRequest.comment,
                           style: TextStyle(color: Colors.white, fontSize: 12.0)),
                     ],
                   ],
