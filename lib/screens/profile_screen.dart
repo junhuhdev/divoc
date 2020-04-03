@@ -75,11 +75,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  if (user.photo.isNullEmptyOrWhitespace) {
-                                    await imageService.uploadImage(user.id);
-                                  } else {
-                                    await imageService.deleteImage(user.id);
-                                  }
+                                  try {
+                                    if (user.photo.isNullEmptyOrWhitespace) {
+                                      await imageService.uploadImage(user.id);
+                                    } else {
+                                      await imageService.deleteImage(user.id);
+                                    }
+                                  } catch (error) {}
                                   setState(() {
                                     isLoading = false;
                                   });
