@@ -29,7 +29,7 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
   String _smsCode;
   String _buttonTitle = 'Skicka Sms Kod';
   AuthCredential _authCredential;
-  SecurityService securityService = SecurityService();
+  AuthService securityService = AuthService();
 
   @override
   Widget build(BuildContext context) {

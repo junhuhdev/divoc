@@ -11,7 +11,7 @@ class MainAppBar extends StatefulWidget {
 }
 
 class _MainAppBarState extends State<MainAppBar> {
-  SecurityService securityService = SecurityService();
+  AuthService securityService = AuthService();
 
   @override
   Widget build(BuildContext context) {

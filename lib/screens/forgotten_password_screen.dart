@@ -14,7 +14,7 @@ class ForgottenPasswordScreen extends StatefulWidget {
 
 class _ForgottenPasswordScreenState extends State<ForgottenPasswordScreen> {
   String _email;
-  SecurityService securityService = SecurityService();
+  AuthService securityService = AuthService();
 
   @override
   Widget build(BuildContext context) {

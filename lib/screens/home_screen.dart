@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _appBarTitle = "Aktuella Händelser";
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
-  final SecurityService securityService = SecurityService();
+  final AuthService securityService = AuthService();
 
   StreamSubscription iosSubscription;
 

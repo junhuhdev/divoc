@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   ProvierType _provierType;
   SocialResult _socialResult;
   FormType _formType = FormType.login;
-  SecurityService securityService = SecurityService();
+  AuthService securityService = AuthService();
 
   @override
   void initState() {

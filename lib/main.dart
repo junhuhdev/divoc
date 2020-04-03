@@ -1,6 +1,5 @@
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
-import 'package:divoc/screens/signin_screen.dart';
 import 'package:divoc/services/globals.dart';
 import 'package:divoc/services/security_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -20,12 +19,11 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        StreamProvider<FirebaseUser>.value(value: SecurityService().user),
+        StreamProvider<FirebaseUser>.value(value: AuthService().user),
         StreamProvider<User>.value(value: Global.userDoc.documentStream),
       ],
       child: MaterialApp(
@@ -38,27 +36,21 @@ class MyApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           DefaultCupertinoLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,  // Add global cupertino localiztions.
+          GlobalCupertinoLocalizations.delegate, // Add global cupertino localiztions.
         ],
-        locale: Locale('sv', 'SE'),  // Current locale
+        locale: Locale('sv', 'SE'), // Current locale
         supportedLocales: [
           const Locale('sv', 'SE'), // English
           const Locale('en', 'US'), // English
         ],
         theme: ThemeData(
-//          brightness: Brightness.dark,
-            primaryColor: kBackgroundColor,
-            backgroundColor: kBackgroundColor,
-            primarySwatch: Colors.blueGrey,
-            fontFamily: 'Raleway',
-            iconTheme: IconThemeData(color: Colors.white),
-            textTheme: TextTheme(
-//              subtitle1: TextStyle(color: Colors.white),
-//              subtitle2: TextStyle(color: Colors.white),
-//              headline1: TextStyle(color: Colors.white),
-//              bodyText2: TextStyle(color: Colors.white),
-//              bodyText1: TextStyle(color: Colors.white),
-                )),
+          primaryColor: kBackgroundColor,
+          backgroundColor: kBackgroundColor,
+          primarySwatch: Colors.blueGrey,
+          fontFamily: 'Raleway',
+          iconTheme: IconThemeData(color: Colors.white),
+          textTheme: TextTheme(),
+        ),
         home: LoginScreen(),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
