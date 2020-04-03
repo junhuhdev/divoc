@@ -73,7 +73,7 @@ class _FeedDetailsState extends State<FeedDetails> with TickerProviderStateMixin
             backgroundColor: Colors.black54,
             parentButtonBackground: Colors.white,
             orientation: UnicornOrientation.VERTICAL,
-            parentButton: Icon(Icons.local_hospital, color: Theme.of(context).primaryColor, size: 30.0),
+            parentButton: Icon(Icons.check, color: Theme.of(context).primaryColor, size: 30.0),
             childButtons: <UnicornButton>[
               UnicornButton(
                 hasLabel: true,

@@ -8,6 +8,55 @@ import 'package:divoc/services/utils.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'constants.dart';
 
+class GenericCleanTextContainer extends StatelessWidget {
+  final String title;
+  final String content;
+  final IconData icon;
+  final EdgeInsetsGeometry contentPadding;
+
+  const GenericCleanTextContainer({this.title, this.content, this.icon, this.contentPadding});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (title != null) ...[
+          Text(
+            title,
+            style: kLabelStyle,
+          ),
+        ],
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          child: TextFormField(
+            keyboardType: TextInputType.multiline,
+            enabled: false,
+            maxLines: null,
+            textAlign: TextAlign.start,
+            initialValue: content,
+            style: kTextStyle,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: contentPadding ?? EdgeInsets.only(top: 14.0),
+              prefixIcon: icon == null
+                  ? null
+                  : Icon(
+                      icon,
+                      color: Colors.white,
+                    ),
+              hintStyle: kHintTextStyle,
+            ),
+            onChanged: (val) {},
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class GenericTextContainer extends StatelessWidget {
   final String title;
   final String content;
@@ -263,14 +312,30 @@ class _GenericGoogleMapFieldState extends State<GenericGoogleMapField> {
                 Icon(Icons.map, color: Colors.white),
                 SizedBox(width: 12.0),
                 if (widget.initialValue.isNullOrEmpty && _address.isNull) ...[
-                  Text(widget.hint, style: kHintTextStyle),
+                  Expanded(
+                    flex: 5,
+                    child: Text(widget.hint, style: kHintTextStyle),
+                  ),
                 ],
                 if (!widget.initialValue.isNullOrEmpty && _address.isNull) ...[
-                  Expanded(child: Text(widget.initialValue, style: kTextStyle)),
+                  Expanded(
+                    flex: 5,
+                    child: Text(widget.initialValue, style: kTextStyle),
+                  ),
                 ],
                 if (_address != null) ...[
-                  Expanded(child: Text(_address.formatted, style: kTextStyle)),
+                  Expanded(
+                    flex: 5,
+                    child: Text(_address.formatted, style: kTextStyle),
+                  ),
                 ],
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.my_location, color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),
@@ -346,13 +411,13 @@ class _GenericDateFieldState extends State<GenericDateField> {
         ),
         SizedBox(height: 10.0),
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             showModalBottomSheet(
               context: context,
               builder: (BuildContext context) {
                 return CupertinoDatePicker(
                   minimumYear: 1900,
-                  maximumYear: DateTime.now().year + 1,
+                  maximumYear: DateTime.now().year - 10,
                   mode: CupertinoDatePickerMode.date,
                   initialDateTime: getInitialVal(),
                   onDateTimeChanged: (DateTime datetime) {
@@ -363,7 +428,13 @@ class _GenericDateFieldState extends State<GenericDateField> {
                   },
                 );
               },
-            );
+            ).whenComplete(() {
+              /// Handle when user doesn't select a date and exit
+              if (_date == null) {
+                _date = getInitialVal();
+                widget.onChanged(getInitialVal());
+              }
+            });
           },
           child: Container(
             alignment: Alignment.centerLeft,

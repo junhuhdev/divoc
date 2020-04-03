@@ -122,7 +122,7 @@ double getProgressStatus(String status) {
 
 Color getColorStatus(String status) {
   if (status == 'created' || status == 'requested') {
-    return Colors.red;
+    return Colors.blue;
   }
   if (status == 'pending') {
     return Colors.amber;

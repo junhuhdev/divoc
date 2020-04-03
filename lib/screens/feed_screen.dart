@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FeedScreen extends StatefulWidget {
-  static const title = "Flöde";
+  static const title = "Aktuella Händelser";
 
   @override
   _FeedScreenState createState() => _FeedScreenState();

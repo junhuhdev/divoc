@@ -19,6 +19,7 @@ class _CreateFeedState extends State<CreateFeed> {
   String _name;
   String _mobile;
   String _description;
+  String _shoppingInfo;
   String _deliveryInfo;
   Address _address;
   bool _isLoading = false;
@@ -42,14 +43,10 @@ class _CreateFeedState extends State<CreateFeed> {
             child: FormContainer(
               children: <Widget>[
                 if (user != null) ...[
-                  GenericTextField(
+                  GenericCleanTextContainer(
                     title: 'Namn',
-                    hint: 'Skriv in ditt namn',
                     icon: Icons.person,
-                    initialValue: user.name,
-                    textInputType: TextInputType.text,
-                    onChanged: (String val) => setState(() => _name = val),
-                    validator: (val) => val.isEmpty ? "Please enter a valid name" : null,
+                    content: user.name,
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
@@ -62,8 +59,8 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Beskrivning och inköpslista',
-                    hint: 'Skriv in detaljerad beskrivning och inköpslista',
+                    title: 'Beskrivning',
+                    hint: 'Skriv in detaljerad beskrivning',
                     height: 100.0,
                     maxLines: 5,
                     icon: Icons.comment,
@@ -72,7 +69,17 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericTextField(
-                    title: 'Leverans uppgifter',
+                    title: 'Inköpslista (syns endast för leverantör)',
+                    hint: 'Skriv in detaljerad inköpslista',
+                    height: 100.0,
+                    maxLines: 5,
+                    icon: Icons.shopping_cart,
+                    textInputType: TextInputType.multiline,
+                    onChanged: (String val) => setState(() => _shoppingInfo = val),
+                  ),
+                  SizedBox(height: 30.0),
+                  GenericTextField(
+                    title: 'Leverans uppgifter (syns endast för leverantör)',
                     hint: 'Skriv in detaljerad leverans information som portkod och våning',
                     height: 100.0,
                     maxLines: 5,
@@ -82,8 +89,8 @@ class _CreateFeedState extends State<CreateFeed> {
                   ),
                   SizedBox(height: 30.0),
                   GenericGoogleMapField(
-                    title: 'Plats (syns endast för leverantör)',
-                    hint: 'Välj plats',
+                    title: 'Leverans adress (syns endast för leverantör)',
+                    hint: 'Fyll i exakt adress för leverans adressen',
                     onSelected: (Address address) {
                       _address = address;
                     },
@@ -95,6 +102,8 @@ class _CreateFeedState extends State<CreateFeed> {
                         onPressed: () async {
                           if (_address == null) {
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Välj en giltig address')));
+                          } else if (_shoppingInfo.isNullOrEmpty) {
+                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i inköpslista')));
                           } else if (_description.isNullOrEmpty) {
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i beskrivning')));
                           } else if (_mobile.isNullOrEmpty && user.mobile.isNullOrEmpty) {
@@ -103,12 +112,13 @@ class _CreateFeedState extends State<CreateFeed> {
                             await Global.feedCollection.insert(
                               ({
                                 'ownerId': user.id,
-                                'name': _name ?? user.name,
+                                'name': user.name,
                                 'mobile': _mobile ?? user.mobile,
                                 'gender': user.gender,
                                 'age': user.age,
                                 'image': user.photo,
                                 'description': _description,
+                                'shoppingInfo': _shoppingInfo,
                                 'deliveryInfo': _deliveryInfo,
                                 'finalized': false,
                                 'city': _address.city,
