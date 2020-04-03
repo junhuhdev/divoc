@@ -77,33 +77,59 @@ class _LoginScreenState extends State<LoginScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              SocialButton(
-                onTap: () async {
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  _socialResult = await authService.loginFacebook();
-                  if (_socialResult == null) {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  } else if (_socialResult.authType == AuthType.COLLECT_INFORMATION) {
-                    setState(() {
-                      _isLoading = false;
-                      _name = _socialResult.user.displayName;
-                      _provierType = ProvierType.facebook;
-                      _formType = FormType.collect_information;
-                    });
-                  } else {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    redirectIfAuthenticated();
-                  }
+              Builder(
+                builder: (BuildContext context) {
+                  return SocialButton(
+                    onTap: () async {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      try {
+                        _socialResult = await authService.loginFacebook();
+                        if (_socialResult == null) {
+                        } else if (_socialResult.authType == AuthType.COLLECT_INFORMATION) {
+                          setState(() {
+                            _isLoading = false;
+                            _name = _socialResult.user.displayName;
+                            _provierType = ProvierType.facebook;
+                            _formType = FormType.collect_information;
+                          });
+                        } else {
+                          setState(() {
+                            _isLoading = false;
+                          });
+                          redirectIfAuthenticated();
+                        }
+                      } on PlatformException catch (e) {
+                        if (e.code == "ERROR_EMAIL_ALREADY_IN_USE") {
+                          Scaffold.of(context)
+                              .showSnackBar(SnackBar(content: Text('Email addressen är redan upptaget')));
+                        }
+                        if (e.code == "ERROR_INVALID_EMAIL") {
+                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Email addressen är inte giltig')));
+                        }
+                        if (e.code == "ERROR_WEAK_PASSWORD") {
+                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Lösenordet är för svagt')));
+                        }
+                        if (e.code == "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL") {
+                          Scaffold.of(context)
+                              .showSnackBar(SnackBar(content: Text('Email adressen är redan upptagen')));
+                        }
+                      } catch (error) {
+                        print("Uknown error $error");
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      }
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    },
+                    logo: AssetImage(
+                      'assets/img/facebook.jpg',
+                    ),
+                  );
                 },
-                logo: AssetImage(
-                  'assets/img/facebook.jpg',
-                ),
               ),
 //              SocialButton(
 //                onTap: () async {
@@ -303,7 +329,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .showSnackBar(SnackBar(content: Text('Email addressen är inte giltig')));
                                   }
                                   if (e.code == "ERROR_WEAK_PASSWORD") {
-                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Lösenordet är för svagt')));
+                                    Scaffold.of(context)
+                                        .showSnackBar(SnackBar(content: Text('Lösenordet är för svagt')));
+                                  }
+                                  if (e.code == "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL") {
+                                    Scaffold.of(context)
+                                        .showSnackBar(SnackBar(content: Text('Email adressen är redan upptagen')));
                                   }
                                 }
                               },

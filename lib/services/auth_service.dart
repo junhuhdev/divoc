@@ -67,7 +67,7 @@ class AuthService {
           'name': user.name,
           'birthdate': user.birthdate,
           'age': user.getAge,
-          'gender': user.gender ?? 'Annat',
+          'gender': user.gender ?? 'Man',
           'role': user.role ?? 'giver',
           'photo': socialResult.photo ?? firebaseUser.photoUrl,
           'mobile': '',
@@ -76,6 +76,8 @@ class AuthService {
         },
       );
       return authResult.user;
+    } on PlatformException catch (e) {
+      throw e;
     } catch (error) {
       print("Failed to register social $error");
       return null;
@@ -231,6 +233,8 @@ class AuthService {
         provider: LoginProvider.facebook,
         photo: photo,
       );
+    } on PlatformException catch (e) {
+      throw e;
     } catch (error) {
       print("Facebook login error $error");
       return null;
