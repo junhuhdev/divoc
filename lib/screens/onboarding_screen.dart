@@ -1,3 +1,4 @@
+import 'package:divoc/common/loader.dart';
 import 'package:divoc/screens/home_screen.dart';
 import 'package:divoc/screens/login_screen.dart';
 import 'package:divoc/services/auth_service.dart';
@@ -12,6 +13,8 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
   AuthService authService = AuthService();
+
+  /// TODO: maybe remove isloading reason was to minimize
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
