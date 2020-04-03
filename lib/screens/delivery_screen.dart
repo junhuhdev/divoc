@@ -51,11 +51,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                   itemBuilder: (context, index) {
                     FeedRequest feedRequest = snapshot.data[index];
                     return FeedListTileCard(
-                      image: feedRequest.image,
-                      name: feedRequest.name,
+                      image: feedRequest.ownerImage,
+                      name: feedRequest.ownerName,
+                      city: feedRequest.ownerCity,
+                      state: feedRequest.ownerState,
                       status: feedRequest.status,
-                      city: feedRequest.city,
-                      state: feedRequest.state,
                       created: feedRequest.created,
                       onTap: () {
                         if (feedRequest.status == 'requested') {}

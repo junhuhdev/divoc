@@ -62,6 +62,10 @@ class FeedService {
           ({
             'userId': currentUser.id,
             'ownerId': feed.ownerId,
+            'ownerName': feed.name,
+            'ownerImage': feed.image,
+            'ownerCity': feed.city,
+            'ownerState': feed.state,
             'name': currentUser.name,
             'image': currentUser.photo,
             'mobile': currentUser.mobile,
