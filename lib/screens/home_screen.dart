@@ -39,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     if (Platform.isIOS) {
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
       iosSubscription = _fcm.onIosSettingsRegistered.listen((event) {
         print(event);
-        _saveDeviceToken();
       });
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
+      _saveDeviceToken();
     } else {
       _saveDeviceToken();
     }
