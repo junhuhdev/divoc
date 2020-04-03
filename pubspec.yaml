@@ -48,6 +48,7 @@ dependencies:
   flutter_rounded_date_picker: ^1.0.4
   flutter_cupertino_localizations: 1.0.1
   google_sign_in: ^4.4.0
+  introduction_screen: ^1.0.7
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"

@@ -130,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       GenericDropdownField(
                         title: 'Kön',
                         hint: 'Välj kön',
-                        initialValue: user.gender,
+                        initialValue: user.gender.isNullOrEmpty ? 'Annat' : user.gender,
                         icon: CommunityMaterialIcons.gender_male_female,
                         options: ['Man', 'Kvinna', 'Annat'],
                         onChanged: (String val) => setState(() => _gender = val),

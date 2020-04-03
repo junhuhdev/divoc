@@ -11,6 +11,7 @@ import 'package:divoc/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:divoc/services/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -255,47 +256,58 @@ class _LoginScreenState extends State<LoginScreen> {
                           options: ['Man', 'Kvinna', 'Annat'],
                           onChanged: (String val) => setState(() => _gender = val),
                         ),
-                        ActionButton(
-                          title: 'Slutför',
-                          onPressed: () async {
-                            User newUser = User(
-                              name: _name,
-                              birthdate: _birthDate,
-                              mobile: _mobile,
-                              gender: _gender,
-                              role: User.toRole(_role),
+                        Builder(
+                          builder: (BuildContext context) {
+                            return ActionButton(
+                              title: 'Slutför',
+                              onPressed: () async {
+                                if (_name.isNullOrEmpty) {
+                                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i namn')));
+                                  return;
+                                }
+                                if (_birthDate.isNull) {
+                                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Fyll i födelsedatum')));
+                                  return;
+                                }
+                                User newUser = User(
+                                  name: _name,
+                                  birthdate: _birthDate,
+                                  gender: _gender,
+                                  role: User.toRole(_role),
+                                );
+                                try {
+                                  if (_provierType == ProvierType.email) {
+                                    FirebaseUser createdUser = await authService.register(_email, _password, newUser);
+                                    if (createdUser == null) {
+                                      Scaffold.of(context)
+                                          .showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
+                                    } else {
+                                      redirectIfAuthenticated();
+                                    }
+                                  } else {
+                                    FirebaseUser createdUser = await authService.registerSocial(_socialResult, newUser);
+                                    if (createdUser == null) {
+                                      Scaffold.of(context)
+                                          .showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
+                                    } else {
+                                      redirectIfAuthenticated();
+                                    }
+                                  }
+                                } on PlatformException catch (e) {
+                                  if (e.code == "ERROR_EMAIL_ALREADY_IN_USE") {
+                                    Scaffold.of(context)
+                                        .showSnackBar(SnackBar(content: Text('Email addressen är redan upptaget')));
+                                  }
+                                  if (e.code == "ERROR_INVALID_EMAIL") {
+                                    Scaffold.of(context)
+                                        .showSnackBar(SnackBar(content: Text('Email addressen är inte giltig')));
+                                  }
+                                  if (e.code == "ERROR_WEAK_PASSWORD") {
+                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Lösenordet är för svagt')));
+                                  }
+                                }
+                              },
                             );
-                            try {
-                              if (_provierType == ProvierType.email) {
-                                FirebaseUser createdUser = await authService.register(_email, _password, newUser);
-                                if (createdUser == null) {
-                                  Scaffold.of(context)
-                                      .showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
-                                } else {
-                                  redirectIfAuthenticated();
-                                }
-                              } else {
-                                FirebaseUser createdUser = await authService.registerSocial(_socialResult, newUser);
-                                if (createdUser == null) {
-                                  Scaffold.of(context)
-                                      .showSnackBar(SnackBar(content: Text('Kunde inte skapa användaren')));
-                                } else {
-                                  redirectIfAuthenticated();
-                                }
-                              }
-                            } on PlatformException catch (e) {
-                              if (e.code == "ERROR_EMAIL_ALREADY_IN_USE") {
-                                Scaffold.of(context)
-                                    .showSnackBar(SnackBar(content: Text('Email addressen är redan upptaget')));
-                              }
-                              if (e.code == "ERROR_INVALID_EMAIL") {
-                                Scaffold.of(context)
-                                    .showSnackBar(SnackBar(content: Text('Email addressen är inte giltig')));
-                              }
-                              if (e.code == "ERROR_WEAK_PASSWORD") {
-                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Lösenordet är för svagt')));
-                              }
-                            }
                           },
                         ),
                       ],
