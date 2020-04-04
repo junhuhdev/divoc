@@ -41,11 +41,42 @@ class FeedStatusBox extends StatelessWidget {
     return Colors.red;
   }
 
+  String translateStatus() {
+    if (status == "created" || status== "requested") {
+      return "skapad";
+    }
+    if (status == "pending") {
+      return "pågående";
+    }
+    return "slutförd";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
       decoration: BoxDecoration(color: getColorByStatus(), borderRadius: BorderRadius.all(Radius.circular(5.0))),
+      child: Text(
+        translateStatus(),
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+
+class StatusBox extends StatelessWidget {
+  final String status;
+  final Color color;
+
+  const StatusBox({this.status, this.color});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.all(Radius.circular(5.0))),
       child: Text(
         status,
         style: TextStyle(color: Colors.white),
