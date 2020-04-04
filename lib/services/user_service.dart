@@ -5,7 +5,9 @@ class UserService {
   final Firestore _db = Firestore.instance;
 
   Stream<List<User>> streamTopUsers() {
-    var ref = _db.collection('users').limit(50);
+    var ref = _db.collection('users')
+        .where('role', isEqualTo: 'giver')
+        .limit(100);
     return ref.snapshots().map((list) => list.documents.map((doc) => User.fromMap(doc.data, doc.documentID)).toList());
   }
 
