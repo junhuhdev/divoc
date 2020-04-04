@@ -34,7 +34,7 @@ exports.newFeedRequest = functions
                 const payload = {
                     notification: {
                         title: `Du har en ny förfrågan från ${feed.name}`,
-                        body: feed.comment,
+                        body: feed.comment == null ? '' : feed.comment,
                         badge: '1',
                         sound: 'default'
                     }
