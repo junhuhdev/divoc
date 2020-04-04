@@ -60,10 +60,10 @@ exports.completedFeedDelivery = functions
     .region('europe-west1')
     .firestore
     .document('feeds/{feedId}')
-    .onUpdate((snapshot, context) => {
+    .onUpdate((change, context) => {
         console.log('----------------start function--------------------');
 
-        const feed = snapshot.data();
+        const feed = change.after.data();
         console.log('found updated feed request', feed);
 
         if (feed.status != "completed") {
