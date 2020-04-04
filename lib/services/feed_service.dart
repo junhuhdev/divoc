@@ -54,6 +54,12 @@ class FeedService {
         );
   }
 
+  /// When user denies help from another user
+  Future<void> denyUserRequest(String feedId, String helperUserId) async {
+    await _db.collection('feeds').document(feedId).collection('requests').document(helperUserId).delete();
+  }
+
+
   /// When user wants to help
   Future<void> updateRequestedUser(User currentUser, Feed feed, String comment, String mobile) async {
     await _db.collection('feeds').document(feed.id).updateData({'requestedUsers.${currentUser.id}': true});

@@ -520,6 +520,7 @@ class ActivityShowPendingCard extends StatelessWidget {
                   color: Colors.white,
                   icon: Icon(Icons.cancel, color: Colors.red),
                   onPressed: () async {
+                    await feedService.denyUserRequest(feed.id, feedRequest.userId);
                     Navigator.pop(context);
                   },
                 ),
