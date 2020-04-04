@@ -1,7 +1,9 @@
 # divoc
  Help your neighborhood during difficult times
 
-
+```shell
+firebase deploy --only functions
+```
 
 ## Features
 
