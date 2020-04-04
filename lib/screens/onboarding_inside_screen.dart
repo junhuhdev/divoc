@@ -39,13 +39,13 @@ class _OnboardingInsideScreenState extends State<OnboardingInsideScreen> {
       child: IntroductionScreen(
         pages: [
           PageViewModel(
-            title: "Är du i riskgruppen?",
-            body: "Bli en Hemmahjälte genom att inte gå till affären!",
+            title: "Är du en mottagare?",
+            body: "Bli en mottagare genom att inte gå till affären!",
             image: _buildImage('img1'),
             decoration: pageDecoration,
           ),
           PageViewModel(
-            title: "Inte i riskgruppen?",
+            title: "Är du en medhjälpare?",
             body: "Registrera dig som medhjälpare och rädda liv genom att handla åt andra!",
             image: _buildImage('img2'),
             decoration: pageDecoration,
@@ -53,7 +53,7 @@ class _OnboardingInsideScreenState extends State<OnboardingInsideScreen> {
           PageViewModel(
             title: "Gå med Divoc idag",
             body:
-                "Divoc möjliggör gratis hemleveranser av mat- och apoteksvaror till riskgrupper. Vi hjälper personer i riskgrupper att stanna hemma genom att sammanföra dem med verifierade medhjälpare. Tillsammans minskar vi belastningen på vården och räddar liv!.",
+                "Divoc möjliggör gratis hemleveranser av mat- och apoteksvaror till riskgrupper. Vi hjälper personer i riskgrupper att stanna hemma genom att sammanföra dem med verifierade medhjälpare. Tillsammans minskar vi belastningen på vården och räddar liv!",
             image: _buildImage('img3'),
             decoration: pageDecoration,
           ),
