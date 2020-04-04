@@ -56,38 +56,87 @@ exports.newFeedRequest = functions
 
     });
 
-exports.recursiveDelete = functions
-    .runWith({
-        timeoutSeconds: 540,
-        memory: '2GB'
-    })
-    .https.onCall((data, context) => {
-        // Only allow admin users to execute this function.
-        if (!(context.auth && context.auth.token && context.auth.token.admin)) {
-            throw new functions.https.HttpsError(
-                'permission-denied',
-                'Must be an administrative user to initiate delete.'
-            );
+exports.completedFeedDelivery = functions
+    .region('europe-west1')
+    .firestore
+    .document('feeds/{feedId}')
+    .onUpdate((snapshot, context) => {
+        console.log('----------------start function--------------------');
+
+        const feed = snapshot.data();
+        console.log('found updated feed request', feed);
+
+        if (feed.status != "completed") {
+            console.log('Feed is not completed yet do nothing...', feed);
+            return null;
         }
 
-        const path = data.path;
-        console.log(
-            `User ${context.auth.uid} has requested to delete path ${path}`
-        );
+        admin
+            .firestore()
+            .collection('users')
+            .doc(feed.ownerId)
+            .get()
+            .then(querySnapShot => {
+                console.log('Found user token', querySnapShot.data());
 
-        // Run a recursive delete on the given document or collection path.
-        // The 'token' must be set in the functions config, and can be generated
-        // at the command line by running 'firebase login:ci'.
-        return firebase_tools.firestore
-            .delete(path, {
-                project: process.env.GCLOUD_PROJECT,
-                recursive: true,
-                yes: true,
-                token: functions.config().fb.token
+                const payload = {
+                    notification: {
+                        title: `${feed.name} har nu levererat dina varor.`,
+                        body: feed.deliveredComment,
+                        badge: '1',
+                        sound: 'default'
+                    }
+                }
+
+                admin
+                    .messaging()
+                    .sendToDevice(querySnapShot.data().token, payload)
+                    .then(response => {
+                        console.log('Succcessfully sent feed request', response)
+                    })
+                    .catch(error => {
+                        console.log('Error ', error)
+                    })
+
             })
-            .then(() => {
-                return {
-                    path: path
-                };
-            });
+
+        return null;
+
     });
+
+
+//exports.recursiveDelete = functions
+//    .runWith({
+//        timeoutSeconds: 540,
+//        memory: '2GB'
+//    })
+//    .https.onCall((data, context) => {
+//        // Only allow admin users to execute this function.
+//        if (!(context.auth && context.auth.token && context.auth.token.admin)) {
+//            throw new functions.https.HttpsError(
+//                'permission-denied',
+//                'Must be an administrative user to initiate delete.'
+//            );
+//        }
+//
+//        const path = data.path;
+//        console.log(
+//            `User ${context.auth.uid} has requested to delete path ${path}`
+//        );
+//
+//        // Run a recursive delete on the given document or collection path.
+//        // The 'token' must be set in the functions config, and can be generated
+//        // at the command line by running 'firebase login:ci'.
+//        return firebase_tools.firestore
+//            .delete(path, {
+//                project: process.env.GCLOUD_PROJECT,
+//                recursive: true,
+//                yes: true,
+//                token: functions.config().fb.token
+//            })
+//            .then(() => {
+//                return {
+//                    path: path
+//                };
+//            });
+//    });
