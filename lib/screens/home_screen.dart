@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  String _appBarTitle = "Aktuella Händelser";
+  String _appBarTitle = FeedScreen.title;
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final AuthService securityService = AuthService();
@@ -156,11 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.language),
-                  title: Text('Aktuellt', style: TextStyle(fontSize: 12.0)),
+                  title: Text('Uppdrag', style: TextStyle(fontSize: 12.0)),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.people),
-                  title: Text('Medhjälpare', style: TextStyle(fontSize: 12.0)),
+                  title: Text('Hjälpare', style: TextStyle(fontSize: 12.0)),
                 ),
                 if (!isHelper) ...[
                   BottomNavigationBarItem(

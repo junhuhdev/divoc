@@ -8,7 +8,7 @@ import 'package:divoc/services/user_service.dart';
 import 'package:flutter/material.dart';
 
 class ContributorsScreen extends StatefulWidget {
-  static const title = "Top Medhjälpare";
+  static const title = "Topphjälpare";
 
   @override
   _ContributorsScreenState createState() => _ContributorsScreenState();

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FeedScreen extends StatefulWidget {
-  static const title = "Aktuella Händelser";
+  static const title = "Väntar på hjälp";
 
   @override
   _FeedScreenState createState() => _FeedScreenState();
