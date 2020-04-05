@@ -34,6 +34,8 @@ class FeedService {
     );
     await _db.collection('feeds').document(feed.id).collection('requests').document(currentUser.id).updateData(
           ({
+            'deliveredComment': comment,
+            'totalCost': double.parse(totalCost),
             'status': 'completed',
           }),
         );

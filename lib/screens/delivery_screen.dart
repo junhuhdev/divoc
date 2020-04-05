@@ -237,14 +237,19 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                       child: Icon(Icons.arrow_forward, color: Colors.green),
                       onPressed: () {
                         if (feed.recipeImage.isNullOrEmpty) {
-                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Ladda upp kvittot först', style: TextStyle(fontSize: 20.0),)));
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                            'Ladda upp kvittot först',
+                            style: TextStyle(fontSize: 20.0),
+                          )));
                           return;
                         } else {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DeliveryCompleted(feed: feed),
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DeliveryCompleted(feed: feed),
+                            ),
+                          );
                         }
                       },
                     ),

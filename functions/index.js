@@ -59,30 +59,30 @@ exports.newFeedRequest = functions
 exports.completedFeedDelivery = functions
     .region('europe-west1')
     .firestore
-    .document('feeds/{feedId}')
+    .document('feeds/{feedId}/requests/{userId}')
     .onUpdate((change, context) => {
         console.log('----------------start function--------------------');
 
-        const feed = change.after.data();
-        console.log('found updated feed request', feed);
+        const feedRequest = change.after.data();
+        console.log('found updated feed request', feedRequest);
 
-        if (feed.status != "completed") {
-            console.log('Feed is not completed yet do nothing...', feed);
+        if (feedRequest.status != "completed") {
+            console.log('Feed is not completed yet do nothing...', feedRequest);
             return null;
         }
 
         admin
             .firestore()
             .collection('users')
-            .doc(feed.ownerId)
+            .doc(feedRequest.ownerId)
             .get()
             .then(querySnapShot => {
                 console.log('Found user token', querySnapShot.data());
 
                 const payload = {
                     notification: {
-                        title: `${feed.name} har nu levererat dina varor.`,
-                        body: feed.deliveredComment,
+                        title: `${feedRequest.name} har nu levererat dina varor.`,
+                        body: feedRequest.deliveredComment == null ? '' : feedRequest.deliveredComment,
                         badge: '1',
                         sound: 'default'
                     }
