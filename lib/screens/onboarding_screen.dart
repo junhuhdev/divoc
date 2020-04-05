@@ -55,7 +55,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         pages: [
           PageViewModel(
             title: "Gå med Divoc idag!",
-            bodyWidget: Text('Divoc matchar personer som vill hjälpa med personer som vill ha hjälp. Tillsammans minskar vi belastningen på vård och omsorg – och räddar liv!', softWrap: true,),
+            body:
+            'Divoc matchar personer som vill hjälpa med personer som vill ha hjälp. \n\nTillsammans minskar vi belastningen på vård och omsorg – och räddar liv!',
             image: _buildImage('img3'),
             decoration: pageDecoration,
           ),
@@ -78,7 +79,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         skipFlex: 0,
         nextFlex: 0,
         skip: const Text('SKIPPA'),
-        next: const Icon(Icons.arrow_forward),
+        next: const Text('FORTSÄTT'),
         done: const Text('KLAR', style: TextStyle(fontWeight: FontWeight.w600)),
         dotsDecorator: const DotsDecorator(
           size: Size(10.0, 10.0),
