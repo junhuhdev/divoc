@@ -41,7 +41,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.perm_device_information),
-            title: Text('Version 1.0.15'),
+            title: Text('Version 1.0.16'),
           ),
 
 //          ListTile(

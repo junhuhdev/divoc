@@ -84,16 +84,16 @@ class _MobileVerifyScreenState extends State<MobileVerifyScreen> {
                 final PhoneVerificationCompleted verified = (AuthCredential authCredential) {
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifiering godkänd')));
                   this._authCredential = authCredential;
-                  _auth.currentUser().then((user) {
-                    try {
-                      user.linkWithCredential(_authCredential);
-                      widget.onSelected(_mobile);
-                      Navigator.pop(context);
-                    } catch (error) {
-                      print("Verification failed $error");
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifieringen gick fel')));
-                    }
-                  });
+//                  _auth.currentUser().then((user) {
+//                    try {
+//                      user.linkWithCredential(_authCredential);
+//                      widget.onSelected(_mobile);
+//                      Navigator.pop(context);
+//                    } catch (error) {
+//                      print("Verification failed $error");
+//                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Verifieringen gick fel')));
+//                    }
+//                  });
                 };
 
                 final PhoneVerificationFailed verificationfailed = (AuthException authException) {
