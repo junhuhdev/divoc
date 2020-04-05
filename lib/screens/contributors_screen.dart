@@ -35,6 +35,11 @@ class _ContributorsScreenState extends State<ContributorsScreen> {
           return LoadingScreen();
         } else {
           return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              title: Text(ContributorsScreen.title),
+              centerTitle: true,
+            ),
             backgroundColor: kBackgroundColor,
             body: Container(
               child: ListView.builder(

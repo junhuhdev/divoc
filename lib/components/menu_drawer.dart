@@ -1,4 +1,5 @@
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:divoc/screens/contributors_screen.dart';
 import 'package:divoc/screens/onboarding_inside_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,18 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 fontSize: 24,
               ),
             ),
+          ),
+          ListTile(
+            leading: Icon(Icons.people),
+            title: Text('Topphjälpare'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ContributorsScreen(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: Icon(CommunityMaterialIcons.comment_question),

@@ -101,15 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
       _appBarTitle = FeedScreen.title;
     }
     if (index == 1) {
-      _appBarTitle = ContributorsScreen.title;
-    }
-    if (index == 2) {
       _appBarTitle = ActivityScreen.title;
     }
-    if (index == 3) {
+    if (index == 2) {
       _appBarTitle = DeliveryScreen.title;
     }
-    if (index == 4) {
+    if (index == 3) {
       _appBarTitle = ProfileScreen.title;
     }
     setState(() {
@@ -119,14 +116,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _widgetOptions = <Widget>[
     FeedScreen(),
-    ContributorsScreen(),
     ActivityScreen(),
     ProfileScreen(),
   ];
 
   List<Widget> _helperOptions = <Widget>[
     FeedScreen(),
-    ContributorsScreen(),
     DeliveryScreen(),
     ProfileScreen(),
   ];
@@ -157,10 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.language),
                   title: Text('Uppdrag', style: TextStyle(fontSize: 12.0)),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.people),
-                  title: Text('Hjälpare', style: TextStyle(fontSize: 12.0)),
                 ),
                 if (!isHelper) ...[
                   BottomNavigationBarItem(
