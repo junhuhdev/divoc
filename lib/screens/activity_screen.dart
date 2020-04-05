@@ -88,21 +88,32 @@ class ActivityCard extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Flexible(
-                flex: 4,
-                child: Badge(
-                  toAnimate: false,
-                  position: BadgePosition.topRight(right: -20.0),
-                  badgeContent: Text(
-                    '3',
-                    style: TextStyle(color: Colors.white),
+              if (feed.totalRequests >= 1 && feed.status == 'created') ...[
+                Flexible(
+                  flex: 4,
+                  child: Badge(
+                    toAnimate: false,
+                    position: BadgePosition.topRight(right: -20.0),
+                    badgeContent: Text(
+                      feed.totalRequests.toString(),
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    child: Text(
+                      feed.name,
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
+                ),
+              ],
+              if (feed.totalRequests == 0 || feed.status != 'created') ...[
+                Flexible(
+                  flex: 4,
                   child: Text(
                     feed.name,
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
+              ],
               Flexible(
                 flex: 1,
                 child: LinearProgressIndicator(

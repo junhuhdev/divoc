@@ -56,13 +56,27 @@ class FeedService {
 
   /// When user denies help from another user
   Future<void> denyUserRequest(String feedId, String helperUserId) async {
+    FieldValue decrement = FieldValue.increment(-1);
+
+    await _db.collection('feeds').document(feedId).updateData(
+      {
+        'totalRequests': decrement,
+      },
+    );
+
     await _db.collection('feeds').document(feedId).collection('requests').document(helperUserId).delete();
   }
 
-
   /// When user wants to help
   Future<void> updateRequestedUser(User currentUser, Feed feed, String comment, String mobile) async {
-    await _db.collection('feeds').document(feed.id).updateData({'requestedUsers.${currentUser.id}': true});
+    FieldValue increment = FieldValue.increment(1);
+
+    await _db.collection('feeds').document(feed.id).updateData(
+      {
+        'totalRequests': increment,
+        'requestedUsers.${currentUser.id}': true,
+      },
+    );
 
     await _db.collection('feeds').document(feed.id).collection('requests').document(currentUser.id).setData(
           ({

@@ -20,6 +20,7 @@ class Feed {
   final String street;
   final String postalCode;
   final String category;
+  final int totalRequests;
   final GeoPoint geolocation;
 
   /// created, pending, completed
@@ -48,6 +49,7 @@ class Feed {
     this.street,
     this.postalCode,
     this.category,
+    this.totalRequests,
     this.geolocation,
     this.status,
     this.finalized,
@@ -80,6 +82,7 @@ class Feed {
       street: data['street'] ?? '',
       postalCode: data['postalCode'] ?? '',
       category: data['category'] ?? '',
+      totalRequests: data['totalRequests'] ?? 0,
       geolocation: data['geolocation'] ?? null,
       status: data['status'] ?? '',
       finalized: data['finalized'] ?? false,
