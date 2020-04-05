@@ -35,8 +35,13 @@ class _OnboardingInsideScreenState extends State<OnboardingInsideScreen> {
       imagePadding: EdgeInsets.zero,
     );
 
-    return Container(
-      child: IntroductionScreen(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Så funkar Divoc'),
+        centerTitle: true,
+      ),
+      body: IntroductionScreen(
         pages: [
           PageViewModel(
             title: "Gå med Divoc idag!",
