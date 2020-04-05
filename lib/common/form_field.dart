@@ -2,6 +2,7 @@ import 'package:divoc/common/images.dart';
 import 'package:divoc/common/screens.dart';
 import 'package:divoc/components/maps/google_map_location.dart';
 import 'package:divoc/models/address.dart';
+import 'package:divoc/models/user.dart';
 import 'package:divoc/services/google_map_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -462,10 +463,10 @@ class _GenericDateFieldState extends State<GenericDateField> {
                   Text(widget.hint, style: kHintTextStyle),
                 ],
                 if (!widget.initialValue.isNullOrEmpty && _date == null) ...[
-                  Text(widget.initialValue.toLocal().toString().split(' ')[0], style: kTextStyle),
+                  Text(User.calculateAge(widget.initialValue).toString(), style: kTextStyle),
                 ],
                 if (_date != null) ...[
-                  Text(_date.toLocal().toString().split(' ')[0], style: kTextStyle),
+                  Text(User.calculateAge(_date).toString(), style: kTextStyle),
                 ],
               ],
             ),
