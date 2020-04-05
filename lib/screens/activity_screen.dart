@@ -1,6 +1,8 @@
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:divoc/common/buttons.dart';
+import 'package:divoc/common/chips.dart';
 import 'package:divoc/common/constants.dart';
 import 'package:divoc/common/form_container.dart';
 import 'package:divoc/common/form_field.dart';
@@ -84,23 +86,30 @@ class ActivityCard extends StatelessWidget {
             child: SettingsMenu(feed: feed),
           ),
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
+              Flexible(
                 flex: 4,
-                child: Text(
-                  feed.name,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                child: Badge(
+                  toAnimate: false,
+                  position: BadgePosition.topRight(right: -20.0),
+                  badgeContent: Text(
+                    '3',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  child: Text(
+                    feed.name,
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    // tag: 'hero',
-                    child: LinearProgressIndicator(
-                        backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-                        value: getProgressStatus(feed.status),
-                        valueColor: AlwaysStoppedAnimation(getColorStatus(feed.status))),
-                  )),
+              Flexible(
+                flex: 1,
+                child: LinearProgressIndicator(
+                    backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
+                    value: getProgressStatus(feed.status),
+                    valueColor: AlwaysStoppedAnimation(getColorStatus(feed.status))),
+              ),
             ],
           ),
           subtitle: Wrap(
