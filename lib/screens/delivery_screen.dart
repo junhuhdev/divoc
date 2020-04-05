@@ -210,7 +210,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                       heroTag: "upload-recipe",
                       backgroundColor: Colors.white,
                       mini: true,
-                      child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+                      child: Icon(Icons.camera_alt, color: Colors.blueGrey),
                       onPressed: () async {
                         await imageService.uploadRecipeImage(feed.id);
                       },
@@ -223,7 +223,7 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                       heroTag: "upload-delivery",
                       backgroundColor: Colors.white,
                       mini: true,
-                      child: Icon(Icons.camera_alt, color: Colors.deepPurple),
+                      child: Icon(Icons.camera_alt, color: Colors.blueGrey),
                       onPressed: () {},
                     ),
                   ),
@@ -234,10 +234,10 @@ class _DeliveryDetailsState extends State<DeliveryDetails> with TickerProviderSt
                       heroTag: "delivery",
                       backgroundColor: Colors.white,
                       mini: true,
-                      child: Icon(Icons.arrow_forward, color: Colors.deepPurple),
+                      child: Icon(Icons.arrow_forward, color: Colors.green),
                       onPressed: () {
                         if (feed.recipeImage.isNullOrEmpty) {
-                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Ladda upp kvittot först')));
+                          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Ladda upp kvittot först', style: TextStyle(fontSize: 20.0),)));
                           return;
                         } else {
                           Navigator.push(
