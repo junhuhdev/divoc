@@ -68,7 +68,7 @@ class ActivityCard extends StatelessWidget {
 
   ActivityCard({this.feed});
 
-  final formatter = new DateFormat('EEE d MMM h:mm a');
+  final formatter = new DateFormat('EEE d MMM h:mm a', 'sv_SE');
   final FeedService feedService = new FeedService();
 
   @override

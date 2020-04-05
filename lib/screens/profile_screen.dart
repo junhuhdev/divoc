@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:divoc/services/utils.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static const title = "Profil";
+  static const title = "Din profil";
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 20.0),
                       GenericTextField(
-                        title: 'Email adress',
+                        title: 'E-postadress',
                         hint: 'Fyll i email adress',
                         icon: Icons.email,
                         initialValue: user.email,
@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 20.0),
                       GenericVerifyMobileField(
-                        title: 'Mobil nummer',
+                        title: 'Telefonnummer',
                         hint: 'Verifiera ditt mobil nummer',
                         initialValue: user.mobile,
                         onSelected: (String mobile) {
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 20.0),
                       GenericDropdownField(
-                        title: 'Roll',
+                        title: 'Hjälpare/Mottagare',
                         hint: 'Välj roll',
                         initialValue: user.fromRole,
                         icon: CommunityMaterialIcons.hospital,
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 20.0),
                       GenericDateField(
-                        title: 'Födelsedatum',
+                        title: 'Ålder',
                         hint: 'Välj födelsedatum',
                         initialValue: user.birthdate.isNull ? null : user.birthdate,
                         onChanged: (DateTime val) {
@@ -163,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         child: Text(
-                          'Spara Ändringar',
+                          'Spara ändringar',
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
@@ -197,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         color: Theme.of(context).primaryColor,
                         child: Text(
-                          'Radera Konto',
+                          'Radera konto',
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {},

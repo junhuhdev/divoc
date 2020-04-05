@@ -28,7 +28,7 @@ class FeedListTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattertime = new DateFormat('EEE d MMM h:mm a');
+    final formattertime = new DateFormat('EEE d MMM h:mm a', 'sv_SE');
     final formatter = new DateFormat('EEE d MMM');
 
     return Card(
