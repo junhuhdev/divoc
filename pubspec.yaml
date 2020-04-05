@@ -12,7 +12,7 @@ description: A new Flutter application.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # OBS: Update in menu_drawer.dart
-version: 1.0.14+14
+version: 1.0.15+15
 
 
 environment:
